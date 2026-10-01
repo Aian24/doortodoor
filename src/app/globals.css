@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-inter: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-outfit: 'Outfit', system-ui, -apple-system, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: light;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: #FFFFFF;
+  color: #090D16;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Typography Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+/* Custom Scrollbar with Solid Palette */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F1F5F9;
+}
+::-webkit-scrollbar-thumb {
+  background: #090D16;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #C0622A;
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid #C0622A;
+  outline-offset: 2px;
+}
