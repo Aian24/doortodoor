@@ -46,17 +46,17 @@ export default function Footer() {
             <ul className="space-y-2 text-xs text-slate-300">
               <li>
                 <a href="#services" className="hover:text-[#C0622A] transition-colors">
-                  Marketing &amp; Paid Ads
+                  Marketing &amp; Advertising
                 </a>
               </li>
               <li>
                 <a href="#services" className="hover:text-[#C0622A] transition-colors">
-                  Brand Identity &amp; Design
+                  Brand &amp; Design
                 </a>
               </li>
               <li>
                 <a href="#services" className="hover:text-[#C0622A] transition-colors">
-                  AI Automation &amp; Lead Pipelines
+                  AI Services
                 </a>
               </li>
               <li>
@@ -66,12 +66,12 @@ export default function Footer() {
               </li>
               <li>
                 <a href="#services" className="hover:text-[#C0622A] transition-colors">
-                  Video &amp; Content Production
+                  Video &amp; Content
                 </a>
               </li>
               <li>
                 <a href="#services" className="hover:text-[#C0622A] transition-colors">
-                  Email Marketing &amp; Retention
+                  Email &amp; SMS Marketing
                 </a>
               </li>
             </ul>
