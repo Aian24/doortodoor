@@ -3,10 +3,13 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 import { navLinks } from "@/data/navigation";
-import { Menu, X, ArrowUpRight } from "lucide-react";
+import { useContactModal } from "@/context/ContactModalContext";
+import { Menu, X, ArrowUpRight, ArrowRight } from "lucide-react";
 
 export default function Navbar() {
+  const { openContactModal } = useContactModal();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("");
@@ -66,10 +69,10 @@ export default function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 left-0 right-0 z-50 transition-all duration-200 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
         scrolled
-          ? "bg-white border-b border-slate-200 shadow-sm"
-          : "bg-white/95 backdrop-blur-md border-b border-slate-100"
+          ? "bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm"
+          : "bg-white border-b border-slate-100"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
@@ -87,8 +90,8 @@ export default function Navbar() {
           </div>
         </Link>
 
-        {/* Desktop Navigation Links with Active Line Indicator (Hugging text with tight gap) */}
-        <nav className="hidden lg:flex items-center gap-2 xl:gap-3 h-full">
+        {/* Desktop Navigation Links with Active Line Indicator */}
+        <nav className="hidden lg:flex items-center gap-1 xl:gap-2.5 h-full">
           {navLinks.map((link) => {
             const isActive = activeSection === link.href;
 
@@ -97,7 +100,7 @@ export default function Navbar() {
                 key={link.label}
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
-                className={`relative h-20 flex items-center px-3 text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap group ${
+                className={`relative h-20 flex items-center px-2.5 xl:px-3 text-[11px] xl:text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap group ${
                   isActive
                     ? "text-[#090D16] font-black"
                     : "text-slate-600 hover:text-[#090D16]"
@@ -120,23 +123,24 @@ export default function Navbar() {
         </nav>
 
         {/* Action Buttons with Consistent Styling */}
-        <div className="hidden sm:flex items-center gap-3 shrink-0">
+        <div className="hidden sm:flex items-center gap-2 xl:gap-3 shrink-0">
           <Link
             href="#bundle-builder"
             onClick={(e) => handleNavClick(e, "#bundle-builder")}
-            className="inline-flex items-center justify-center px-6 py-3 bg-[#090D16] hover:bg-slate-800 text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-all shadow-sm whitespace-nowrap active:translate-y-0.5"
+            className="inline-flex items-center justify-center gap-1.5 px-4 xl:px-5 py-2.5 bg-[#090D16] hover:bg-slate-800 text-white text-[11px] xl:text-xs font-bold uppercase tracking-wider rounded-xl transition-all shadow-sm whitespace-nowrap active:translate-y-0.5"
           >
-            Build My Bundle
+            <span>Build My Bundle</span>
+            <ArrowRight className="w-3.5 h-3.5" />
           </Link>
 
-          <Link
-            href="#contact"
-            onClick={(e) => handleNavClick(e, "#contact")}
-            className="inline-flex items-center justify-center gap-1.5 px-6 py-3 bg-[#C0622A] hover:bg-[#a84f1d] text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-all shadow-sm whitespace-nowrap active:translate-y-0.5"
+          <button
+            type="button"
+            onClick={() => openContactModal({ intent: "strategy-session" })}
+            className="inline-flex items-center justify-center gap-1.5 px-4 xl:px-5 py-2.5 bg-[#C0622A] hover:bg-[#a84f1d] text-white text-[11px] xl:text-xs font-bold uppercase tracking-wider rounded-xl transition-all shadow-sm whitespace-nowrap active:translate-y-0.5"
           >
             <span>Book a Call</span>
             <ArrowUpRight className="w-3.5 h-3.5" />
-          </Link>
+          </button>
         </div>
 
         {/* Mobile Hamburger Button */}
@@ -150,57 +154,67 @@ export default function Navbar() {
       </div>
 
       {/* Mobile Menu Drawer */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-6 shadow-lg">
-          <div className="flex flex-col gap-1 mb-4">
-            {navLinks.map((link) => {
-              const isActive = activeSection === link.href;
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            key="mobile-nav-drawer"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="lg:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-6 shadow-lg overflow-hidden"
+          >
+            <div className="flex flex-col gap-1 mb-4">
+              {navLinks.map((link) => {
+                const isActive = activeSection === link.href;
 
-              return (
-                <Link
-                  key={link.label}
-                  href={link.href}
-                  onClick={(e) => {
-                    handleNavClick(e, link.href);
-                    setMobileMenuOpen(false);
-                  }}
-                  className={`flex items-center justify-between px-4 py-3 text-sm font-bold uppercase tracking-wider rounded-xl transition-colors whitespace-nowrap ${
-                    isActive
-                      ? "bg-slate-100 text-[#C0622A] border-l-4 border-[#C0622A]"
-                      : "text-slate-800 hover:bg-slate-50 hover:text-[#C0622A]"
-                  }`}
-                >
-                  <span>{link.label}</span>
-                  {isActive && <span className="w-2 h-2 rounded-full bg-[#C0622A]" />}
-                </Link>
-              );
-            })}
-          </div>
+                return (
+                  <Link
+                    key={link.label}
+                    href={link.href}
+                    onClick={(e) => {
+                      handleNavClick(e, link.href);
+                      setMobileMenuOpen(false);
+                    }}
+                    className={`flex items-center justify-between px-4 py-3 text-sm font-bold uppercase tracking-wider rounded-xl transition-colors whitespace-nowrap ${
+                      isActive
+                        ? "bg-slate-100 text-[#C0622A] border-l-4 border-[#C0622A]"
+                        : "text-slate-800 hover:bg-slate-50 hover:text-[#C0622A]"
+                    }`}
+                  >
+                    <span>{link.label}</span>
+                    {isActive && <span className="w-2 h-2 rounded-full bg-[#C0622A]" />}
+                  </Link>
+                );
+              })}
+            </div>
 
-          <div className="flex flex-col gap-2 pt-2 border-t border-slate-100">
-            <Link
-              href="#bundle-builder"
-              onClick={(e) => {
-                handleNavClick(e, "#bundle-builder");
-                setMobileMenuOpen(false);
-              }}
-              className="w-full text-center py-3 bg-[#090D16] text-white text-xs font-bold uppercase tracking-wider rounded-xl whitespace-nowrap"
-            >
-              Build My Bundle
-            </Link>
-            <Link
-              href="#contact"
-              onClick={(e) => {
-                handleNavClick(e, "#contact");
-                setMobileMenuOpen(false);
-              }}
-              className="w-full text-center py-3 bg-[#C0622A] text-white text-xs font-bold uppercase tracking-wider rounded-xl shadow-sm whitespace-nowrap"
-            >
-              Book a Call →
-            </Link>
-          </div>
-        </div>
-      )}
+            <div className="flex flex-col gap-2 pt-2 border-t border-slate-100">
+              <Link
+                href="#bundle-builder"
+                onClick={(e) => {
+                  handleNavClick(e, "#bundle-builder");
+                  setMobileMenuOpen(false);
+                }}
+                className="w-full flex items-center justify-center gap-2 py-3 bg-[#090D16] text-white text-xs font-bold uppercase tracking-wider rounded-xl whitespace-nowrap"
+              >
+                <span>Build My Bundle</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  openContactModal({ intent: "strategy-session" });
+                }}
+                className="w-full text-center py-3 bg-[#C0622A] text-white text-xs font-bold uppercase tracking-wider rounded-xl shadow-sm whitespace-nowrap"
+              >
+                Book a Call →
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

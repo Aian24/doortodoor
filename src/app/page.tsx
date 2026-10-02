@@ -4,8 +4,9 @@ import Preloader from "@/components/Preloader";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import TwoHeroesSection from "@/components/TwoHeroesSection";
-import SellingMethodSection from "@/components/SellingMethodSection";
 import ServicesBento from "@/components/ServicesBento";
+import AiSection from "@/components/AiSection";
+import SellingMethodSection from "@/components/SellingMethodSection";
 import BundleCalculator from "@/components/BundleCalculator";
 import ReLaunchSocialSection from "@/components/ReLaunchSocialSection";
 import CaseStudiesSection from "@/components/CaseStudiesSection";
@@ -14,26 +15,34 @@ import TestimonialsSection from "@/components/TestimonialsSection";
 import FaqSection from "@/components/FaqSection";
 import CtaBanner from "@/components/CtaBanner";
 import Footer from "@/components/Footer";
+import ScrollToTop from "@/components/ScrollToTop";
+import ChatAssistant from "@/components/ChatAssistant";
+import { ContactModalProvider } from "@/context/ContactModalContext";
+import ContactModal from "@/components/ContactModal";
 
 export default function Home() {
   return (
-    <main className="min-h-screen flex flex-col bg-white">
-      {/* 1. Video Preloader with Logo Video */}
-      <Preloader />
+    <ContactModalProvider>
+      <main className="min-h-screen flex flex-col bg-white pt-20">
+        {/* 1. Video Preloader with Logo Video */}
+        <Preloader />
 
-      {/* 2. Navigation Header */}
-      <Navbar />
+        {/* 2. Navigation Header */}
+        <Navbar />
 
-      {/* 3. Hero Section (Strictly Text-focused, NO logo in hero) */}
+      {/* 4. Hero Section (Strictly Text-focused, NO logo in hero) */}
       <Hero />
 
-      {/* 4. Two Heroes, Two Doors (Strategic Persona Matcher) */}
+      {/* 5. Two Heroes, Two Doors (Strategic Persona Matcher) */}
       <TwoHeroesSection />
 
-      {/* 5. Core Services Bento Grid (8 Service Lines) */}
+      {/* 6. Core Services Bento Grid (8 Service Lines) */}
       <ServicesBento />
 
-      {/* 6. The ReLaunch Method (4-Layer Selling Framework & 3-Step Plan) */}
+      {/* 7. Dedicated AI Capabilities Section (8 AI Pillars) */}
+      <AiSection />
+
+      {/* 8. The ReLaunch Method (4-Layer Selling Framework & 3-Step Plan) */}
       <SellingMethodSection />
 
       {/* 7. Interactive Bundle Builder & Live Savings Calculator */}
@@ -59,6 +68,17 @@ export default function Home() {
 
       {/* 14. Static Footer with Extracted Logo Image */}
       <Footer />
+
+      {/* 15. Smooth Scroll-To-Top Button */}
+      <ScrollToTop />
+
+      {/* 16. Interactive ReLaunch AI Chat Assistant */}
+      <ChatAssistant />
+
+      {/* 17. Global Contact & Strategy Session Modal */}
+      <ContactModal />
     </main>
+    </ContactModalProvider>
   );
 }
+

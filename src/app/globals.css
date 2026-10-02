@@ -10,13 +10,15 @@
 html {
   scroll-behavior: smooth;
   color-scheme: light;
+  scrollbar-gutter: stable;
+  overflow-y: scroll;
 }
 
 body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   background-color: #FFFFFF;
   color: #090D16;
-  overflow-x: hidden;
+  overflow-x: clip;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -42,8 +44,45 @@ h1, h2, h3, h4, h5, h6 {
   background: #C0622A;
 }
 
+/* Text Selection & Accent Theme */
+::selection {
+  background-color: #C0622A;
+  color: #FFFFFF;
+}
+
+:root {
+  accent-color: #C0622A;
+}
+
 /* Focus styles */
 :focus-visible {
   outline: 2px solid #C0622A;
   outline-offset: 2px;
 }
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: #C0622A !important;
+  box-shadow: 0 0 0 2px rgba(192, 98, 42, 0.15) !important;
+}
+
+select option:checked,
+select option:hover {
+  background-color: #C0622A !important;
+  color: #FFFFFF !important;
+}
+
+/* Ticker Animation */
+@keyframes ticker {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-ticker {
+  animation: ticker 35s linear infinite;
+}
+

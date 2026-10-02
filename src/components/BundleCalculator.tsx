@@ -2,11 +2,13 @@
 
 import { useState, useMemo } from "react";
 import { bundleTiers, selectableServices } from "@/data/bundlePricing";
+import { useContactModal } from "@/context/ContactModalContext";
 import NumberCounter from "./NumberCounter";
 import MotionWrapper from "./MotionWrapper";
-import { Check, ArrowRight } from "lucide-react";
+import { Check, ArrowRight, RotateCcw } from "lucide-react";
 
 export default function BundleCalculator() {
+  const { openContactModal } = useContactModal();
   const [selectedIds, setSelectedIds] = useState<string[]>([
     "marketing-ads",
     "relaunch-social",
@@ -43,70 +45,82 @@ export default function BundleCalculator() {
   const annualSavings = discountAmount * 12;
 
   return (
-    <section id="bundle-builder" className="py-24 bg-[#F8F9FA] border-b border-slate-200 select-none scroll-mt-20">
+    <section id="bundle-builder" className="py-14 sm:py-16 bg-[#F8F9FA] border-b border-slate-200 select-none scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Top Header */}
-        <MotionWrapper direction="up" distance={20} className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-14">
+        <MotionWrapper direction="up" distance={20} className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-6 sm:mb-8">
           <div className="max-w-xl">
-            <span className="text-xs font-mono uppercase tracking-widest text-[#C0622A] font-bold block mb-3">
+            <span className="text-xs font-mono uppercase tracking-widest text-[#C0622A] font-bold block mb-2">
               TRANSPARENT PRICING
             </span>
-            <h2 className="font-heading font-black text-4xl sm:text-5xl lg:text-6xl text-[#090D16] tracking-tight leading-[1.05]">
+            <h2 className="font-heading font-black text-3xl sm:text-5xl lg:text-6xl text-[#090D16] tracking-tight leading-[1.05]">
               Subscribe. <br />
               Bundle. <span className="text-[#C0622A] italic">Save.</span>
             </h2>
-            <p className="text-slate-600 text-sm sm:text-base leading-relaxed mt-4 font-normal">
+            <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mt-2 font-normal">
               Pick any recurring service. Add more to unlock automatic discounts. No contracts. No surprises. Pause or cancel anytime.
             </p>
           </div>
 
-          <div className="bg-[#090D16] text-white p-7 rounded-3xl shadow-xl max-w-sm w-full shrink-0 border border-slate-800">
-            <h3 className="font-heading font-black text-xl mb-2">
+          <div className="bg-[#090D16] text-white p-5 sm:p-6 rounded-2xl shadow-xl max-w-sm w-full shrink-0 border border-slate-800">
+            <h3 className="font-heading font-black text-lg mb-1">
               Ready to build your bundle?
             </h3>
-            <p className="text-xs text-slate-300 leading-relaxed mb-4">
+            <p className="text-xs text-slate-300 leading-relaxed mb-3">
               Choose services on the left, see your instant discount below, and lock in your rate.
             </p>
-            <a
-              href={`mailto:care@relaunch.us?subject=ReLaunch%20Bundle%20Order%20(${count}%20Services)&body=Hi%20ReLaunch%20team,%0D%0A%0D%0AI%20configured%20a%20bundle%20with%20${count}%20services%20($${finalMonthlyPrice}/mo):%0D%0A${selectedIds.join("%0D%0A")}%0D%0A%0D%0APlease%20reach%20out%20to%20get%20started!`}
-              className="inline-flex items-center justify-center w-full py-3.5 bg-[#C0622A] hover:bg-[#a84f1d] text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-sm active:translate-y-0.5"
+            <button
+              type="button"
+              onClick={() =>
+                openContactModal({
+                  intent: "bundle-inquiry",
+                  serviceInterest: "A full bundle",
+                  notes: `Configured bundle with ${count} services ($${finalMonthlyPrice.toLocaleString()}/mo):\n- ${selectedIds
+                    .map(
+                      (id) =>
+                        selectableServices.find((s) => s.id === id)?.name || id
+                    )
+                    .join("\n- ")}`,
+                })
+              }
+              className="inline-flex items-center justify-center w-full py-3 bg-[#C0622A] hover:bg-[#a84f1d] text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-xs active:translate-y-0.5"
             >
               <span>Lock In Bundle Rate →</span>
-            </a>
+            </button>
           </div>
         </MotionWrapper>
 
         {/* 4 Tier Cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-10 max-w-6xl mx-auto">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8 w-full">
           {bundleTiers.map((tier, idx) => {
             const isActive = currentTier?.id === tier.id;
             return (
               <MotionWrapper
                 key={tier.id}
                 direction="up"
-                delay={idx * 0.08}
-                distance={20}
-                className={`p-6 rounded-2xl transition-all ${
+                delay={idx * 0.05}
+                distance={16}
+                className={`p-4 sm:p-5 rounded-xl sm:rounded-2xl transition-all ${
                   isActive
                     ? "bg-[#090D16] text-white shadow-xl scale-[1.02]"
-                    : "bg-white text-[#090D16] shadow-sm border border-slate-200"
+                    : "bg-white text-[#090D16] shadow-xs border border-slate-200"
                 }`}
               >
-                <div className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-2">
+                <div className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">
                   {tier.name}
                 </div>
                 <div
-                  className={`font-heading font-black text-3xl sm:text-4xl mb-1 ${
+                  className={`font-heading font-black text-2xl sm:text-3xl mb-0.5 ${
                     isActive ? "text-white" : "text-[#090D16]"
                   }`}
                 >
                   {tier.id === "starter" ? "1" : tier.id === "growth" ? "2–3" : tier.id === "scale" ? "4–5" : "6+"}
                 </div>
-                <div className="text-xs font-semibold text-slate-500 mb-4">
+                <div className="text-xs font-semibold text-slate-500 mb-2">
                   {tier.countLabel}
                 </div>
                 <div
-                  className={`inline-flex px-3 py-1 rounded-full text-xs font-bold ${
+                  className={`inline-flex px-2.5 py-0.5 rounded-full text-[11px] font-bold ${
                     tier.discountPercent === 0
                       ? "bg-slate-100 text-slate-600"
                       : "bg-[#C0622A] text-white"
@@ -115,7 +129,7 @@ export default function BundleCalculator() {
                   {tier.discountBadge}
                 </div>
                 <p
-                  className={`text-xs mt-3 leading-relaxed ${
+                  className={`text-xs mt-2 leading-relaxed ${
                     isActive ? "text-slate-400" : "text-slate-500"
                   }`}
                 >
@@ -127,7 +141,7 @@ export default function BundleCalculator() {
         </div>
 
         {/* Interactive Services Selector & Summary Grid */}
-        <MotionWrapper direction="up" delay={0.15} className="grid grid-cols-1 lg:grid-cols-12 gap-8 max-w-6xl mx-auto items-start">
+        <MotionWrapper direction="up" delay={0.15} className="grid grid-cols-1 lg:grid-cols-12 gap-8 w-full items-start">
           {/* Services List (7 cols) */}
           <div className="lg:col-span-7 space-y-2.5">
             <div className="flex items-center justify-between pb-2">
@@ -137,9 +151,11 @@ export default function BundleCalculator() {
               {count > 0 && (
                 <button
                   onClick={() => setSelectedIds([])}
-                  className="text-xs text-slate-500 hover:text-red-600 underline font-semibold"
+                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#C0622A] hover:bg-[#a84f1d] text-white font-heading font-bold text-[10px] sm:text-[11px] uppercase tracking-wider transition-all shadow-xs active:translate-y-0.5 cursor-pointer"
+                  title="Clear all selected services"
                 >
-                  Clear all
+                  <RotateCcw className="w-3 h-3" />
+                  <span>Clear All</span>
                 </button>
               )}
             </div>
@@ -275,12 +291,25 @@ export default function BundleCalculator() {
                     </div>
                   </div>
 
-                  <a
-                    href={`mailto:care@relaunch.us?subject=ReLaunch%20Bundle%20Inquiry%20(${count}%20Services)&body=Hi%20ReLaunch%20team,%0D%0A%0D%0AI%20configured%20a%20bundle%20with%20${count}%20services%20($${finalMonthlyPrice}/mo):%0D%0A${selectedIds.join("%0D%0A")}%0D%0A%0D%0APlease%20reach%20out%20to%20get%20started!`}
+                  <button
+                    type="button"
+                    onClick={() =>
+                      openContactModal({
+                        intent: "bundle-inquiry",
+                        serviceInterest: "A full bundle",
+                        notes: `Configured bundle with ${count} services ($${finalMonthlyPrice.toLocaleString()}/mo):\n- ${selectedIds
+                          .map(
+                            (id) =>
+                              selectableServices.find((s) => s.id === id)
+                                ?.name || id
+                          )
+                          .join("\n- ")}`,
+                      })
+                    }
                     className="w-full py-3.5 bg-[#C0622A] hover:bg-[#a84f1d] text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl shadow-sm flex items-center justify-center gap-2 transition-all text-center active:translate-y-0.5"
                   >
                     <span>Lock In This Rate →</span>
-                  </a>
+                  </button>
                 </>
               )}
             </div>

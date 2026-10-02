@@ -2,11 +2,13 @@
 
 import { useState } from "react";
 import { nisGraderPillars } from "@/data/nisGrader";
+import { useContactModal } from "@/context/ContactModalContext";
 import NumberCounter from "./NumberCounter";
 import MotionWrapper from "./MotionWrapper";
 import { Award, RotateCcw, BarChart, Check, CheckCircle2 } from "lucide-react";
 
 export default function NisGraderSection() {
+  const { openContactModal } = useContactModal();
   const [selectedAnswers, setSelectedAnswers] = useState<Record<string, number>>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -36,27 +38,27 @@ export default function NisGraderSection() {
   const gradeInfo = getScoreGrade(totalScore);
 
   return (
-    <section id="nis-grader" className="py-24 bg-slate-50 border-b border-slate-200 select-none scroll-mt-20">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="nis-grader" className="py-14 sm:py-16 bg-slate-50 border-b border-slate-200 select-none scroll-mt-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <MotionWrapper direction="up" distance={20} className="text-center max-w-3xl mx-auto mb-14">
-          <span className="text-xs font-mono uppercase tracking-widest text-[#C0622A] font-bold block mb-3">
+        <MotionWrapper direction="up" distance={20} className="text-center max-w-3xl mx-auto mb-6 sm:mb-8">
+          <span className="text-xs font-mono uppercase tracking-widest text-[#C0622A] font-bold block mb-2">
             INSTANT DIAGNOSTIC TOOL · 100% FREE
           </span>
-          <h2 className="font-heading font-black text-4xl sm:text-5xl lg:text-6xl text-[#090D16] tracking-tight leading-[1.05] mb-4">
+          <h2 className="font-heading font-black text-3xl sm:text-5xl lg:text-6xl text-[#090D16] tracking-tight leading-[1.05] mb-3">
             Free NIS <span className="text-[#C0622A]">Marketing Grader</span>
           </h2>
-          <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-normal">
+          <p className="text-slate-600 text-xs sm:text-sm leading-relaxed font-normal">
             Take our 60-second four-layer diagnostic. Discover exactly where your current website, ads, and brand presence fail to sell—and see what fixes will unlock immediate growth.
           </p>
         </MotionWrapper>
 
         {/* Diagnostic Form */}
-        <MotionWrapper direction="up" delay={0.15} className="bg-white rounded-3xl border border-slate-200 shadow-xl p-6 sm:p-10">
+        <MotionWrapper direction="up" delay={0.15} className="bg-white rounded-2xl sm:rounded-3xl border border-slate-200 shadow-xl p-5 sm:p-8">
           {!isSubmitted ? (
             <div>
               {/* Progress */}
-              <div className="flex items-center justify-between mb-8 pb-4 border-b border-slate-100">
+              <div className="flex items-center justify-between mb-6 pb-3 border-b border-slate-100">
                 <div className="flex items-center gap-2">
                   <BarChart className="w-4 h-4 text-[#C0622A]" />
                   <span className="font-heading font-bold text-xs uppercase tracking-wider text-slate-700">
@@ -70,22 +72,22 @@ export default function NisGraderSection() {
               </div>
 
               {/* Pillars */}
-              <div className="space-y-6 mb-8">
+              <div className="space-y-4 mb-6">
                 {nisGraderPillars.map((pillar, pIdx) => {
                   const selectedOpt = selectedAnswers[pillar.id];
 
                   return (
                     <div
                       key={pillar.id}
-                      className="p-6 rounded-2xl bg-slate-50 border border-slate-200"
+                      className="p-4 sm:p-5 rounded-xl bg-slate-50 border border-slate-200"
                     >
-                      <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center justify-between mb-1.5">
                         <span className="font-heading font-bold text-xs uppercase tracking-wider text-[#C0622A]">
                           Pillar 0{pIdx + 1} · {pillar.name} ({pillar.weight})
                         </span>
                       </div>
 
-                      <h3 className="font-heading font-bold text-sm sm:text-base text-[#090D16] mb-4">
+                      <h3 className="font-heading font-bold text-xs sm:text-sm text-[#090D16] mb-3">
                         {pillar.question}
                       </h3>
 
@@ -228,12 +230,19 @@ export default function NisGraderSection() {
                     <RotateCcw className="w-4 h-4" />
                   </button>
 
-                  <a
-                    href="#contact"
-                    className="px-7 py-3.5 bg-[#C0622A] hover:bg-[#a84f1d] text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl shadow-sm transition-all text-center"
+                  <button
+                    type="button"
+                    onClick={() =>
+                      openContactModal({
+                        intent: "strategy-session",
+                        serviceInterest: "A full bundle",
+                        notes: `NIS Diagnostic Grader Result: ${totalScore}/100 (${gradeInfo.grade} Grade - ${gradeInfo.label}). Requesting audit walkthrough.`,
+                      })
+                    }
+                    className="px-7 py-3.5 bg-[#C0622A] hover:bg-[#a84f1d] text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl shadow-sm transition-all text-center whitespace-nowrap active:translate-y-0.5"
                   >
-                    Book Free Strategy Call →
-                  </a>
+                    <span>Book Free Strategy Call →</span>
+                  </button>
                 </div>
               </div>
             </div>

@@ -63,7 +63,7 @@ export default function Hero() {
   const currentSpotlight = clientSpotlights[activeTab];
 
   return (
-    <section className="relative bg-[#FFFFFF] pt-12 pb-20 lg:py-24 border-b border-slate-200 overflow-hidden select-none">
+    <section className="relative bg-[#FFFFFF] pt-8 pb-12 lg:py-14 border-b border-slate-200 overflow-hidden select-none">
       {/* Crisp subtle background grid */}
       <div
         className="absolute inset-0 pointer-events-none opacity-[0.025]"
@@ -74,7 +74,7 @@ export default function Hero() {
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-center">
           {/* Left Column: Text-Focused Hero (STRICTLY NO LOGO HERE) */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -83,27 +83,27 @@ export default function Hero() {
             className="lg:col-span-7"
           >
             {/* Clean Kicker Pill */}
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-[#090D16] text-[11px] font-bold uppercase tracking-widest mb-6">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-slate-100 border border-slate-200 text-[#090D16] text-[10px] font-bold uppercase tracking-widest mb-4">
               <span className="w-2 h-2 rounded-full bg-[#C0622A]" />
               <span>Phoenix, AZ · Est. 2004 · 1,500+ Builds</span>
             </div>
 
             {/* EXACT Headline */}
-            <h1 className="font-heading font-black text-4xl sm:text-6xl xl:text-7xl text-[#090D16] tracking-tight leading-[1.05] mb-6">
+            <h1 className="font-heading font-black text-4xl sm:text-5xl xl:text-6xl text-[#090D16] tracking-tight leading-[1.05] mb-4">
               Marketing, AI &amp; <br />
               <span className="text-[#C0622A]">Digital Services.</span>
             </h1>
 
             {/* EXACT Sub-headline */}
-            <p className="text-base sm:text-lg text-slate-600 font-normal leading-relaxed max-w-2xl mb-8">
+            <p className="text-sm sm:text-base text-slate-600 font-normal leading-relaxed max-w-2xl mb-6">
               {heroData.subheadline}
             </p>
 
             {/* EXACT Calls to Action with Uniform Button Styling */}
-            <div className="flex flex-wrap items-center gap-3 mb-10">
+            <div className="flex flex-wrap items-center gap-3 mb-6">
               <Link
                 href={heroData.primaryCta.href}
-                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-[#C0622A] hover:bg-[#a84f1d] text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-sm active:translate-y-0.5 whitespace-nowrap"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#C0622A] hover:bg-[#a84f1d] text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-sm active:translate-y-0.5 whitespace-nowrap"
               >
                 <span>{heroData.primaryCta.label}</span>
                 <ArrowRight className="w-4 h-4" />
@@ -111,7 +111,7 @@ export default function Hero() {
 
               <Link
                 href={heroData.secondaryCta.href}
-                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-[#090D16] hover:bg-slate-800 text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-sm active:translate-y-0.5 whitespace-nowrap"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#090D16] hover:bg-slate-800 text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-sm active:translate-y-0.5 whitespace-nowrap"
               >
                 <span>{heroData.secondaryCta.label}</span>
                 <ArrowUpRight className="w-4 h-4" />
@@ -119,7 +119,7 @@ export default function Hero() {
             </div>
 
             {/* Live Stats Counter Row */}
-            <div className="grid grid-cols-3 gap-6 pt-6 border-t border-slate-200 max-w-lg">
+            <div className="grid grid-cols-3 gap-4 pt-4 border-t border-slate-200 max-w-lg">
               <div>
                 <div className="font-heading font-black text-2xl sm:text-3xl text-[#090D16]">
                   <NumberCounter value={20} suffix="+" duration={1.5} />
@@ -156,29 +156,29 @@ export default function Hero() {
             transition={{ duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
             className="lg:col-span-5"
           >
-            <div className="bg-[#090D16] text-white p-6 sm:p-7 rounded-3xl shadow-xl border border-slate-800">
+            <div className="bg-[#090D16] text-white p-5 sm:p-6 rounded-2xl shadow-xl border border-slate-800">
               {/* Top Studio Control Bar */}
-              <div className="flex items-center justify-between pb-4 border-b border-slate-800/80">
+              <div className="flex items-center justify-between pb-3 border-b border-slate-800/80">
                 <div className="flex items-center gap-2">
                   <span className="w-2.5 h-2.5 rounded-full bg-[#C0622A] animate-pulse" />
                   <span className="font-heading font-bold text-xs uppercase tracking-widest text-white">
                     Subscription Studio
                   </span>
                 </div>
-                <span className="text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[#C0622A] text-white">
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-[#C0622A] text-white">
                   Save Up To 20%
                 </span>
               </div>
 
               {/* Interactive Industry / Persona Switcher */}
-              <div className="flex gap-1.5 p-1 bg-slate-900/90 rounded-xl border border-slate-800 mt-4">
+              <div className="flex gap-1.5 p-1 bg-slate-900/90 rounded-xl border border-slate-800 mt-3">
                 {clientSpotlights.map((item, idx) => (
                   <button
                     key={item.id}
                     onClick={() => setActiveTab(idx)}
-                    className={`flex-1 py-2 text-[11px] font-bold uppercase tracking-wider rounded-lg transition-all text-center ${
+                    className={`flex-1 py-1.5 text-[11px] font-bold uppercase tracking-wider rounded-lg transition-all text-center ${
                       activeTab === idx
-                        ? "bg-[#C0622A] text-white shadow-sm"
+                        ? "bg-[#C0622A] text-white shadow-xs"
                         : "text-slate-400 hover:text-white"
                     }`}
                   >
@@ -188,9 +188,9 @@ export default function Hero() {
               </div>
 
               {/* Dynamic Client Result & Stack Display with Prominent Visual Card Background */}
-              <div className="mt-4 bg-slate-900/90 border border-slate-800 rounded-2xl p-4">
+              <div className="mt-3 bg-slate-900/90 border border-slate-800 rounded-xl p-3.5">
                 {/* Prominent Wide Client Photo Showcase with Overlay */}
-                <div className="relative w-full h-44 sm:h-48 rounded-xl overflow-hidden mb-4 bg-slate-950 border border-slate-700/60">
+                <div className="relative w-full h-36 sm:h-40 rounded-lg overflow-hidden mb-3 bg-slate-950 border border-slate-700/60">
                   <Image
                     src={currentSpotlight.image}
                     alt={currentSpotlight.name}

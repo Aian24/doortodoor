@@ -6,36 +6,36 @@ import { CheckCircle2 } from "lucide-react";
 
 export default function SellingMethodSection() {
   return (
-    <section id="method" className="py-24 bg-white border-b border-slate-200 select-none scroll-mt-20">
+    <section id="method" className="py-14 sm:py-16 bg-white border-b border-slate-200 select-none scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <MotionWrapper direction="up" distance={20} className="text-center max-w-3xl mx-auto mb-16">
-          <span className="text-xs font-mono uppercase tracking-widest text-[#C0622A] font-bold block mb-3">
+        <MotionWrapper direction="up" distance={20} className="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
+          <span className="text-xs font-mono uppercase tracking-widest text-[#C0622A] font-bold block mb-2">
             THE RELAUNCH METHOD
           </span>
-          <h2 className="font-heading font-black text-4xl sm:text-5xl lg:text-6xl text-[#090D16] tracking-tight leading-[1.05] mb-4">
+          <h2 className="font-heading font-black text-3xl sm:text-5xl lg:text-6xl text-[#090D16] tracking-tight leading-[1.05] mb-3">
             Marketing That Sells. <br />
             <span className="text-[#C0622A]">Nothing Else Ships.</span>
           </h2>
-          <p className="text-slate-600 text-sm sm:text-base leading-relaxed font-normal">
+          <p className="text-slate-600 text-xs sm:text-sm leading-relaxed font-normal">
             Every deliverable is engineered on our four-layer selling framework. Clients buy results, not methods—our framework ensures every piece moves customers toward buying.
           </p>
         </MotionWrapper>
 
         {/* 4 Layers Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 mb-8 sm:mb-10">
           {sellingFrameworkLayers.map((layer, idx) => (
             <MotionWrapper
               key={layer.layer}
               direction="up"
-              delay={idx * 0.08}
-              distance={24}
-              className="bg-slate-50 p-7 rounded-3xl border border-slate-200 flex flex-col justify-between hover:shadow-lg transition-all"
+              delay={idx * 0.05}
+              distance={16}
+              className="bg-slate-50 p-5 sm:p-6 rounded-2xl border border-slate-200 flex flex-col justify-between hover:shadow-md transition-all"
             >
               <div>
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center justify-between mb-3">
                   <span
-                    className="font-heading font-black text-xl px-3 py-1 rounded-full text-white shadow-sm"
+                    className="font-heading font-black text-lg px-2.5 py-0.5 rounded-full text-white shadow-xs"
                     style={{ backgroundColor: layer.color }}
                   >
                     {layer.weightPercent}
@@ -45,16 +45,16 @@ export default function SellingMethodSection() {
                   </span>
                 </div>
 
-                <h3 className="font-heading font-bold text-lg text-[#090D16] mb-2">
+                <h3 className="font-heading font-bold text-base text-[#090D16] mb-1.5">
                   {layer.layer}
                 </h3>
-                <p className="text-xs text-slate-600 leading-relaxed mb-6 font-normal">
+                <p className="text-xs text-slate-600 leading-relaxed mb-4 font-normal">
                   {layer.role}
                 </p>
               </div>
 
-              <div className="pt-4 border-t border-slate-200">
-                <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 block mb-1">
+              <div className="pt-3 border-t border-slate-200">
+                <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 block mb-0.5">
                   Where It Applies:
                 </span>
                 <span className="text-xs font-semibold text-slate-800">
@@ -66,12 +66,12 @@ export default function SellingMethodSection() {
         </div>
 
         {/* Ironclad Standard Box */}
-        <MotionWrapper direction="up" delay={0.15} className="max-w-4xl mx-auto mb-20">
-          <div className="p-8 sm:p-10 bg-[#090D16] text-white rounded-3xl text-center shadow-xl border border-slate-800">
-            <span className="text-xs font-mono uppercase tracking-widest text-[#C0622A] font-bold mb-3 block">
+        <MotionWrapper direction="up" delay={0.15} className="w-full mb-8 sm:mb-10">
+          <div className="p-6 sm:p-8 bg-[#090D16] text-white rounded-2xl sm:rounded-3xl text-center shadow-xl border border-slate-800 max-w-5xl mx-auto">
+            <span className="text-xs font-mono uppercase tracking-widest text-[#C0622A] font-bold mb-2 block">
               OUR IRONCLAD PRODUCTION STANDARD
             </span>
-            <blockquote className="font-heading font-black text-2xl sm:text-3xl text-white leading-snug mb-4">
+            <blockquote className="font-heading font-black text-xl sm:text-2xl lg:text-3xl text-white leading-snug mb-3">
               &ldquo;Standard for every deliverable: it must name the customer&apos;s problem, present the client as the answer, and ask for an action. Anything that doesn&apos;t sell doesn&apos;t ship.&rdquo;
             </blockquote>
             <p className="text-xs text-slate-400 font-medium">
@@ -81,39 +81,39 @@ export default function SellingMethodSection() {
         </MotionWrapper>
 
         {/* 3-Step Execution Plan */}
-        <div className="max-w-5xl mx-auto">
-          <MotionWrapper direction="up" className="text-center max-w-2xl mx-auto mb-12">
-            <h3 className="font-heading font-black text-3xl text-[#090D16] mb-2">
+        <div className="w-full">
+          <MotionWrapper direction="up" className="text-center max-w-2xl mx-auto mb-6">
+            <h3 className="font-heading font-black text-2xl sm:text-3xl text-[#090D16] mb-1">
               The 3-Step Plan
             </h3>
-            <p className="text-xs sm:text-sm text-slate-500">
+            <p className="text-xs text-slate-500">
               Clear, transparent, and built for rapid turnaround.
             </p>
           </MotionWrapper>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
             {threeStepPlan.map((step, index) => (
               <MotionWrapper
                 key={step.stepNumber}
                 direction="up"
-                delay={index * 0.1}
-                className="bg-slate-50 p-7 rounded-3xl border border-slate-200 relative flex flex-col justify-between"
+                delay={index * 0.08}
+                className="bg-slate-50 p-5 sm:p-6 rounded-2xl border border-slate-200 relative flex flex-col justify-between"
               >
                 <div>
-                  <div className="w-10 h-10 rounded-full bg-[#090D16] text-white flex items-center justify-center font-heading font-black text-sm mb-4 shadow">
+                  <div className="w-8 h-8 rounded-full bg-[#090D16] text-white flex items-center justify-center font-heading font-black text-xs mb-3 shadow-xs">
                     {step.stepNumber}
                   </div>
 
-                  <h4 className="font-heading font-bold text-lg text-[#090D16] mb-2">
+                  <h4 className="font-heading font-bold text-base text-[#090D16] mb-1.5">
                     {step.title}
                   </h4>
 
-                  <p className="text-xs text-slate-600 leading-relaxed mb-4">
+                  <p className="text-xs text-slate-600 leading-relaxed mb-3">
                     {step.description}
                   </p>
                 </div>
 
-                <div className="text-[11px] text-[#C0622A] font-semibold bg-white p-3 rounded-2xl border border-slate-200">
+                <div className="text-[11px] text-[#C0622A] font-semibold bg-white p-2.5 rounded-xl border border-slate-200">
                   {step.detail}
                 </div>
               </MotionWrapper>
