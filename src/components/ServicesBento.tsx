@@ -19,7 +19,6 @@ import {
   ArrowRight,
   Sparkles,
   X,
-  ShieldCheck,
   Zap,
 } from "lucide-react";
 import Link from "next/link";
@@ -39,7 +38,7 @@ export default function ServicesBento() {
   const { openContactModal } = useContactModal();
   const [selectedService, setSelectedService] = useState<ServiceItem | null>(null);
 
-  // 6 Canonical Services from relaunch.us/services.html + Specialized Add-ons
+  // 6 Canonical Services + Specialized Add-ons
   const coreServices = servicesData.slice(0, 6);
   const additionalServices = servicesData.slice(6);
 
@@ -53,12 +52,9 @@ export default function ServicesBento() {
   };
 
   return (
-    <section id="services" className="bg-[#FFFFFF] border-b border-slate-200 select-none scroll-mt-20">
-      {/* ---------------------------------------------------- */}
-      {/* PART 1: Top Overview & Interactive Service Rows      */}
-      {/* ---------------------------------------------------- */}
-      <div className="py-14 sm:py-18 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Top Header */}
+    <section id="services" className="py-16 sm:py-20 bg-[#FBFBFA] border-b border-slate-200 select-none scroll-mt-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
         <MotionWrapper
           direction="up"
           distance={20}
@@ -75,13 +71,21 @@ export default function ServicesBento() {
             </h2>
           </div>
 
-          <p className="text-slate-600 text-xs sm:text-sm leading-relaxed max-w-md font-normal">
-            Six core service lines. Mix any of them — the more you bundle, the more you save. One-time projects are quoted separately.
-          </p>
+          <div className="flex flex-col items-start lg:items-end gap-3.5 max-w-md">
+            <p className="text-slate-600 text-xs sm:text-sm leading-relaxed font-normal text-left lg:text-right">
+              Six core service lines. Mix any of them — the more you bundle, the more you save up to 20%. Pause or cancel anytime.
+            </p>
+            <Link
+              href="#bundle-builder"
+              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-[#C0622A] hover:bg-[#a84f1d] text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-sm active:translate-y-0.5 whitespace-nowrap cursor-pointer"
+            >
+              <span>Build My Bundle →</span>
+            </Link>
+          </div>
         </MotionWrapper>
 
-        {/* Interactive Service Rows (01 to 06) */}
-        <div className="border-t-2 border-[#090D16] divide-y divide-slate-200">
+        {/* Clean, Sleek 6-Card Master Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {coreServices.map((service, idx) => {
             const IconComponent = iconMap[service.iconName] || Code2;
 
@@ -89,47 +93,73 @@ export default function ServicesBento() {
               <MotionWrapper
                 key={service.id}
                 direction="up"
-                delay={idx * 0.04}
-                distance={12}
+                delay={idx * 0.05}
+                distance={16}
               >
                 <div
                   onClick={() => setSelectedService(service)}
-                  className="group relative flex flex-col xl:flex-row xl:items-center justify-between py-4 sm:py-5 px-3 hover:bg-slate-50 cursor-pointer transition-all duration-200 gap-3 xl:gap-6"
+                  className="group bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs hover:shadow-xl hover:border-[#C0622A]/50 transition-all duration-300 flex flex-col justify-between h-full cursor-pointer hover:-translate-y-1 relative overflow-hidden"
                 >
-                  {/* Left Highlight Accent Bar */}
-                  <div className="absolute left-0 top-0 bottom-0 w-0 group-hover:w-1.5 bg-[#C0622A] transition-all duration-200" />
+                  {/* Subtle top accent highlight */}
+                  <div className="absolute top-0 left-0 right-0 h-1 bg-transparent group-hover:bg-[#C0622A] transition-colors" />
 
-                  {/* Left: Number + Lucide Icon + Title (No wrapping) */}
-                  <div className="flex items-center gap-3 sm:gap-4 shrink-0">
-                    <span className="font-mono text-xs sm:text-sm font-bold text-slate-400 group-hover:text-[#C0622A] transition-colors w-7 shrink-0">
-                      {service.num}
-                    </span>
+                  <div>
+                    {/* Top Row: Icon, Category Badge & Number */}
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="w-12 h-12 rounded-2xl bg-slate-100 group-hover:bg-[#090D16] text-[#090D16] group-hover:text-[#C0622A] flex items-center justify-center transition-colors border border-slate-200/60">
+                        <IconComponent className="w-6 h-6" />
+                      </div>
 
-                    <div className="w-10 h-10 rounded-xl bg-slate-100 group-hover:bg-[#090D16] text-[#090D16] group-hover:text-[#C0622A] flex items-center justify-center transition-colors shrink-0 border border-slate-200/60">
-                      <IconComponent className="w-5 h-5" />
+                      <div className="flex items-center gap-2">
+                        <span className="px-2.5 py-0.5 rounded-full bg-slate-100 text-[10px] font-mono font-bold uppercase tracking-wider text-slate-600">
+                          {service.category}
+                        </span>
+                        <span className="font-mono text-xs font-bold text-slate-400 group-hover:text-[#C0622A] transition-colors">
+                          {service.num}
+                        </span>
+                      </div>
                     </div>
 
-                    <h3 className="font-heading font-black text-lg sm:text-2xl text-[#090D16] group-hover:text-[#C0622A] transition-colors tracking-tight whitespace-nowrap">
+                    {/* Title */}
+                    <h3 className="font-heading font-black text-xl sm:text-2xl text-[#090D16] group-hover:text-[#C0622A] transition-colors mb-2.5 tracking-tight">
                       {service.title}
                     </h3>
-                  </div>
 
-                  {/* Right: Summary Tags + Arrow Trigger */}
-                  <div className="flex items-center justify-between xl:justify-end gap-3 w-full xl:w-auto pl-10 xl:pl-0">
-                    <div className="flex items-center gap-1.5 flex-wrap">
+                    {/* Short Description */}
+                    <p className="text-slate-600 text-xs sm:text-sm font-normal leading-relaxed mb-4">
+                      {service.shortDescription}
+                    </p>
+
+                    {/* Summary Tags */}
+                    <div className="flex flex-wrap gap-1.5 mb-2">
                       {service.summaryTags.map((tag, tIdx) => (
                         <span
                           key={tIdx}
-                          className="text-[10.5px] sm:text-[11px] font-medium px-2.5 py-1 rounded-full bg-slate-100 group-hover:bg-white text-slate-700 border border-slate-200/80 transition-colors whitespace-nowrap"
+                          className="text-[11px] font-medium px-2.5 py-1 rounded-lg bg-slate-50 text-slate-700 border border-slate-200/80 group-hover:bg-orange-50/50 transition-colors"
                         >
                           {tag}
                         </span>
                       ))}
                     </div>
+                  </div>
 
-                    {/* Arrow Button */}
-                    <div className="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-[#C0622A] text-slate-600 group-hover:text-white flex items-center justify-center transition-all shrink-0 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 shadow-xs">
-                      <ArrowUpRight className="w-4 h-4" />
+                  {/* Card Bottom: Rate & Action Button */}
+                  <div className="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between">
+                    <div>
+                      <span className="text-[10px] font-mono font-bold uppercase text-slate-400 block">
+                        Bundle Rate
+                      </span>
+                      <span className="font-heading font-black text-lg text-[#090D16]">
+                        ${service.basePriceMonthly}
+                        <span className="text-xs font-normal text-slate-500">/mo</span>
+                      </span>
+                    </div>
+
+                    <div className="inline-flex items-center gap-1.5 text-xs font-heading font-bold text-[#090D16] group-hover:text-[#C0622A] transition-colors">
+                      <span>View Scope</span>
+                      <span className="w-6 h-6 rounded-full bg-slate-100 group-hover:bg-[#C0622A] group-hover:text-white flex items-center justify-center transition-all">
+                        <ArrowUpRight className="w-3.5 h-3.5" />
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -138,191 +168,46 @@ export default function ServicesBento() {
           })}
         </div>
 
-        {/* Additional Specialized Services */}
+        {/* Specialized Enterprise Add-Ons Strip */}
         {additionalServices.length > 0 && (
-          <div className="mt-4 pt-4 border-t border-dashed border-slate-200">
-            <div className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-400 mb-2 px-3">
-              Specialized Enterprise &amp; Strategic Add-Ons:
-            </div>
-            <div className="divide-y divide-slate-100">
-              {additionalServices.map((service) => {
-                const AddonIcon = iconMap[service.iconName] || Layers;
-
-                return (
-                  <div
-                    key={service.id}
-                    onClick={() => setSelectedService(service)}
-                    className="group relative flex flex-col sm:flex-row sm:items-center justify-between py-3 px-3 hover:bg-orange-50/40 rounded-xl cursor-pointer transition-all gap-2"
-                  >
-                    <div className="flex items-center gap-3 shrink-0">
-                      <span className="font-mono text-xs font-bold text-slate-400 group-hover:text-[#C0622A] w-7 shrink-0">
-                        {service.num}
-                      </span>
-                      <div className="w-7 h-7 rounded-lg bg-slate-100 group-hover:bg-[#090D16] text-[#090D16] group-hover:text-[#C0622A] flex items-center justify-center transition-colors shrink-0">
-                        <AddonIcon className="w-3.5 h-3.5" />
-                      </div>
-                      <h4 className="font-heading font-bold text-sm sm:text-base text-slate-800 group-hover:text-[#C0622A] transition-colors whitespace-nowrap">
-                        {service.title}
-                      </h4>
-                      {service.badge && (
-                        <span className="px-2 py-0.5 text-[9px] font-mono font-bold uppercase tracking-wider rounded-md bg-slate-100 text-slate-600 border border-slate-200 whitespace-nowrap hidden sm:inline-block">
-                          {service.badge}
-                        </span>
-                      )}
-                    </div>
-                    <div className="flex items-center gap-2 pl-10 sm:pl-0 text-xs font-semibold text-[#C0622A] shrink-0">
-                      <span className="whitespace-nowrap">View Specifications</span>
-                      <ArrowUpRight className="w-3.5 h-3.5" />
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* ---------------------------------------------------- */}
-      {/* PART 2: "What's Included — A closer look at every service" */}
-      {/* Exact dark section from relaunch.us/services.html     */}
-      {/* ---------------------------------------------------- */}
-      <div className="py-16 sm:py-20 bg-[#0D1629] text-white relative overflow-hidden">
-        {/* Ambient Glowing Orbs */}
-        <div
-          className="absolute -top-32 right-0 w-96 h-96 rounded-full pointer-events-none opacity-25 blur-3xl"
-          style={{ background: "radial-gradient(circle, #2E8B7A 0%, transparent 70%)" }}
-        />
-        <div
-          className="absolute -bottom-32 left-0 w-96 h-96 rounded-full pointer-events-none opacity-20 blur-3xl"
-          style={{ background: "radial-gradient(circle, #C0622A 0%, transparent 70%)" }}
-        />
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          {/* Section Header */}
           <MotionWrapper
             direction="up"
-            distance={20}
-            className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12 sm:mb-14 border-b border-slate-800 pb-8"
+            delay={0.2}
+            className="mt-8 p-5 sm:p-6 bg-white rounded-2xl border border-slate-200/80 shadow-xs"
           >
-            <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-[#2E8B7A] text-[10px] font-mono font-bold uppercase tracking-widest mb-3">
-                <ShieldCheck className="w-3.5 h-3.5 text-[#2E8B7A]" />
-                <span>WHAT&apos;S INCLUDED</span>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 block mb-1.5">
+                  Enterprise &amp; Specialized Add-Ons
+                </span>
+                <div className="flex flex-wrap items-center gap-2.5">
+                  {additionalServices.map((service) => {
+                    const AddonIcon = iconMap[service.iconName] || Layers;
+                    return (
+                      <button
+                        key={service.id}
+                        type="button"
+                        onClick={() => setSelectedService(service)}
+                        className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-slate-50 hover:bg-orange-50 border border-slate-200 hover:border-[#C0622A]/40 transition-colors text-xs font-bold text-slate-800 hover:text-[#C0622A] cursor-pointer"
+                      >
+                        <AddonIcon className="w-3.5 h-3.5 text-[#C0622A]" />
+                        <span>{service.title}</span>
+                        <span className="text-[10px] font-mono text-slate-400">(${service.basePriceMonthly}/mo)</span>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
-              <h2 className="font-heading font-black text-3xl sm:text-5xl text-white tracking-tight leading-[1.05]">
-                A closer look at <br />
-                <span className="italic text-[#2E8B7A]">every service.</span>
-              </h2>
-            </div>
 
-            <div className="flex items-center gap-3 shrink-0">
               <Link
                 href="#bundle-builder"
-                className="inline-flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-[#2E8B7A] hover:text-[#5ecfbc] transition-colors py-2.5 px-4 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-[#2E8B7A]/50 whitespace-nowrap"
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-[#C0622A] hover:bg-[#a84f1d] text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-sm whitespace-nowrap self-start sm:self-auto"
               >
-                <span>See Bundle Pricing →</span>
+                <span>Calculate Bundle Savings →</span>
               </Link>
             </div>
           </MotionWrapper>
-
-          {/* 6 What's Included Dark Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
-            {coreServices.map((service, idx) => {
-              const CardIcon = iconMap[service.iconName] || Code2;
-
-              return (
-                <MotionWrapper
-                  key={service.id}
-                  direction="up"
-                  delay={idx * 0.05}
-                  distance={16}
-                >
-                  <div
-                    onClick={() => setSelectedService(service)}
-                    className="group p-6 sm:p-7 rounded-3xl bg-slate-900/70 border border-slate-800 hover:border-[#2E8B7A]/60 hover:bg-slate-900/90 transition-all duration-300 flex flex-col justify-between h-full cursor-pointer hover:-translate-y-1 shadow-lg backdrop-blur-sm"
-                  >
-                    <div>
-                      {/* Top Row: Icon & Number */}
-                      <div className="flex items-center justify-between mb-4">
-                        <div className="w-12 h-12 rounded-2xl bg-slate-800/90 group-hover:bg-[#2E8B7A]/20 text-[#2E8B7A] flex items-center justify-center border border-slate-700/60 transition-colors">
-                          <CardIcon className="w-6 h-6" />
-                        </div>
-                        <span className="font-mono text-xs font-bold text-slate-500 group-hover:text-[#2E8B7A] transition-colors">
-                          {service.num}
-                        </span>
-                      </div>
-
-                      {/* Title */}
-                      <h3 className="font-heading font-black text-xl text-white group-hover:text-[#5ecfbc] transition-colors mb-4 tracking-tight">
-                        {service.title}
-                      </h3>
-
-                      {/* Checkbox List of Deliverables (Exact 5 items per service) */}
-                      <ul className="space-y-2.5 mb-6">
-                        {service.deliverables.map((item, dIdx) => (
-                          <li
-                            key={dIdx}
-                            className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-300 leading-snug"
-                          >
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#2E8B7A] mt-1.5 shrink-0" />
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    {/* Bottom Trigger */}
-                    <div className="pt-4 border-t border-slate-800 flex items-center justify-between text-xs font-mono font-bold text-slate-400 group-hover:text-white transition-colors">
-                      <span className="whitespace-nowrap">${service.basePriceMonthly}/mo base</span>
-                      <span className="inline-flex items-center gap-1 text-[#2E8B7A] group-hover:translate-x-1 transition-transform whitespace-nowrap">
-                        <span>View Details</span>
-                        <ArrowRight className="w-3.5 h-3.5" />
-                      </span>
-                    </div>
-                  </div>
-                </MotionWrapper>
-              );
-            })}
-          </div>
-
-          {/* Bottom Action Ribbon */}
-          <MotionWrapper
-            direction="up"
-            delay={0.25}
-            className="mt-12 sm:mt-16 p-6 sm:p-8 rounded-3xl bg-slate-900/90 border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left"
-          >
-            <div>
-              <h4 className="font-heading font-black text-xl text-white mb-1">
-                Ready to mix, match, and save?
-              </h4>
-              <p className="text-xs sm:text-sm text-slate-400 font-normal">
-                Bundle 2 or more services for automatic discounts up to 20%. No contracts, cancel anytime.
-              </p>
-            </div>
-
-            <div className="flex flex-wrap items-center justify-center gap-3 shrink-0">
-              <Link
-                href="#bundle-builder"
-                className="px-6 py-3 bg-[#C0622A] hover:bg-[#a84f1d] text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md active:translate-y-0.5 whitespace-nowrap"
-              >
-                Build My Bundle →
-              </Link>
-              <button
-                type="button"
-                onClick={() =>
-                  openContactModal({
-                    intent: "strategy-session",
-                    serviceInterest: "Full Marketing & Tech Bundle",
-                    notes: "Requesting a free strategy consultation on services bundle options.",
-                  })
-                }
-                className="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-slate-200 font-heading font-bold text-xs uppercase tracking-wider rounded-xl transition-all border border-slate-700 cursor-pointer whitespace-nowrap"
-              >
-                Book a Call →
-              </button>
-            </div>
-          </MotionWrapper>
-        </div>
+        )}
       </div>
 
       {/* ---------------------------------------------------- */}
