@@ -7,10 +7,7 @@ import TwoHeroesSection from "@/components/TwoHeroesSection";
 import ServicesBento from "@/components/ServicesBento";
 import AiSection from "@/components/AiSection";
 import SellingMethodSection from "@/components/SellingMethodSection";
-import BundleCalculator from "@/components/BundleCalculator";
-import ReLaunchSocialSection from "@/components/ReLaunchSocialSection";
 import CaseStudiesSection from "@/components/CaseStudiesSection";
-import NisGraderSection from "@/components/NisGraderSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import FaqSection from "@/components/FaqSection";
 import CtaBanner from "@/components/CtaBanner";
@@ -19,65 +16,85 @@ import ScrollToTop from "@/components/ScrollToTop";
 import ChatAssistant from "@/components/ChatAssistant";
 import { ContactModalProvider } from "@/context/ContactModalContext";
 import ContactModal from "@/components/ContactModal";
+import UnderDevelopmentSection from "@/components/UnderDevelopmentSection";
+import { Calculator, Share2, BarChart3 } from "lucide-react";
+
+// NOTE FOR SPRINT 2: When ready to unlock full interactive Phase 2 tools,
+// simply import the original components:
+// import BundleCalculator from "@/components/BundleCalculator";
+// import ReLaunchSocialSection from "@/components/ReLaunchSocialSection";
+// import NisGraderSection from "@/components/NisGraderSection";
 
 export default function Home() {
   return (
     <ContactModalProvider>
       <main className="min-h-screen flex flex-col bg-white pt-20">
-        {/* 1. Video Preloader with Logo Video */}
+        {/* 1. Fast Video Preloader */}
         <Preloader />
 
-        {/* 2. Navigation Header */}
+        {/* 2. Fixed Navigation Header */}
         <Navbar />
 
-      {/* 4. Hero Section (Strictly Text-focused, NO logo in hero) */}
-      <Hero />
+        {/* 3. Hero Section (Headline, Value Prop, Live Counters) */}
+        <Hero />
 
-      {/* 5. Two Heroes, Two Doors (Strategic Persona Matcher) */}
-      <TwoHeroesSection />
+        {/* 4. Strategic Persona Matcher ("Which Door Fits You?") */}
+        <TwoHeroesSection />
 
-      {/* 6. Core Services Bento Grid (8 Service Lines) */}
-      <ServicesBento />
+        {/* 5. Core Services Bento Grid (8 Service Lines) */}
+        <ServicesBento />
 
-      {/* 7. Dedicated AI Capabilities Section (8 AI Pillars) */}
-      <AiSection />
+        {/* 6. Dedicated AI Capabilities Section (8 AI Pillars) */}
+        <AiSection />
 
-      {/* 8. The ReLaunch Method (4-Layer Selling Framework & 3-Step Plan) */}
-      <SellingMethodSection />
+        {/* 7. The ReLaunch Method (4-Layer Selling Framework & Process) */}
+        <SellingMethodSection />
 
-      {/* 7. Interactive Bundle Builder & Live Savings Calculator */}
-      <BundleCalculator />
+        {/* 8. Sprint 2 Staged: Interactive Bundle Builder */}
+        <UnderDevelopmentSection
+          id="bundle-builder"
+          title="Interactive Bundle Builder & Live Savings Calculator"
+          subtitle="Our engineering team is currently calibrating the multi-service discount algorithm (10% to 20% bundle savings) and real-time proposal generator. This module is in active development for Sprint 2."
+        />
 
-      {/* 8. ReLaunch Social Autopilot Showcase */}
-      <ReLaunchSocialSection />
+        {/* 9. Sprint 2 Staged: ReLaunch Social Autopilot */}
+        <UnderDevelopmentSection
+          id="social"
+          title="ReLaunch Social Autopilot Platform"
+          subtitle="The 5-platform automated distribution matrix (Instagram, TikTok, Facebook, LinkedIn, Google) and Track A / Track B client media workflows are in development for Sprint 2."
+        />
 
-      {/* 9. Case Studies & Proof Bento */}
-      <CaseStudiesSection />
+        {/* 10. Case Studies & Proof Bento */}
+        <CaseStudiesSection />
 
-      {/* 10. Free NIS Marketing Grader Diagnostic Tool */}
-      <NisGraderSection />
+        {/* 11. Sprint 2 Staged: Free NIS Marketing Grader */}
+        <UnderDevelopmentSection
+          id="nis-grader"
+          title="Free NIS Marketing Grader Diagnostic Tool"
+          subtitle="The 60-second interactive diagnostic engine based on our 4-layer selling framework is undergoing QA calibration and is scheduled for the Sprint 2 rollout."
+        />
 
-      {/* 11. Client Testimonials & Ratings */}
-      <TestimonialsSection />
+        {/* 12. Client Testimonials & Ratings */}
+        <TestimonialsSection />
 
-      {/* 12. Frequently Asked Questions */}
-      <FaqSection />
+        {/* 13. Frequently Asked Questions */}
+        <FaqSection />
 
-      {/* 13. High-Converting Bottom CTA Banner */}
-      <CtaBanner />
+        {/* 14. High-Converting Bottom CTA Banner */}
+        <CtaBanner />
 
-      {/* 14. Static Footer with Extracted Logo Image */}
-      <Footer />
+        {/* 15. Static Footer with Direct Contact */}
+        <Footer />
 
-      {/* 15. Smooth Scroll-To-Top Button */}
-      <ScrollToTop />
+        {/* 16. Smooth Scroll-To-Top Button */}
+        <ScrollToTop />
 
-      {/* 16. Interactive ReLaunch AI Chat Assistant */}
-      <ChatAssistant />
+        {/* 17. ReLaunch AI Assistant (Beta Preview) */}
+        <ChatAssistant />
 
-      {/* 17. Global Contact & Strategy Session Modal */}
-      <ContactModal />
-    </main>
+        {/* 18. Global Contact & Strategy Session Modal */}
+        <ContactModal />
+      </main>
     </ContactModalProvider>
   );
 }
