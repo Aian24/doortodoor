@@ -83,9 +83,10 @@ export default function ReLaunchSocialSection() {
                       notes: "Interested in getting started with ReLaunch Social Autopilot.",
                     })
                   }
-                  className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 bg-[#C0622A] hover:bg-[#a84f1d] text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl shadow-xs transition-all active:translate-y-0.5 whitespace-nowrap"
+                  className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 bg-[#C0622A] hover:bg-[#a84f1d] text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl shadow-xs transition-all active:translate-y-0.5 whitespace-nowrap cursor-pointer"
                 >
-                  <span>Start Your Project →</span>
+                  <span>Start Your Project</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </button>
 
                 <a
@@ -274,7 +275,8 @@ export default function ReLaunchSocialSection() {
                         : "bg-slate-800 text-slate-200 hover:bg-slate-700 active:translate-y-0.5"
                     }`}
                   >
-                    <span>Select Plan &amp; Launch →</span>
+                    <span>Select Plan &amp; Launch</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
               </MotionWrapper>

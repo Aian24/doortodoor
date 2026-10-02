@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useState, useCallback, ReactNode } from "react";
 
 export type ContactIntent =
   | "strategy-session"
@@ -33,16 +33,16 @@ export function ContactModalProvider({ children }: { children: ReactNode }) {
     serviceInterest: "A full bundle",
   });
 
-  const openContactModal = (newOptions?: ContactModalOptions) => {
+  const openContactModal = useCallback((newOptions?: ContactModalOptions) => {
     if (newOptions) {
       setOptions((prev) => ({ ...prev, ...newOptions }));
     }
     setIsOpen(true);
-  };
+  }, []);
 
-  const closeContactModal = () => {
+  const closeContactModal = useCallback(() => {
     setIsOpen(false);
-  };
+  }, []);
 
   return (
     <ContactModalContext.Provider

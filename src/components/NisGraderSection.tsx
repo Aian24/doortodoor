@@ -5,7 +5,7 @@ import { nisGraderPillars } from "@/data/nisGrader";
 import { useContactModal } from "@/context/ContactModalContext";
 import NumberCounter from "./NumberCounter";
 import MotionWrapper from "./MotionWrapper";
-import { Award, RotateCcw, BarChart, Check, CheckCircle2 } from "lucide-react";
+import { Award, RotateCcw, BarChart, Check, CheckCircle2, ArrowRight, ArrowUpRight } from "lucide-react";
 
 export default function NisGraderSection() {
   const { openContactModal } = useContactModal();
@@ -152,7 +152,8 @@ export default function NisGraderSection() {
                       : "bg-slate-200 text-slate-400 cursor-not-allowed"
                   }`}
                 >
-                  <span>Calculate My NIS Score →</span>
+                  <span>Calculate My NIS Score</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </div>
             </div>
@@ -241,7 +242,8 @@ export default function NisGraderSection() {
                     }
                     className="px-7 py-3.5 bg-[#C0622A] hover:bg-[#a84f1d] text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl shadow-sm transition-all text-center whitespace-nowrap active:translate-y-0.5"
                   >
-                    <span>Book Free Strategy Call →</span>
+                    <span>Book Free Strategy Call</span>
+                    <ArrowUpRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
               </div>

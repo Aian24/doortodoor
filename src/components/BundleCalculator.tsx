@@ -83,9 +83,10 @@ export default function BundleCalculator() {
                     .join("\n- ")}`,
                 })
               }
-              className="inline-flex items-center justify-center w-full py-3 bg-[#C0622A] hover:bg-[#a84f1d] text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-xs active:translate-y-0.5"
+              className="inline-flex items-center justify-center gap-1.5 w-full py-3 bg-[#C0622A] hover:bg-[#a84f1d] text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-xs active:translate-y-0.5 cursor-pointer"
             >
-              <span>Lock In Bundle Rate →</span>
+              <span>Lock In Bundle Rate</span>
+              <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
         </MotionWrapper>
@@ -308,7 +309,8 @@ export default function BundleCalculator() {
                     }
                     className="w-full py-3.5 bg-[#C0622A] hover:bg-[#a84f1d] text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl shadow-sm flex items-center justify-center gap-2 transition-all text-center active:translate-y-0.5"
                   >
-                    <span>Lock In This Rate →</span>
+                    <span>Lock In This Rate</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </>
               )}

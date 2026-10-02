@@ -13,6 +13,7 @@ import {
   Wrench,
   Building2,
   ArrowRight,
+  ArrowUpRight,
   Sparkles,
   CheckCircle2,
   Bot,
@@ -55,17 +56,19 @@ export default function AiSection() {
             <button
               type="button"
               onClick={() => openContactModal({ intent: "ai-audit" })}
-              className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-[#C0622A] hover:bg-[#a84f1d] text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-sm whitespace-nowrap active:translate-y-0.5"
+              className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-[#C0622A] hover:bg-[#a84f1d] text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-sm whitespace-nowrap active:translate-y-0.5 cursor-pointer"
             >
-              <span>Book an AI Audit →</span>
+              <span>Book an AI Audit</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
             </button>
 
             <button
               type="button"
               onClick={() => openContactModal({ intent: "start-project" })}
-              className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-[#090D16] hover:bg-slate-800 text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-sm whitespace-nowrap active:translate-y-0.5"
+              className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-[#090D16] hover:bg-slate-800 text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-sm whitespace-nowrap active:translate-y-0.5 cursor-pointer"
             >
-              <span>Start Your Project →</span>
+              <span>Start Your Project</span>
+              <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>

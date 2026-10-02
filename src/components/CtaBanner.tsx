@@ -31,27 +31,30 @@ export default function CtaBanner() {
             <button
               type="button"
               onClick={() => openContactModal({ intent: "strategy-session" })}
-              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#C0622A] hover:bg-[#a84f1d] text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl shadow-xs transition-all active:translate-y-0.5 whitespace-nowrap"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#C0622A] hover:bg-[#a84f1d] text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl shadow-xs transition-all active:translate-y-0.5 whitespace-nowrap cursor-pointer"
             >
-              <span>Book a Strategy Session →</span>
+              <span>Book a Strategy Session</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
             </button>
 
             <button
               type="button"
               onClick={() => openContactModal({ intent: "ai-audit" })}
-              className="inline-flex items-center justify-center gap-2 px-5 py-3.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl transition-all active:translate-y-0.5 whitespace-nowrap"
+              className="inline-flex items-center justify-center gap-2 px-5 py-3.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl transition-all active:translate-y-0.5 whitespace-nowrap cursor-pointer"
             >
               <Bot className="w-3.5 h-3.5 text-[#2E8B7A]" />
-              <span>Book an AI Audit →</span>
+              <span>Book an AI Audit</span>
+              <ArrowUpRight className="w-3.5 h-3.5" />
             </button>
 
             <button
               type="button"
               onClick={() => openContactModal({ intent: "start-project" })}
-              className="inline-flex items-center justify-center gap-2 px-5 py-3.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl transition-all active:translate-y-0.5 whitespace-nowrap"
+              className="inline-flex items-center justify-center gap-2 px-5 py-3.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl transition-all active:translate-y-0.5 whitespace-nowrap cursor-pointer"
             >
               <Rocket className="w-3.5 h-3.5 text-[#C0622A]" />
-              <span>Start Your Project →</span>
+              <span>Start Your Project</span>
+              <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
 

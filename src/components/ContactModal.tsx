@@ -4,12 +4,12 @@ import React, { useState, useEffect } from "react";
 import { useContactModal } from "@/context/ContactModalContext";
 import { showSuccessSwal } from "@/utils/alerts";
 import CustomSelect from "./CustomSelect";
+import CustomDatePicker from "./CustomDatePicker";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
   Calendar,
   Send,
-  Sparkles,
   Phone,
   Mail,
   MapPin,
@@ -18,7 +18,7 @@ import {
   ArrowRight,
   ShieldCheck,
   Bot,
-  Rocket,
+  Video,
 } from "lucide-react";
 
 const serviceOptions = [
@@ -32,10 +32,19 @@ const serviceOptions = [
   "Not sure yet",
 ];
 
+const availableTimeSlots = [
+  "09:00 AM MST",
+  "10:00 AM MST",
+  "11:30 AM MST",
+  "01:00 PM MST",
+  "02:30 PM MST",
+  "04:00 PM MST",
+];
+
 export default function ContactModal() {
   const { isOpen, options, closeContactModal } = useContactModal();
 
-  const [activeTab, setActiveTab] = useState<"form" | "calendar" | "ai-audit">(
+  const [activeTab, setActiveTab] = useState<"form" | "ai-audit" | "calendar">(
     "form"
   );
   const [formData, setFormData] = useState({
@@ -46,7 +55,7 @@ export default function ContactModal() {
     interest: "A full bundle",
     message: "",
     preferredDate: "",
-    preferredTime: "10:00 AM",
+    preferredTime: "10:00 AM MST",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -89,11 +98,11 @@ export default function ContactModal() {
     }
   }, [isOpen, options]);
 
-  // Handle ESC key and body scroll lock
+  // Handle ESC key and body/html scroll lock
   useEffect(() => {
     if (isOpen) {
-      const scrollY = window.scrollY;
       document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
 
       const handleKeyDown = (e: KeyboardEvent) => {
         if (e.key === "Escape") {
@@ -103,10 +112,12 @@ export default function ContactModal() {
       window.addEventListener("keydown", handleKeyDown);
       return () => {
         document.body.style.overflow = "";
+        document.documentElement.style.overflow = "";
         window.removeEventListener("keydown", handleKeyDown);
       };
     } else {
       document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
     }
   }, [isOpen, closeContactModal]);
 
@@ -123,16 +134,16 @@ export default function ContactModal() {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate quick submission
+    // Simulate instant Google Calendar session confirmation
     setTimeout(async () => {
       setIsSubmitting(false);
       closeContactModal();
 
       if (activeTab === "calendar") {
         await showSuccessSwal(
-          "Strategy Session Reserved!",
-          `Thanks, ${formData.name || "friend"}! Your session is locked in for ${formData.preferredDate || "your chosen date"} at ${formData.preferredTime}. You'll receive a Google Calendar invite at ${formData.email}.`,
-          `<strong>Service Focus:</strong> ${formData.interest} · <strong>Phone:</strong> ${formData.phone || "On file"}`
+          "Google Calendar Session Confirmed!",
+          `Thanks, ${formData.name || "friend"}! Your strategy session is locked in for <strong>${formData.preferredDate || "your chosen date"} at ${formData.preferredTime}</strong>.<br><br>We sent an instant Google Calendar invite and Google Meet link to <strong>${formData.email}</strong>.`,
+          `<strong>Focus:</strong> ${formData.interest} · <strong>Phone:</strong> ${formData.phone || "On file"}`
         );
       } else if (activeTab === "ai-audit") {
         await showSuccessSwal(
@@ -157,308 +168,344 @@ export default function ContactModal() {
         interest: "A full bundle",
         message: "",
         preferredDate: "",
-        preferredTime: "10:00 AM",
+        preferredTime: "10:00 AM MST",
       });
     }, 450);
   };
 
-  return (
-    <AnimatePresence>
-      {isOpen && (
-        <div
-          key="contact-modal-portal"
-          className="fixed inset-0 z-[999] flex items-center justify-center p-3 sm:p-4 md:p-6 overflow-y-auto"
-        >
-          {/* Hardware-accelerated Smooth Backdrop */}
-          <motion.div
-            key="contact-modal-backdrop"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.22, ease: "easeOut" }}
-            onClick={closeContactModal}
-            style={{ willChange: "opacity", transform: "translateZ(0)" }}
-            className="fixed inset-0 bg-[#090D16]/80"
-          />
+  if (!isOpen) return null;
 
-          {/* Modal Container */}
-          <motion.div
-            key="contact-modal-dialog"
-            initial={{ opacity: 0, scale: 0.96, y: 12 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.96, y: 12 }}
-            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-            style={{ willChange: "transform, opacity", transform: "translateZ(0)" }}
-            className="relative w-full max-w-3xl bg-white rounded-2xl sm:rounded-3xl shadow-2xl border border-slate-200 overflow-hidden z-10 max-h-[90vh] flex flex-col my-auto"
+  return (
+    <div
+      key="contact-modal-portal"
+      className="fixed inset-0 z-[999] flex items-center justify-center p-2 sm:p-4 overflow-hidden animate-in fade-in duration-150"
+    >
+      {/* Backdrop */}
+      <div
+        onClick={closeContactModal}
+        className="fixed inset-0 bg-[#090D16]/80 transition-opacity"
+      />
+
+      {/* Modal Dialog Container */}
+      <div
+        className="relative w-full max-w-3xl bg-white rounded-2xl sm:rounded-3xl shadow-2xl border border-slate-200 overflow-hidden z-10 max-h-[94vh] flex flex-col my-auto animate-in zoom-in-95 fade-in duration-150"
+      >
+        {/* Modal Header */}
+        <div className="bg-[#090D16] text-white p-4 sm:p-5 flex items-start justify-between border-b border-slate-800">
+          <div>
+            <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-slate-900 border border-slate-800 text-[#C0622A] text-[9.5px] font-mono font-bold uppercase tracking-widest mb-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C0622A]" />
+              <span>
+                {activeTab === "calendar"
+                  ? "GOOGLE CALENDAR STRATEGY SESSION"
+                  : "LET'S BUILD YOUR MISSION"}
+              </span>
+            </div>
+            <h3 className="font-heading font-black text-lg sm:text-2xl text-white tracking-tight leading-tight">
+              {activeTab === "calendar"
+                ? "Grab a time that works."
+                : activeTab === "ai-audit"
+                ? "Request Your AI Readiness Audit"
+                : "Tell Us About Your Business"}
+            </h3>
+            <p className="text-slate-300 text-[11px] sm:text-xs mt-0.5 max-w-lg font-normal">
+              {activeTab === "calendar"
+                ? "Pick a slot below — you'll get an instant Google Calendar confirmation."
+                : "No pressure, no fluff. Just a clear roadmap tailored to your growth goals."}
+            </p>
+          </div>
+
+          <button
+            onClick={closeContactModal}
+            className="p-1.5 sm:p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors shrink-0 cursor-pointer"
+            aria-label="Close modal"
           >
-            {/* Modal Header */}
-            <div className="bg-[#090D16] text-white p-5 sm:p-6 flex items-start justify-between border-b border-slate-800">
+            <X className="w-4 h-4 sm:w-5 sm:h-5" />
+          </button>
+        </div>
+
+        {/* Mode Switcher Tabs */}
+        <div className="bg-white px-4 sm:px-6 border-b border-slate-200 flex items-center gap-4 sm:gap-8 overflow-x-auto">
+          <button
+            type="button"
+            onClick={() => setActiveTab("form")}
+            className={`relative py-2.5 sm:py-3 text-xs sm:text-sm font-bold flex items-center gap-2 transition-colors cursor-pointer whitespace-nowrap ${
+              activeTab === "form"
+                ? "text-[#C0622A]"
+                : "text-slate-500 hover:text-[#090D16]"
+            }`}
+          >
+            <Send className={`w-3.5 h-3.5 ${activeTab === "form" ? "text-[#C0622A]" : "text-slate-400"}`} />
+            <span>Send a Message / Start Project</span>
+            {activeTab === "form" && (
+              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#C0622A]" />
+            )}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setActiveTab("ai-audit")}
+            className={`relative py-2.5 sm:py-3 text-xs sm:text-sm font-bold flex items-center gap-2 transition-colors cursor-pointer whitespace-nowrap ${
+              activeTab === "ai-audit"
+                ? "text-[#C0622A]"
+                : "text-slate-500 hover:text-[#090D16]"
+            }`}
+          >
+            <Bot className={`w-3.5 h-3.5 ${activeTab === "ai-audit" ? "text-[#C0622A]" : "text-slate-400"}`} />
+            <span>Book an AI Audit</span>
+            {activeTab === "ai-audit" && (
+              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#C0622A]" />
+            )}
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setActiveTab("calendar")}
+            className={`relative py-2.5 sm:py-3 text-xs sm:text-sm font-bold flex items-center gap-2 transition-colors cursor-pointer whitespace-nowrap ${
+              activeTab === "calendar"
+                ? "text-[#C0622A]"
+                : "text-slate-500 hover:text-[#090D16]"
+            }`}
+          >
+            <Calendar className={`w-3.5 h-3.5 ${activeTab === "calendar" ? "text-[#C0622A]" : "text-slate-400"}`} />
+            <span>Live Calendar Slot</span>
+            {activeTab === "calendar" && (
+              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#C0622A]" />
+            )}
+          </button>
+        </div>
+
+        {/* Modal Body / Form */}
+        <div className="p-4 sm:p-5 overflow-y-auto flex-1">
+          <form onSubmit={handleSubmit} className="space-y-3">
+            {/* 2-Column Row: Name & Email */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-[#C0622A] text-[10px] font-bold uppercase tracking-widest mb-2">
-                  <Sparkles className="w-3 h-3 text-[#C0622A]" />
-                  <span>Let&apos;s Build Your Mission</span>
-                </div>
-                <h3 className="font-heading font-black text-xl sm:text-2xl text-white tracking-tight">
-                  {activeTab === "calendar"
-                    ? "Book a Free Strategy Session"
-                    : activeTab === "ai-audit"
-                    ? "Request Your AI Readiness Audit"
-                    : "Tell Us About Your Business"}
-                </h3>
-                <p className="text-slate-300 text-xs sm:text-sm mt-1 max-w-lg">
-                  No pressure, no fluff. Just a clear roadmap tailored to your growth goals.
-                </p>
+                <label className="block text-[10.5px] font-bold uppercase tracking-wider text-slate-700 mb-1">
+                  Full Name <span className="text-[#C0622A]">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  required
+                  placeholder="Jane Smith"
+                  value={formData.name}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:bg-white focus:border-[#C0622A] focus:ring-2 focus:ring-[#C0622A]/15 focus:outline-none transition-all"
+                />
               </div>
 
-              <button
-                onClick={closeContactModal}
-                className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors shrink-0"
-                aria-label="Close modal"
-              >
-                <X className="w-5 h-5" />
-              </button>
+              <div>
+                <label className="block text-[10.5px] font-bold uppercase tracking-wider text-slate-700 mb-1">
+                  Work Email <span className="text-[#C0622A]">*</span>
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  placeholder="jane@business.com"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:bg-white focus:border-[#C0622A] focus:ring-2 focus:ring-[#C0622A]/15 focus:outline-none transition-all"
+                />
+              </div>
             </div>
 
-            {/* Mode Switcher Tabs */}
-            <div className="bg-slate-100 p-2 border-b border-slate-200 flex items-center gap-1.5 sm:gap-2">
-              <button
-                type="button"
-                onClick={() => setActiveTab("form")}
-                className={`flex-1 flex items-center justify-center gap-1.5 sm:gap-2 py-2.5 px-3 rounded-xl text-xs font-bold transition-all ${
-                  activeTab === "form"
-                    ? "bg-white text-[#090D16] shadow-sm"
-                    : "text-slate-600 hover:text-[#090D16] hover:bg-slate-200/60"
-                }`}
-              >
-                <Send className="w-3.5 h-3.5 text-[#C0622A]" />
-                <span className="truncate">Send a Message / Start Project</span>
-              </button>
+            {/* 2-Column Row: Phone & Business Name */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className="block text-[10.5px] font-bold uppercase tracking-wider text-slate-700 mb-1">
+                  Phone Number
+                </label>
+                <input
+                  type="tel"
+                  name="phone"
+                  placeholder="480-779-9875"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:bg-white focus:border-[#C0622A] focus:ring-2 focus:ring-[#C0622A]/15 focus:outline-none transition-all"
+                />
+              </div>
 
-              <button
-                type="button"
-                onClick={() => setActiveTab("ai-audit")}
-                className={`flex-1 flex items-center justify-center gap-1.5 sm:gap-2 py-2.5 px-3 rounded-xl text-xs font-bold transition-all ${
-                  activeTab === "ai-audit"
-                    ? "bg-white text-[#090D16] shadow-sm"
-                    : "text-slate-600 hover:text-[#090D16] hover:bg-slate-200/60"
-                }`}
-              >
-                <Bot className="w-3.5 h-3.5 text-[#2E8B7A]" />
-                <span className="truncate">Book an AI Audit</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setActiveTab("calendar")}
-                className={`flex-1 flex items-center justify-center gap-1.5 sm:gap-2 py-2.5 px-3 rounded-xl text-xs font-bold transition-all ${
-                  activeTab === "calendar"
-                    ? "bg-white text-[#090D16] shadow-sm"
-                    : "text-slate-600 hover:text-[#090D16] hover:bg-slate-200/60"
-                }`}
-              >
-                <Calendar className="w-3.5 h-3.5 text-[#C0622A]" />
-                <span className="truncate">Live Calendar Slot</span>
-              </button>
+              <div>
+                <label className="block text-[10.5px] font-bold uppercase tracking-wider text-slate-700 mb-1">
+                  Business / Company Name
+                </label>
+                <input
+                  type="text"
+                  name="business"
+                  placeholder="Your Company LLC"
+                  value={formData.business}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:bg-white focus:border-[#C0622A] focus:ring-2 focus:ring-[#C0622A]/15 focus:outline-none transition-all"
+                />
+              </div>
             </div>
 
-            {/* Modal Body / Form */}
-            <div className="p-5 sm:p-6 overflow-y-auto flex-1">
-              <form onSubmit={handleSubmit} className="space-y-4">
-                {/* 2-Column Row: Name & Email */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* Service Interest Selector */}
+            <div>
+              <label className="block text-[10.5px] font-bold uppercase tracking-wider text-slate-700 mb-1">
+                What do you need help with?
+              </label>
+              <CustomSelect
+                name="interest"
+                value={formData.interest}
+                onChange={(val) =>
+                  setFormData((prev) => ({ ...prev, interest: val }))
+                }
+                options={serviceOptions}
+              />
+            </div>
+
+            {/* Calendar-Specific Google Calendar Schedule Section */}
+            {activeTab === "calendar" && (
+              <div className="p-3 sm:p-4 bg-orange-50/70 rounded-2xl border border-[#C0622A]/30 space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-slate-900">
+                    Instant Google Calendar Confirmation (30 Min)
+                  </span>
+                  <span className="text-[9.5px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#C0622A] text-white">
+                    Free Session
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {/* Custom Brand Orange Date Picker */}
                   <div>
-                    <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-700 mb-1">
-                      Full Name <span className="text-[#C0622A]">*</span>
+                    <label className="block text-[10.5px] font-bold uppercase tracking-wider text-slate-700 mb-1">
+                      Choose Date
                     </label>
-                    <input
-                      type="text"
-                      name="name"
-                      required
-                      placeholder="Jane Smith"
-                      value={formData.name}
-                      onChange={handleChange}
-                      className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 focus:bg-white focus:border-[#C0622A] focus:outline-none transition-all"
+                    <CustomDatePicker
+                      value={formData.preferredDate}
+                      onChange={(val) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          preferredDate: val,
+                        }))
+                      }
+                      placeholder="Select Session Date"
                     />
                   </div>
 
+                  {/* Time Dropdown */}
                   <div>
-                    <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-700 mb-1">
-                      Work Email <span className="text-[#C0622A]">*</span>
+                    <label className="block text-[10.5px] font-bold uppercase tracking-wider text-slate-700 mb-1">
+                      Select Time (MST)
                     </label>
-                    <input
-                      type="email"
-                      name="email"
-                      required
-                      placeholder="jane@business.com"
-                      value={formData.email}
-                      onChange={handleChange}
-                      className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 focus:bg-white focus:border-[#C0622A] focus:outline-none transition-all"
+                    <CustomSelect
+                      name="preferredTime"
+                      value={formData.preferredTime}
+                      onChange={(val) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          preferredTime: val,
+                        }))
+                      }
+                      options={availableTimeSlots}
                     />
                   </div>
                 </div>
 
-                {/* 2-Column Row: Phone & Business Name */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-700 mb-1">
-                      Phone Number
-                    </label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      placeholder="480-779-9875"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 focus:bg-white focus:border-[#C0622A] focus:outline-none transition-all"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-700 mb-1">
-                      Business / Company Name
-                    </label>
-                    <input
-                      type="text"
-                      name="business"
-                      placeholder="Your Company LLC"
-                      value={formData.business}
-                      onChange={handleChange}
-                      className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 focus:bg-white focus:border-[#C0622A] focus:outline-none transition-all"
-                    />
-                  </div>
-                </div>
-
-                {/* Service Interest Selector */}
+                {/* Quick-Click Orange Time Slot Chips */}
                 <div>
-                  <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-700 mb-1">
-                    What do you need help with?
-                  </label>
-                  <CustomSelect
-                    name="interest"
-                    value={formData.interest}
-                    onChange={(val) =>
-                      setFormData((prev) => ({ ...prev, interest: val }))
-                    }
-                    options={serviceOptions}
-                  />
-                </div>
-
-                {/* Calendar-Specific Slot Pickers */}
-                {activeTab === "calendar" && (
-                  <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
-                    <div className="flex items-center gap-2 text-xs font-bold text-slate-800">
-                      <Clock className="w-4 h-4 text-[#C0622A]" />
-                      <span>Select Preferred Strategy Session Slot (30 Min)</span>
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      <div>
-                        <label className="block text-[10px] font-bold uppercase text-slate-500 mb-1">
-                          Date
-                        </label>
-                        <input
-                          type="date"
-                          name="preferredDate"
-                          value={formData.preferredDate}
-                          onChange={handleChange}
-                          className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs text-slate-800 focus:border-[#C0622A] focus:outline-none"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-[10px] font-bold uppercase text-slate-500 mb-1">
-                          Time (Mountain Standard Time)
-                        </label>
-                        <CustomSelect
-                          name="preferredTime"
-                          value={formData.preferredTime}
-                          onChange={(val) =>
+                  <div className="text-[9.5px] font-bold uppercase text-slate-600 mb-1">
+                    Or Pick A Quick Available Time:
+                  </div>
+                  <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5">
+                    {availableTimeSlots.map((slot) => {
+                      const isSelected = formData.preferredTime === slot;
+                      return (
+                        <button
+                          key={slot}
+                          type="button"
+                          onClick={() =>
                             setFormData((prev) => ({
                               ...prev,
-                              preferredTime: val,
+                              preferredTime: slot,
                             }))
                           }
-                          options={[
-                            "09:00 AM MST",
-                            "10:00 AM MST",
-                            "11:30 AM MST",
-                            "01:00 PM MST",
-                            "02:30 PM MST",
-                            "04:00 PM MST",
-                          ]}
-                        />
-                      </div>
-                    </div>
+                          className={`py-1 px-1 rounded-lg text-[10px] font-bold text-center transition-all cursor-pointer truncate ${
+                            isSelected
+                              ? "bg-[#C0622A] text-white shadow-xs font-black"
+                              : "bg-white text-slate-700 border border-orange-200/80 hover:border-[#C0622A] hover:bg-orange-50"
+                          }`}
+                        >
+                          {slot.replace(" MST", "")}
+                        </button>
+                      );
+                    })}
                   </div>
-                )}
-
-                {/* Message / Goals */}
-                <div>
-                  <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-700 mb-1">
-                    {activeTab === "ai-audit"
-                      ? "Tell us about your current tools or bottlenecks"
-                      : "Message / Goals"}
-                  </label>
-                  <textarea
-                    rows={3}
-                    name="message"
-                    placeholder="A few sentences about your business goals, timeline, or current challenges..."
-                    value={formData.message}
-                    onChange={handleChange}
-                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 focus:bg-white focus:border-[#C0622A] focus:outline-none transition-all resize-none"
-                  />
-                </div>
-
-                {/* Bottom Submit Action */}
-                <div className="pt-2">
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-[#C0622A] hover:bg-[#a84f1d] disabled:opacity-60 text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-sm active:translate-y-0.5"
-                  >
-                    {isSubmitting ? (
-                      <span>Sending Your Request...</span>
-                    ) : (
-                      <>
-                        <span>
-                          {activeTab === "calendar"
-                            ? "Confirm Strategy Session Booking →"
-                            : activeTab === "ai-audit"
-                            ? "Submit AI Audit Request →"
-                            : "Send Message / Start Project →"}
-                        </span>
-                        <ArrowRight className="w-4 h-4" />
-                      </>
-                    )}
-                  </button>
-                </div>
-              </form>
-
-              {/* Direct Quick Contact Bar */}
-              <div className="mt-5 pt-4 border-t border-slate-200 grid grid-cols-1 sm:grid-cols-3 gap-3 text-center sm:text-left">
-                <a
-                  href="tel:4807799875"
-                  className="flex items-center justify-center sm:justify-start gap-2 text-xs font-semibold text-slate-700 hover:text-[#C0622A] transition-colors"
-                >
-                  <Phone className="w-3.5 h-3.5 text-[#C0622A] shrink-0" />
-                  <span>(480) 779-9875</span>
-                </a>
-
-                <a
-                  href="mailto:care@relaunch.us"
-                  className="flex items-center justify-center sm:justify-start gap-2 text-xs font-semibold text-slate-700 hover:text-[#C0622A] transition-colors"
-                >
-                  <Mail className="w-3.5 h-3.5 text-[#2E8B7A] shrink-0" />
-                  <span>care@relaunch.us</span>
-                </a>
-
-                <div className="flex items-center justify-center sm:justify-start gap-2 text-xs text-slate-500">
-                  <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                  <span>Phoenix, AZ · Est. 2004</span>
                 </div>
               </div>
+            )}
+
+            {/* Message / Goals */}
+            <div>
+              <label className="block text-[10.5px] font-bold uppercase tracking-wider text-slate-700 mb-1">
+                {activeTab === "ai-audit"
+                  ? "Tell us about your current tools or bottlenecks"
+                  : "Message / Goals"}
+              </label>
+              <textarea
+                rows={2}
+                name="message"
+                placeholder="A few sentences about your business goals, timeline, or current challenges..."
+                value={formData.message}
+                onChange={handleChange}
+                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:bg-white focus:border-[#C0622A] focus:ring-2 focus:ring-[#C0622A]/15 focus:outline-none transition-all resize-none"
+              />
             </div>
-          </motion.div>
+
+            {/* Bottom Submit Action */}
+            <div className="pt-1">
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full flex items-center justify-center gap-2 px-5 py-3 bg-[#C0622A] hover:bg-[#a84f1d] disabled:opacity-60 text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md active:translate-y-0.5 cursor-pointer"
+              >
+                {isSubmitting ? (
+                  <span>Reserving Your Slot...</span>
+                ) : (
+                  <>
+                    <span>
+                      {activeTab === "calendar"
+                        ? "Confirm Google Calendar Session Booking"
+                        : activeTab === "ai-audit"
+                        ? "Submit AI Audit Request"
+                        : "Send Message / Start Project"}
+                    </span>
+                    <ArrowRight className="w-4 h-4" />
+                  </>
+                )}
+              </button>
+            </div>
+          </form>
+
+          {/* Direct Quick Contact Bar */}
+          <div className="mt-3.5 pt-3 border-t border-slate-200 grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-center sm:text-left">
+            <a
+              href="tel:4807799875"
+              className="flex items-center justify-center sm:justify-start gap-1.5 text-xs font-semibold text-slate-700 hover:text-[#C0622A] transition-colors"
+            >
+              <Phone className="w-3.5 h-3.5 text-[#C0622A] shrink-0" />
+              <span>(480) 779-9875</span>
+            </a>
+
+            <a
+              href="mailto:care@relaunch.us"
+              className="flex items-center justify-center sm:justify-start gap-1.5 text-xs font-semibold text-slate-700 hover:text-[#C0622A] transition-colors"
+            >
+              <Mail className="w-3.5 h-3.5 text-[#2E8B7A] shrink-0" />
+              <span>care@relaunch.us</span>
+            </a>
+
+            <div className="flex items-center justify-center sm:justify-start gap-1.5 text-xs text-slate-500">
+              <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+              <span>Phoenix, AZ · Est. 2004</span>
+            </div>
+          </div>
         </div>
-      )}
-    </AnimatePresence>
+      </div>
+    </div>
   );
 }

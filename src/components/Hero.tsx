@@ -187,7 +187,7 @@ export default function Hero() {
               {/* Top Control Bar */}
               <div className="flex items-center justify-between pb-3 border-b border-slate-800">
                 <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#C0622A] animate-pulse" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#C0622A]" />
                   <span className="font-heading font-bold text-xs uppercase tracking-widest text-white">
                     Live Client Showcase &amp; Stack
                   </span>
@@ -229,7 +229,7 @@ export default function Hero() {
                     <span>{currentSpotlight.displayUrl}</span>
                   </div>
                   <div className="flex items-center gap-1 text-[9px] font-mono text-emerald-400 font-bold uppercase">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                     <span>Live Build</span>
                   </div>
                 </div>

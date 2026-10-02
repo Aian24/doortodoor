@@ -151,7 +151,8 @@ export default function TwoHeroesSection() {
                 href={activeHero.ctaHref}
                 className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 bg-[#C0622A] hover:bg-[#a84f1d] text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl shadow-sm transition-all text-center active:translate-y-0.5"
               >
-                <span>{activeHero.ctaText} →</span>
+                <span>{activeHero.ctaText}</span>
+                <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
           </div>

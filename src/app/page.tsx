@@ -54,14 +54,12 @@ export default function Home() {
         <UnderDevelopmentSection
           id="bundle-builder"
           title="Interactive Bundle Builder & Live Savings Calculator"
-          subtitle="Our engineering team is currently calibrating the multi-service discount algorithm (10% to 20% bundle savings) and real-time proposal generator. This module is in active development for Sprint 2."
         />
 
         {/* 9. Sprint 2 Staged: ReLaunch Social Autopilot */}
         <UnderDevelopmentSection
           id="social"
           title="ReLaunch Social Autopilot Platform"
-          subtitle="The 5-platform automated distribution matrix (Instagram, TikTok, Facebook, LinkedIn, Google) and Track A / Track B client media workflows are in development for Sprint 2."
         />
 
         {/* 10. Case Studies & Proof Bento */}
@@ -71,7 +69,6 @@ export default function Home() {
         <UnderDevelopmentSection
           id="nis-grader"
           title="Free NIS Marketing Grader Diagnostic Tool"
-          subtitle="The 60-second interactive diagnostic engine based on our 4-layer selling framework is undergoing QA calibration and is scheduled for the Sprint 2 rollout."
         />
 
         {/* 12. Client Testimonials & Ratings */}

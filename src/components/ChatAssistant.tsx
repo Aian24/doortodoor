@@ -182,10 +182,9 @@ export default function ChatAssistant() {
               aria-label="Open ReLaunch AI Assistant"
               className="group relative flex items-center gap-2.5 px-4 py-3 bg-[#090D16] hover:bg-[#C0622A] text-white rounded-full shadow-2xl border border-slate-700/80 transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
             >
-              {/* Pulsing Status Dot */}
-              <span className="relative flex h-3 w-3">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#C0622A] opacity-75" />
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-[#C0622A]" />
+              {/* Clean Status Dot */}
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#C0622A]" />
               </span>
 
               <Bot className="w-5 h-5 text-[#C0622A] group-hover:text-white transition-colors" />

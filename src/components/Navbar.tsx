@@ -207,9 +207,10 @@ export default function Navbar() {
                   setMobileMenuOpen(false);
                   openContactModal({ intent: "strategy-session" });
                 }}
-                className="w-full text-center py-3 bg-[#C0622A] text-white text-xs font-bold uppercase tracking-wider rounded-xl shadow-sm whitespace-nowrap"
+                className="w-full flex items-center justify-center gap-1.5 py-3 bg-[#C0622A] text-white text-xs font-bold uppercase tracking-wider rounded-xl shadow-sm whitespace-nowrap"
               >
-                Book a Call →
+                <span>Book a Call</span>
+                <ArrowUpRight className="w-3.5 h-3.5" />
               </button>
             </div>
           </motion.div>
