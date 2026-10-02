@@ -17,7 +17,6 @@ import {
   CheckCircle2,
   ArrowUpRight,
   ArrowRight,
-  Sparkles,
   X,
   Zap,
 } from "lucide-react";
@@ -62,7 +61,7 @@ export default function ServicesBento() {
         >
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-[#C0622A] text-[10px] font-mono font-bold uppercase tracking-widest mb-3">
-              <Sparkles className="w-3 h-3 text-[#C0622A]" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C0622A]" />
               <span>EVERYTHING UNDER ONE ROOF</span>
             </div>
             <h2 className="font-heading font-black text-3xl sm:text-5xl lg:text-6xl text-[#090D16] tracking-tight leading-[1.05]">
@@ -274,7 +273,7 @@ export default function ServicesBento() {
               {/* Deliverables Breakdown */}
               <div>
                 <h4 className="font-heading font-bold text-xs uppercase tracking-wider text-slate-900 mb-3 flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-[#C0622A]" />
+                  <CheckCircle2 className="w-4 h-4 text-[#C0622A]" />
                   <span>Deliverables &amp; Scope Included:</span>
                 </h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">

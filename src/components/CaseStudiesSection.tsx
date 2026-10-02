@@ -9,7 +9,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowUpRight,
   ArrowRight,
-  Sparkles,
   Layers,
   CheckCircle2,
   ExternalLink,
@@ -82,7 +81,7 @@ export default function CaseStudiesSection() {
         >
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-[#C0622A] text-[10px] font-mono font-bold uppercase tracking-widest mb-3">
-              <Sparkles className="w-3 h-3 text-[#C0622A]" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#C0622A]" />
               <span>FEATURED WORK &amp; CLIENT PROOF</span>
             </div>
             <h2 className="font-heading font-black text-3xl sm:text-5xl lg:text-6xl text-[#090D16] tracking-tight leading-[1.05]">
@@ -282,7 +281,7 @@ export default function CaseStudiesSection() {
             <div className="bg-[#090D16] text-white p-5 sm:p-6 flex items-start justify-between border-b border-slate-800">
               <div>
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-[#C0622A] text-[10px] font-mono font-bold uppercase tracking-widest mb-2">
-                  <Sparkles className="w-3 h-3 text-[#C0622A]" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#C0622A]" />
                   <span>Case Study Showcase</span>
                 </div>
                 <h3 className="font-heading font-black text-2xl sm:text-3xl text-white tracking-tight">

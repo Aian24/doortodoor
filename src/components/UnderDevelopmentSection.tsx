@@ -2,7 +2,7 @@
 
 import React from "react";
 import MotionWrapper from "./MotionWrapper";
-import { Construction, Sparkles, Clock, ArrowRight } from "lucide-react";
+import { Construction, Clock, ArrowRight } from "lucide-react";
 import { useContactModal } from "@/context/ContactModalContext";
 
 interface UnderDevelopmentProps {
