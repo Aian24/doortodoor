@@ -175,20 +175,20 @@ export default function ChatAssistant() {
             exit={{ opacity: 0, scale: 0.8, y: 10 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
             style={{ willChange: "transform, opacity", transform: "translateZ(0)" }}
-            className="fixed bottom-6 right-6 z-50"
+            className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50"
           >
             <button
               onClick={() => setIsOpen(true)}
               aria-label="Open ReLaunch AI Assistant"
-              className="group relative flex items-center gap-2.5 px-4 py-3 bg-[#090D16] hover:bg-[#C0622A] text-white rounded-full shadow-2xl border border-slate-700/80 transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+              className="group relative flex items-center gap-2 sm:gap-2.5 px-3.5 py-2.5 sm:px-4 sm:py-3 bg-[#090D16] hover:bg-[#C0622A] text-white rounded-full shadow-2xl border border-slate-700/80 transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
             >
               {/* Clean Status Dot */}
-              <span className="relative flex h-2.5 w-2.5">
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#C0622A]" />
+              <span className="relative flex h-2 sm:h-2.5 w-2 sm:w-2.5">
+                <span className="relative inline-flex rounded-full h-2 sm:h-2.5 w-2 sm:w-2.5 bg-[#C0622A]" />
               </span>
 
-              <Bot className="w-5 h-5 text-[#C0622A] group-hover:text-white transition-colors" />
-              <span className="font-heading font-bold text-xs uppercase tracking-wider pr-1">
+              <Bot className="w-4 h-4 sm:w-5 sm:h-5 text-[#C0622A] group-hover:text-white transition-colors" />
+              <span className="font-heading font-bold text-[11px] sm:text-xs uppercase tracking-wider pr-0.5 sm:pr-1">
                 ReLaunch AI
               </span>
 

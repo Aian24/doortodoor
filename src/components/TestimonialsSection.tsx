@@ -2,6 +2,7 @@
 
 import { testimonialsData } from "@/data/testimonials";
 import MotionWrapper from "./MotionWrapper";
+import SpotlightCard from "./SpotlightCard";
 import { Star } from "lucide-react";
 
 export default function TestimonialsSection() {
@@ -29,36 +30,40 @@ export default function TestimonialsSection() {
               direction="up"
               delay={idx * 0.08}
               distance={16}
-              className="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between relative hover:shadow-md transition-all duration-200"
             >
-              <div>
-                {/* 5 Stars */}
-                <div className="flex items-center gap-1 text-[#C0622A] mb-3">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-3.5 h-3.5 fill-[#C0622A] stroke-[#C0622A]" />
-                  ))}
-                </div>
-
-                <blockquote className="text-xs sm:text-sm text-slate-700 leading-relaxed font-normal italic mb-4">
-                  &ldquo;{testi.quote}&rdquo;
-                </blockquote>
-              </div>
-
-              {/* Author Info */}
-              <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
+              <SpotlightCard
+                spotlightColor="rgba(192, 98, 42, 0.12)"
+                className="bg-white p-5 sm:p-6 rounded-2xl border border-slate-200 shadow-xs flex flex-col justify-between relative hover:shadow-xl transition-all duration-300 h-full"
+              >
                 <div>
-                  <div className="font-heading font-bold text-xs sm:text-sm text-[#090D16]">
-                    {testi.name}
+                  {/* 5 Stars */}
+                  <div className="flex items-center gap-1 text-[#C0622A] mb-3">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-3.5 h-3.5 fill-[#C0622A] stroke-[#C0622A]" />
+                    ))}
                   </div>
-                  <div className="text-[11px] text-slate-400">
-                    {testi.company}
-                  </div>
+
+                  <blockquote className="text-xs sm:text-sm text-slate-700 leading-relaxed font-normal italic mb-4">
+                    &ldquo;{testi.quote}&rdquo;
+                  </blockquote>
                 </div>
 
-                <span className="text-[10px] font-semibold text-[#C0622A] bg-orange-50 px-2 py-0.5 rounded-full border border-[#C0622A]/20">
-                  {testi.serviceUsed}
-                </span>
-              </div>
+                {/* Author Info */}
+                <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
+                  <div>
+                    <div className="font-heading font-bold text-xs sm:text-sm text-[#090D16]">
+                      {testi.name}
+                    </div>
+                    <div className="text-[11px] text-slate-400">
+                      {testi.company}
+                    </div>
+                  </div>
+
+                  <span className="text-[10px] font-semibold text-[#C0622A] bg-orange-50 px-2 py-0.5 rounded-full border border-[#C0622A]/20">
+                    {testi.serviceUsed}
+                  </span>
+                </div>
+              </SpotlightCard>
             </MotionWrapper>
           ))}
         </div>

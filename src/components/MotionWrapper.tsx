@@ -40,13 +40,13 @@ export default function MotionWrapper({
 
   return (
     <motion.div
-      initial={{ opacity: 0, ...initialOffset }}
-      whileInView={{ opacity: 1, x: 0, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
+      initial={{ opacity: 0, scale: 0.97, ...initialOffset }}
+      whileInView={{ opacity: 1, scale: 1, x: 0, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
       transition={{
         duration,
         delay,
-        ease: [0.25, 0.46, 0.45, 0.94],
+        ease: [0.16, 1, 0.3, 1],
       }}
       className={className}
       {...props}

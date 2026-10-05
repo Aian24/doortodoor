@@ -5,6 +5,7 @@ import Link from "next/link";
 import { twoHeroesData } from "@/data/sellingFramework";
 import { motion, AnimatePresence } from "framer-motion";
 import MotionWrapper from "./MotionWrapper";
+import SpotlightCard from "./SpotlightCard";
 import {
   Store,
   Layers,
@@ -66,96 +67,118 @@ export default function TwoHeroesSection() {
           </div>
         </MotionWrapper>
 
-        {/* Comparison Card with Scroll Reveal */}
+        {/* Comparison Card with Scroll Reveal & Animated Tab Switch */}
         <MotionWrapper direction="up" delay={0.2} className="bg-white rounded-2xl sm:rounded-3xl border border-slate-200 shadow-xl overflow-hidden w-full">
-          <div className="bg-[#090D16] text-white p-6 sm:p-7 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800">
-            <div>
-              <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-[#C0622A] text-white">
-                {activeHero.badge}
-              </span>
-              <h3 className="font-heading font-black text-xl sm:text-3xl text-white mt-2">
-                {activeHero.title}
-              </h3>
-              <p className="text-xs text-slate-300 mt-0.5">
-                {activeHero.subtitle} · {activeHero.targetExamples}
-              </p>
-            </div>
-
-            <div className="sm:text-right">
-              <span className="text-[10px] uppercase tracking-widest text-[#C0622A] font-bold block mb-0.5">
-                Primary Goal
-              </span>
-              <span className="font-heading font-black text-base sm:text-lg text-white">
-                {activeHero.primaryDesire}
-              </span>
-            </div>
-          </div>
-
-          <div className="p-5 sm:p-7 grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
-            <div className="space-y-3">
-              <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-200">
-                <div className="flex items-center gap-2 text-slate-900 font-heading font-bold text-xs uppercase tracking-wider mb-1">
-                  <AlertCircle className="w-4 h-4 text-[#C0622A]" />
-                  <span>The External Problem</span>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeHero.id}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.25, ease: "easeInOut" }}
+            >
+              <div className="bg-[#090D16] text-white p-6 sm:p-7 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800">
+                <div>
+                  <span className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-[#C0622A] text-white shadow-xs">
+                    {activeHero.badge}
+                  </span>
+                  <h3 className="font-heading font-black text-2xl sm:text-3xl lg:text-4xl text-white mt-2">
+                    {activeHero.title}
+                  </h3>
+                  <p className="text-xs text-slate-300 mt-0.5">
+                    {activeHero.subtitle} · {activeHero.targetExamples}
+                  </p>
                 </div>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                  {activeHero.externalProblem}
-                </p>
+
+                <div className="sm:text-right">
+                  <span className="text-[10px] uppercase tracking-widest text-[#C0622A] font-bold block mb-0.5">
+                    Primary Goal
+                  </span>
+                  <span className="font-heading font-black text-base sm:text-xl text-white">
+                    {activeHero.primaryDesire}
+                  </span>
+                </div>
               </div>
 
-              <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200">
-                <div className="flex items-center gap-2 text-slate-900 font-heading font-bold text-xs uppercase tracking-wider mb-1">
-                  <AlertCircle className="w-4 h-4 text-[#C0622A]" />
-                  <span>The Internal Frustration</span>
+              <div className="p-5 sm:p-7 grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+                <div className="space-y-3">
+                  <SpotlightCard
+                    spotlightColor="rgba(192, 98, 42, 0.1)"
+                    className="p-4 bg-slate-50 rounded-2xl border border-slate-200 hover:border-slate-300 transition-colors"
+                  >
+                    <div className="flex items-center gap-2 text-slate-900 font-heading font-bold text-xs uppercase tracking-wider mb-1">
+                      <AlertCircle className="w-4 h-4 text-[#C0622A]" />
+                      <span>The External Problem</span>
+                    </div>
+                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                      {activeHero.externalProblem}
+                    </p>
+                  </SpotlightCard>
+
+                  <SpotlightCard
+                    spotlightColor="rgba(192, 98, 42, 0.1)"
+                    className="p-4 bg-slate-50 rounded-2xl border border-slate-200 hover:border-slate-300 transition-colors"
+                  >
+                    <div className="flex items-center gap-2 text-slate-900 font-heading font-bold text-xs uppercase tracking-wider mb-1">
+                      <AlertCircle className="w-4 h-4 text-[#C0622A]" />
+                      <span>The Internal Frustration</span>
+                    </div>
+                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                      {activeHero.internalProblem}
+                    </p>
+                  </SpotlightCard>
+
+                  <SpotlightCard
+                    spotlightColor="rgba(192, 98, 42, 0.1)"
+                    className="p-4 bg-slate-50 rounded-2xl border border-slate-200 hover:border-slate-300 transition-colors"
+                  >
+                    <div className="flex items-center gap-2 text-slate-900 font-heading font-bold text-xs uppercase tracking-wider mb-1">
+                      <TrendingDown className="w-4 h-4 text-[#C0622A]" />
+                      <span>What Is At Stake</span>
+                    </div>
+                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                      {activeHero.whatIsAtStake}
+                    </p>
+                  </SpotlightCard>
                 </div>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                  {activeHero.internalProblem}
-                </p>
-              </div>
 
-              <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200">
-                <div className="flex items-center gap-2 text-slate-900 font-heading font-bold text-xs uppercase tracking-wider mb-1">
-                  <TrendingDown className="w-4 h-4 text-[#C0622A]" />
-                  <span>What Is At Stake</span>
-                </div>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                  {activeHero.whatIsAtStake}
-                </p>
-              </div>
-            </div>
+                <SpotlightCard
+                  spotlightColor="rgba(46, 139, 122, 0.15)"
+                  className="bg-slate-50 p-6 sm:p-7 rounded-2xl border border-slate-200 flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="flex items-center gap-2 text-[#C0622A] font-heading font-bold text-xs uppercase tracking-wider mb-3">
+                      <CheckCircle2 className="w-5 h-5 text-[#C0622A]" />
+                      <span>What Success Looks Like</span>
+                    </div>
 
-            <div className="bg-slate-50 p-7 rounded-2xl border border-slate-200 flex flex-col justify-between">
-              <div>
-                <div className="flex items-center gap-2 text-[#C0622A] font-heading font-bold text-xs uppercase tracking-wider mb-3">
-                  <CheckCircle2 className="w-5 h-5 text-[#C0622A]" />
-                  <span>What Success Looks Like</span>
-                </div>
+                    <p className="font-heading font-black text-xl sm:text-2xl text-[#090D16] mb-5 leading-snug">
+                      &ldquo;{activeHero.successLooksLike}&rdquo;
+                    </p>
 
-                <p className="font-heading font-black text-xl sm:text-2xl text-[#090D16] mb-5 leading-snug">
-                  &ldquo;{activeHero.successLooksLike}&rdquo;
-                </p>
-
-                <div className="space-y-2.5 mb-6 text-xs text-slate-600">
-                  <div className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-[#C0622A] mt-0.5 shrink-0" />
-                    <span>Engineered on the 4-layer selling framework (SB7, Hero&apos;s Journey, Draper)</span>
+                    <div className="space-y-2.5 mb-6 text-xs text-slate-600">
+                      <div className="flex items-start gap-2">
+                        <Check className="w-4 h-4 text-[#C0622A] mt-0.5 shrink-0" />
+                        <span>Engineered on the 4-layer selling framework (SB7, Hero&apos;s Journey, Draper)</span>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <Check className="w-4 h-4 text-[#C0622A] mt-0.5 shrink-0" />
+                        <span>Single flexible monthly subscription — pause or cancel anytime</span>
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-[#C0622A] mt-0.5 shrink-0" />
-                    <span>Single flexible monthly subscription — pause or cancel anytime</span>
-                  </div>
-                </div>
-              </div>
 
-              <Link
-                href={activeHero.ctaHref}
-                className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 bg-[#C0622A] hover:bg-[#a84f1d] text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl shadow-sm transition-all text-center active:translate-y-0.5"
-              >
-                <span>{activeHero.ctaText}</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-            </div>
-          </div>
+                  <Link
+                    href={activeHero.ctaHref}
+                    className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 bg-[#C0622A] hover:bg-[#a84f1d] text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl shadow-sm transition-all text-center active:translate-y-0.5 hover:scale-[1.02]"
+                  >
+                    <span>{activeHero.ctaText}</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </SpotlightCard>
+              </div>
+            </motion.div>
+          </AnimatePresence>
         </MotionWrapper>
       </div>
     </section>

@@ -16,7 +16,7 @@ export default function ReLaunchSocialSection() {
   );
 
   return (
-    <section id="social" className="py-14 sm:py-16 bg-[#090D16] text-white border-b border-slate-800 select-none scroll-mt-20">
+    <section id="relaunch-social" className="py-14 sm:py-16 bg-[#090D16] text-white border-b border-slate-800 select-none scroll-mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Top Header */}
         <MotionWrapper direction="up" distance={20} className="text-center max-w-3xl mx-auto mb-8 sm:mb-10">

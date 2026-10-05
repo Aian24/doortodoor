@@ -5,6 +5,7 @@ import Image from "next/image";
 import { caseStudiesData, clientLogos, CaseStudy } from "@/data/caseStudies";
 import { useContactModal } from "@/context/ContactModalContext";
 import MotionWrapper from "./MotionWrapper";
+import SpotlightCard from "./SpotlightCard";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowUpRight,
@@ -120,8 +121,9 @@ export default function CaseStudiesSection() {
               delay={idx * 0.05}
               distance={16}
             >
-              <div
+              <SpotlightCard
                 onClick={() => setActiveStudy(study)}
+                spotlightColor="rgba(192, 98, 42, 0.12)"
                 className="group bg-white rounded-2xl sm:rounded-3xl border border-slate-200 shadow-sm hover:shadow-2xl hover:border-[#C0622A]/60 transition-all duration-300 hover:-translate-y-1.5 cursor-pointer flex flex-col h-full overflow-hidden"
               >
                 {/* Browser Mockup Window Header */}
@@ -216,7 +218,7 @@ export default function CaseStudiesSection() {
                     </div>
                   </div>
                 </div>
-              </div>
+              </SpotlightCard>
             </MotionWrapper>
           ))}
         </div>

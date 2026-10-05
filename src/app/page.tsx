@@ -16,27 +16,28 @@ import ScrollToTop from "@/components/ScrollToTop";
 import ChatAssistant from "@/components/ChatAssistant";
 import { ContactModalProvider } from "@/context/ContactModalContext";
 import ContactModal from "@/components/ContactModal";
-import UnderDevelopmentSection from "@/components/UnderDevelopmentSection";
-import { Calculator, Share2, BarChart3 } from "lucide-react";
-
-// NOTE FOR SPRINT 2: When ready to unlock full interactive Phase 2 tools,
-// simply import the original components:
-// import BundleCalculator from "@/components/BundleCalculator";
-// import ReLaunchSocialSection from "@/components/ReLaunchSocialSection";
-// import NisGraderSection from "@/components/NisGraderSection";
+import SmoothScrollProvider from "@/components/SmoothScrollProvider";
+import GlobalScrollHUD from "@/components/GlobalScrollHUD";
+import BundleCalculator from "@/components/BundleCalculator";
+import ReLaunchSocialSection from "@/components/ReLaunchSocialSection";
+import NisGraderSection from "@/components/NisGraderSection";
 
 export default function Home() {
   return (
     <ContactModalProvider>
-      <main className="min-h-screen flex flex-col bg-white pt-20">
-        {/* 1. Fast Video Preloader */}
-        <Preloader />
+      <SmoothScrollProvider>
+        <main className="min-h-screen flex flex-col bg-[#090D16]">
+          {/* 1. Fast Video Preloader */}
+          <Preloader />
 
-        {/* 2. Fixed Navigation Header */}
-        <Navbar />
+          {/* 2. Fixed Navigation Header */}
+          <Navbar />
 
-        {/* 3. Hero Section (Headline, Value Prop, Live Counters) */}
-        <Hero />
+          {/* 3. Global Interactive Scroll Progress & Section Radar */}
+          <GlobalScrollHUD />
+
+          {/* 4. Hero Section (Headline, Value Prop, Live Counters) */}
+          <Hero />
 
         {/* 4. Strategic Persona Matcher ("Which Door Fits You?") */}
         <TwoHeroesSection />
@@ -50,26 +51,17 @@ export default function Home() {
         {/* 7. The ReLaunch Method (4-Layer Selling Framework & Process) */}
         <SellingMethodSection />
 
-        {/* 8. Sprint 2 Staged: Interactive Bundle Builder */}
-        <UnderDevelopmentSection
-          id="bundle-builder"
-          title="Interactive Bundle Builder & Live Savings Calculator"
-        />
+        {/* 8. Interactive Bundle Builder & Live Savings Calculator */}
+        <BundleCalculator />
 
-        {/* 9. Sprint 2 Staged: ReLaunch Social Autopilot */}
-        <UnderDevelopmentSection
-          id="social"
-          title="ReLaunch Social Autopilot Platform"
-        />
+        {/* 9. ReLaunch Social Autopilot Platform */}
+        <ReLaunchSocialSection />
 
         {/* 10. Case Studies & Proof Bento */}
         <CaseStudiesSection />
 
-        {/* 11. Sprint 2 Staged: Free NIS Marketing Grader */}
-        <UnderDevelopmentSection
-          id="nis-grader"
-          title="Free NIS Marketing Grader Diagnostic Tool"
-        />
+        {/* 11. Free NIS Marketing Grader Diagnostic Tool */}
+        <NisGraderSection />
 
         {/* 12. Client Testimonials & Ratings */}
         <TestimonialsSection />
@@ -92,7 +84,8 @@ export default function Home() {
         {/* 18. Global Contact & Strategy Session Modal */}
         <ContactModal />
       </main>
-    </ContactModalProvider>
-  );
+    </SmoothScrollProvider>
+  </ContactModalProvider>
+);
 }
 

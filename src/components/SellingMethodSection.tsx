@@ -2,6 +2,7 @@
 
 import { sellingFrameworkLayers, threeStepPlan } from "@/data/sellingFramework";
 import MotionWrapper from "./MotionWrapper";
+import SpotlightCard from "./SpotlightCard";
 import { CheckCircle2 } from "lucide-react";
 
 export default function SellingMethodSection() {
@@ -22,7 +23,7 @@ export default function SellingMethodSection() {
           </p>
         </MotionWrapper>
 
-        {/* 4 Layers Grid */}
+        {/* 4 Layers Grid with Staggered Scroll Reveal */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 mb-8 sm:mb-10">
           {sellingFrameworkLayers.map((layer, idx) => (
             <MotionWrapper
@@ -30,44 +31,53 @@ export default function SellingMethodSection() {
               direction="up"
               delay={idx * 0.05}
               distance={16}
-              className="bg-slate-50 p-5 sm:p-6 rounded-2xl border border-slate-200 flex flex-col justify-between hover:shadow-md transition-all"
             >
-              <div>
-                <div className="flex items-center justify-between mb-3">
-                  <span
-                    className="font-heading font-black text-lg px-2.5 py-0.5 rounded-full text-white shadow-xs"
-                    style={{ backgroundColor: layer.color }}
-                  >
-                    {layer.weightPercent}
-                  </span>
-                  <span className="font-mono text-xs font-bold text-slate-400">
-                    Layer 0{idx + 1}
-                  </span>
+              <SpotlightCard
+                spotlightColor="rgba(192, 98, 42, 0.12)"
+                className="bg-slate-50 p-5 sm:p-6 rounded-2xl border border-slate-200/90 flex flex-col justify-between hover:shadow-xl hover:border-[#C0622A]/40 transition-all duration-300 hover:-translate-y-1 relative overflow-hidden group h-full"
+              >
+                <div className="absolute top-0 left-0 right-0 h-1 bg-transparent group-hover:bg-[#C0622A] transition-colors" />
+
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <span
+                      className="font-heading font-black text-lg px-2.5 py-0.5 rounded-full text-white shadow-xs group-hover:scale-105 transition-transform"
+                      style={{ backgroundColor: layer.color }}
+                    >
+                      {layer.weightPercent}
+                    </span>
+                    <span className="font-mono text-xs font-bold text-slate-400 group-hover:text-[#C0622A] transition-colors">
+                      Layer 0{idx + 1}
+                    </span>
+                  </div>
+
+                  <h3 className="font-heading font-bold text-base text-[#090D16] mb-1.5 group-hover:text-[#C0622A] transition-colors">
+                    {layer.layer}
+                  </h3>
+                  <p className="text-xs text-slate-600 leading-relaxed mb-4 font-normal">
+                    {layer.role}
+                  </p>
                 </div>
 
-                <h3 className="font-heading font-bold text-base text-[#090D16] mb-1.5">
-                  {layer.layer}
-                </h3>
-                <p className="text-xs text-slate-600 leading-relaxed mb-4 font-normal">
-                  {layer.role}
-                </p>
-              </div>
-
-              <div className="pt-3 border-t border-slate-200">
-                <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 block mb-0.5">
-                  Where It Applies:
-                </span>
-                <span className="text-xs font-semibold text-slate-800">
-                  {layer.whereItApplies}
-                </span>
-              </div>
+                <div className="pt-3 border-t border-slate-200">
+                  <span className="text-[10px] font-mono uppercase font-bold tracking-wider text-slate-400 block mb-0.5">
+                    Where It Applies:
+                  </span>
+                  <span className="text-xs font-semibold text-slate-800">
+                    {layer.whereItApplies}
+                  </span>
+                </div>
+              </SpotlightCard>
             </MotionWrapper>
           ))}
         </div>
 
         {/* Ironclad Standard Box */}
         <MotionWrapper direction="up" delay={0.15} className="w-full mb-8 sm:mb-10">
-          <div className="p-6 sm:p-8 bg-[#090D16] text-white rounded-2xl sm:rounded-3xl text-center shadow-xl border border-slate-800 max-w-5xl mx-auto">
+          <SpotlightCard
+            spotlightColor="rgba(192, 98, 42, 0.2)"
+            className="p-6 sm:p-8 bg-[#090D16] text-white rounded-2xl sm:rounded-3xl text-center shadow-xl border border-slate-800 max-w-5xl mx-auto"
+          >
             <span className="text-xs font-mono uppercase tracking-widest text-[#C0622A] font-bold mb-2 block">
               OUR IRONCLAD PRODUCTION STANDARD
             </span>
@@ -77,7 +87,7 @@ export default function SellingMethodSection() {
             <p className="text-xs text-slate-400 font-medium">
               — ReLaunch Operating Principle since 2004 · Phoenix, Arizona
             </p>
-          </div>
+          </SpotlightCard>
         </MotionWrapper>
 
         {/* 3-Step Execution Plan */}
@@ -97,25 +107,29 @@ export default function SellingMethodSection() {
                 key={step.stepNumber}
                 direction="up"
                 delay={index * 0.08}
-                className="bg-slate-50 p-5 sm:p-6 rounded-2xl border border-slate-200 relative flex flex-col justify-between"
               >
-                <div>
-                  <div className="w-8 h-8 rounded-full bg-[#090D16] text-white flex items-center justify-center font-heading font-black text-xs mb-3 shadow-xs">
-                    {step.stepNumber}
+                <SpotlightCard
+                  spotlightColor="rgba(46, 139, 122, 0.12)"
+                  className="bg-slate-50 p-5 sm:p-6 rounded-2xl border border-slate-200 relative flex flex-col justify-between h-full"
+                >
+                  <div>
+                    <div className="w-8 h-8 rounded-full bg-[#090D16] text-white flex items-center justify-center font-heading font-black text-xs mb-3 shadow-xs">
+                      {step.stepNumber}
+                    </div>
+
+                    <h4 className="font-heading font-bold text-base text-[#090D16] mb-1.5">
+                      {step.title}
+                    </h4>
+
+                    <p className="text-xs text-slate-600 leading-relaxed mb-3">
+                      {step.description}
+                    </p>
                   </div>
 
-                  <h4 className="font-heading font-bold text-base text-[#090D16] mb-1.5">
-                    {step.title}
-                  </h4>
-
-                  <p className="text-xs text-slate-600 leading-relaxed mb-3">
-                    {step.description}
-                  </p>
-                </div>
-
-                <div className="text-[11px] text-[#C0622A] font-semibold bg-white p-2.5 rounded-xl border border-slate-200">
-                  {step.detail}
-                </div>
+                  <div className="text-[11px] text-[#C0622A] font-semibold bg-white p-2.5 rounded-xl border border-slate-200">
+                    {step.detail}
+                  </div>
+                </SpotlightCard>
               </MotionWrapper>
             ))}
           </div>
