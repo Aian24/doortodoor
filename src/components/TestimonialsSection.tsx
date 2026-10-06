@@ -7,7 +7,7 @@ import { Star } from "lucide-react";
 
 export default function TestimonialsSection() {
   return (
-    <section id="testimonials" className="py-14 sm:py-16 bg-slate-50 border-b border-slate-200 select-none scroll-mt-20">
+    <section id="testimonials" className="py-14 sm:py-16 bg-slate-50 border-b border-slate-200 select-none scroll-mt-20 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <MotionWrapper direction="up" distance={20} className="text-center max-w-3xl mx-auto mb-6 sm:mb-8">
@@ -27,9 +27,9 @@ export default function TestimonialsSection() {
           {testimonialsData.map((testi, idx) => (
             <MotionWrapper
               key={testi.id}
-              direction="up"
-              delay={idx * 0.08}
-              distance={16}
+              direction="left"
+              delay={idx * 0.12}
+              distance={50}
             >
               <SpotlightCard
                 spotlightColor="rgba(192, 98, 42, 0.12)"

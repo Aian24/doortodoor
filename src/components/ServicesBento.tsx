@@ -1,27 +1,28 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { servicesData, ServiceItem } from "@/data/services";
 import { useContactModal } from "@/context/ContactModalContext";
+import { useScrollContext } from "./SmoothScrollProvider";
 import MotionWrapper from "./MotionWrapper";
 import SpotlightCard from "./SpotlightCard";
+import Service3DVisual from "./Service3DVisual";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Megaphone,
   Palette,
   Cpu,
   Code2,
-  Video,
-  Mail,
-  Layers,
-  BarChart3,
+  Film,
+  MailCheck,
+  Database,
+  Compass,
   CheckCircle2,
   ArrowUpRight,
   ArrowRight,
   Check,
   X,
   Zap,
-  ShieldCheck,
   Clock,
 } from "lucide-react";
 
@@ -30,18 +31,49 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Palette,
   Cpu,
   Code2,
-  Video,
-  Mail,
-  Layers,
-  BarChart3,
+  Film,
+  MailCheck,
+  Database,
+  Compass,
+  Video: Film,
+  Mail: MailCheck,
+  Layers: Database,
+  BarChart3: Compass,
 };
 
 type CategoryFilter = "All" | "Core Marketing" | "Advanced Tech" | "Strategy & Creative";
 
 export default function ServicesBento() {
   const { openContactModal } = useContactModal();
+  const { stopScroll, startScroll } = useScrollContext();
   const [selectedService, setSelectedService] = useState<ServiceItem | null>(null);
   const [activeCategory, setActiveCategory] = useState<CategoryFilter>("All");
+
+  // Lock background body scroll and pause Lenis momentum scroll when modal is open
+  useEffect(() => {
+    if (selectedService) {
+      stopScroll();
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === "Escape") {
+          setSelectedService(null);
+        }
+      };
+      window.addEventListener("keydown", handleKeyDown);
+      return () => {
+        startScroll();
+        document.body.style.overflow = "";
+        document.documentElement.style.overflow = "";
+        window.removeEventListener("keydown", handleKeyDown);
+      };
+    } else {
+      startScroll();
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    }
+  }, [selectedService, stopScroll, startScroll]);
 
   // Filter services by category
   const filteredServices = useMemo(() => {
@@ -93,7 +125,7 @@ export default function ServicesBento() {
 
           <div className="flex flex-col items-start lg:items-end gap-3 max-w-md">
             <p className="text-slate-600 text-xs sm:text-sm leading-relaxed font-normal text-left lg:text-right">
-              Explore our eight specialized marketing, creative, and software capabilities. Every project is executed by senior US tech and creative engineers.
+              Explore our eight specialized marketing, creative, and software capabilities. Every capability features interactive 3D spatial models and verified deliverables.
             </p>
             <button
               type="button"
@@ -107,7 +139,7 @@ export default function ServicesBento() {
         </MotionWrapper>
 
         {/* ========================================================================= */}
-        {/* CATEGORY FILTER TABS (STRICT WHITESPACE-NOWRAP)                           */}
+        {/* CATEGORY FILTER TABS                                                      */}
         {/* ========================================================================= */}
         <div className="flex items-center justify-between gap-4 mb-8 pb-2 overflow-x-auto scrollbar-none border-b border-slate-200">
           <div className="flex items-center gap-2">
@@ -145,7 +177,7 @@ export default function ServicesBento() {
         </div>
 
         {/* ========================================================================= */}
-        {/* 8-CARD CLEAN WHITE BENTO GRID                                             */}
+        {/* 8-CARD BENTO GRID WITH 3D SPATIAL VISUALS                                 */}
         {/* ========================================================================= */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
           {filteredServices.map((service, idx) => {
@@ -154,23 +186,23 @@ export default function ServicesBento() {
             return (
               <MotionWrapper
                 key={service.id}
-                direction="up"
-                delay={idx * 0.04}
-                distance={14}
+                direction="left"
+                delay={idx * 0.08}
+                distance={40}
                 className="h-full"
               >
                 <SpotlightCard
                   onClick={() => setSelectedService(service)}
                   spotlightColor="rgba(192, 98, 42, 0.08)"
-                  className="group bg-slate-50/70 hover:bg-white rounded-3xl p-6 border border-slate-200/90 hover:border-[#C0622A]/60 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between h-full cursor-pointer relative overflow-hidden"
+                  className="group bg-slate-50/70 hover:bg-white rounded-3xl p-5 sm:p-6 border border-slate-200/90 hover:border-[#C0622A]/60 shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between h-full cursor-pointer relative overflow-hidden"
                 >
                   {/* Top Accent Hover Line */}
                   <div className="absolute top-0 left-0 right-0 h-1 bg-transparent group-hover:bg-[#C0622A] transition-colors" />
 
                   <div>
                     {/* Header Row: Icon, Service Number & Badges */}
-                    <div className="flex items-center justify-between gap-2 mb-4">
-                      <div className="w-11 h-11 rounded-2xl bg-white border border-slate-200 group-hover:border-[#C0622A]/40 text-[#090D16] group-hover:bg-[#090D16] group-hover:text-[#C0622A] flex items-center justify-center transition-all duration-300 group-hover:scale-110 shadow-xs shrink-0">
+                    <div className="flex items-center justify-between gap-2 mb-3">
+                      <div className="w-10 h-10 rounded-2xl bg-white border border-slate-200 group-hover:border-[#C0622A]/40 text-[#090D16] group-hover:bg-[#090D16] group-hover:text-[#C0622A] flex items-center justify-center transition-all duration-300 group-hover:scale-110 shadow-xs shrink-0">
                         <IconComponent className="w-5 h-5 shrink-0" />
                       </div>
 
@@ -186,44 +218,51 @@ export default function ServicesBento() {
                       </div>
                     </div>
 
+                    {/* Interactive 3D Spatial Visual Box */}
+                    <Service3DVisual
+                      serviceId={service.id}
+                      category={service.category}
+                      className="w-full h-32 mb-4"
+                    />
+
                     {/* Category Label */}
                     <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-500 block mb-1 whitespace-nowrap">
                       {service.category}
                     </span>
 
                     {/* Service Title */}
-                    <h3 className="font-heading font-black text-xl text-[#090D16] group-hover:text-[#C0622A] transition-colors mb-2.5 tracking-tight leading-snug">
+                    <h3 className="font-heading font-black text-lg sm:text-xl text-[#090D16] group-hover:text-[#C0622A] transition-colors mb-2 tracking-tight leading-snug">
                       {service.title}
                     </h3>
 
                     {/* Short Description */}
-                    <p className="text-slate-600 text-xs font-normal leading-relaxed mb-4 line-clamp-3">
+                    <p className="text-slate-600 text-xs font-normal leading-relaxed mb-4 line-clamp-2">
                       {service.shortDescription}
                     </p>
 
                     {/* Deliverables Scope Checklist */}
-                    <div className="space-y-1.5 mb-5 pt-3 border-t border-slate-200/80">
-                      {service.deliverables.slice(0, 3).map((item, dIdx) => (
+                    <div className="space-y-1.5 mb-4 pt-3 border-t border-slate-200/80">
+                      {service.deliverables.slice(0, 2).map((item, dIdx) => (
                         <div key={dIdx} className="flex items-start gap-2 text-[11px] text-slate-700 leading-snug">
                           <Check className="w-3.5 h-3.5 text-[#2E8B7A] shrink-0 mt-0.5" />
                           <span className="line-clamp-1">{item}</span>
                         </div>
                       ))}
-                      {service.deliverables.length > 3 && (
+                      {service.deliverables.length > 2 && (
                         <span className="text-[10px] font-mono text-slate-400 block pt-0.5">
-                          +{service.deliverables.length - 3} more scope items included
+                          +{service.deliverables.length - 2} more scope items included
                         </span>
                       )}
                     </div>
                   </div>
 
                   {/* Card Bottom: Rate & Non-Wrapping Orange CTA */}
-                  <div className="pt-4 border-t border-slate-200 flex items-center justify-between gap-3">
+                  <div className="pt-3.5 border-t border-slate-200 flex items-center justify-between gap-2">
                     <div className="shrink-0">
                       <span className="text-[9px] font-mono uppercase font-bold text-slate-400 block whitespace-nowrap">
                         Starting Rate
                       </span>
-                      <div className="font-heading font-black text-lg text-[#090D16] whitespace-nowrap">
+                      <div className="font-heading font-black text-base sm:text-lg text-[#090D16] whitespace-nowrap">
                         <span>${service.basePriceMonthly}</span>
                         <span className="text-xs font-normal text-slate-500 whitespace-nowrap">/mo</span>
                       </div>
@@ -233,7 +272,7 @@ export default function ServicesBento() {
                       <button
                         type="button"
                         onClick={() => setSelectedService(service)}
-                        className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-[#C0622A] hover:bg-[#a84f1d] text-white text-xs font-heading font-bold uppercase tracking-wider transition-all shadow-sm hover:shadow-md whitespace-nowrap cursor-pointer shrink-0 hover:scale-102 active:translate-y-0.5"
+                        className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#C0622A] hover:bg-[#a84f1d] text-white text-xs font-heading font-bold uppercase tracking-wider transition-all shadow-sm hover:shadow-md whitespace-nowrap cursor-pointer shrink-0 hover:scale-102 active:translate-y-0.5"
                       >
                         <span className="whitespace-nowrap">View Scope</span>
                         <ArrowUpRight className="w-3.5 h-3.5 shrink-0" />
@@ -248,44 +287,62 @@ export default function ServicesBento() {
       </div>
 
       {/* ========================================================================= */}
-      {/* SERVICE SCOPE & DETAILS MODAL                                             */}
+      {/* SERVICE SCOPE & DETAILS MODAL (Spring Morph + Lenis-Prevented Inner Flow)  */}
       {/* ========================================================================= */}
       <AnimatePresence>
         {selectedService && (
           <div
             key="service-detail-modal"
-            className="fixed inset-0 z-[998] flex items-center justify-center p-3 sm:p-4 md:p-6 overflow-hidden"
+            data-lenis-prevent="true"
+            onWheel={(e) => e.stopPropagation()}
+            onTouchMove={(e) => e.stopPropagation()}
+            className="fixed inset-0 z-[998] flex items-center justify-center p-3 sm:p-4 md:p-6 overflow-y-auto overscroll-contain"
           >
-            {/* Backdrop */}
+            {/* Frosted Glass Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
               onClick={() => setSelectedService(null)}
-              className="fixed inset-0 bg-[#090D16]/80 backdrop-blur-sm transition-opacity"
+              className="fixed inset-0 bg-[#090D16]/80 backdrop-blur-md transition-opacity cursor-pointer"
             />
 
-            {/* Modal Dialog */}
+            {/* Modal Dialog with Apple-Style Fluid Spring Physics */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 15 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 15 }}
-              transition={{ duration: 0.2 }}
-              className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden z-10 my-auto flex flex-col max-h-[90vh]"
+              initial={{ opacity: 0, scale: 0.88, y: 35, filter: "blur(6px)" }}
+              animate={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
+              exit={{ opacity: 0, scale: 0.9, y: 25, filter: "blur(6px)" }}
+              transition={{ type: "spring", stiffness: 360, damping: 28, mass: 0.85 }}
+              onClick={(e) => e.stopPropagation()}
+              data-lenis-prevent="true"
+              onWheel={(e) => e.stopPropagation()}
+              onTouchMove={(e) => e.stopPropagation()}
+              className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden z-10 my-auto flex flex-col max-h-[85vh] sm:max-h-[88vh]"
             >
-              {/* Modal Top Header */}
-              <div className="bg-[#090D16] text-white p-6 sm:p-7 flex items-start justify-between border-b border-slate-800 gap-4">
+              {/* Modal Top Header (Fixed shrink-0) */}
+              <div className="shrink-0 bg-[#090D16] text-white p-5 sm:p-7 flex items-start justify-between border-b border-slate-800 gap-4">
                 <div className="flex items-start gap-4">
                   {(() => {
                     const ModalIcon = iconMap[selectedService.iconName] || Code2;
                     return (
-                      <div className="w-12 h-12 rounded-2xl bg-slate-900 border border-slate-800 text-[#C0622A] flex items-center justify-center shrink-0 shadow-xs">
+                      <motion.div
+                        initial={{ scale: 0.7, opacity: 0, rotate: -15 }}
+                        animate={{ scale: 1, opacity: 1, rotate: 0 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 22, delay: 0.08 }}
+                        className="w-12 h-12 rounded-2xl bg-slate-900 border border-slate-800 text-[#C0622A] flex items-center justify-center shrink-0 shadow-xs"
+                      >
                         <ModalIcon className="w-6 h-6 shrink-0" />
-                      </div>
+                      </motion.div>
                     );
                   })()}
                   <div>
-                    <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                    <motion.div
+                      initial={{ opacity: 0, y: -8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3, delay: 0.05 }}
+                      className="flex items-center gap-2 mb-1.5 flex-wrap"
+                    >
                       <span className="px-2.5 py-0.5 rounded-full bg-slate-900 border border-slate-800 text-[#2E8B7A] text-[10px] font-mono font-bold uppercase tracking-wider whitespace-nowrap">
                         {selectedService.category}
                       </span>
@@ -297,49 +354,86 @@ export default function ServicesBento() {
                           {selectedService.badge}
                         </span>
                       )}
-                    </div>
-                    <h3 className="font-heading font-black text-2xl sm:text-3xl text-white tracking-tight leading-tight">
+                    </motion.div>
+                    <motion.h3
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.35, delay: 0.1 }}
+                      className="font-heading font-black text-2xl sm:text-3xl text-white tracking-tight leading-tight"
+                    >
                       {selectedService.title}
-                    </h3>
+                    </motion.h3>
                   </div>
                 </div>
 
-                <button
+                <motion.button
+                  whileHover={{ rotate: 90, scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                   onClick={() => setSelectedService(null)}
                   className="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors shrink-0 cursor-pointer"
                   aria-label="Close modal"
                 >
                   <X className="w-5 h-5 shrink-0" />
-                </button>
+                </motion.button>
               </div>
 
-              {/* Modal Scrollable Content Feed */}
-              <div className="p-6 sm:p-7 overflow-y-auto space-y-6 flex-1">
-                <p className="text-slate-700 text-sm leading-relaxed">
+              {/* Modal Scrollable Content Feed (Pure Scroll Area) */}
+              <div
+                data-lenis-prevent="true"
+                onWheel={(e) => e.stopPropagation()}
+                onTouchMove={(e) => e.stopPropagation()}
+                className="p-5 sm:p-7 overflow-y-auto overscroll-contain space-y-5 flex-1 min-h-0 touch-pan-y"
+              >
+                {/* 3D Visual Interactive Model Preview */}
+                <Service3DVisual
+                  serviceId={selectedService.id}
+                  category={selectedService.category}
+                  isModal
+                  className="w-full h-36"
+                />
+
+                <motion.p
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.35, delay: 0.12 }}
+                  className="text-slate-700 text-sm leading-relaxed"
+                >
                   {selectedService.shortDescription}
-                </p>
+                </motion.p>
 
                 {/* Deliverables Scope */}
-                <div>
+                <motion.div
+                  initial={{ opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.35, delay: 0.16 }}
+                >
                   <h4 className="font-heading font-bold text-xs uppercase tracking-wider text-slate-900 mb-3 flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-[#C0622A] shrink-0" />
                     <span className="whitespace-nowrap">Included Deliverables:</span>
                   </h4>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                     {selectedService.deliverables.map((item, i) => (
-                      <div
+                      <motion.div
                         key={i}
-                        className="flex items-start gap-2.5 p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs font-medium text-slate-800"
+                        initial={{ opacity: 0, scale: 0.95, y: 8 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        transition={{ duration: 0.25, delay: 0.18 + i * 0.03 }}
+                        className="flex items-start gap-2.5 p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs font-medium text-slate-800 hover:bg-white hover:border-[#C0622A]/40 transition-colors"
                       >
                         <Check className="w-4 h-4 text-[#2E8B7A] shrink-0 mt-0.5" />
                         <span>{item}</span>
-                      </div>
+                      </motion.div>
                     ))}
                   </div>
-                </div>
+                </motion.div>
 
                 {/* How This Sells Pitch */}
-                <div className="p-4 sm:p-5 rounded-2xl bg-orange-50/80 border border-[#C0622A]/30 space-y-1.5">
+                <motion.div
+                  initial={{ opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.35, delay: 0.22 }}
+                  className="p-4 sm:p-5 rounded-2xl bg-orange-50/80 border border-[#C0622A]/30 space-y-1.5"
+                >
                   <div className="flex items-center gap-2 text-xs font-bold text-[#C0622A] uppercase tracking-wider">
                     <Zap className="w-4 h-4 shrink-0" />
                     <span className="whitespace-nowrap">How This Sells For Your Business:</span>
@@ -347,10 +441,15 @@ export default function ServicesBento() {
                   <p className="text-xs sm:text-sm text-slate-700 leading-relaxed font-normal">
                     {selectedService.howItSells}
                   </p>
-                </div>
+                </motion.div>
 
                 {/* SLA & Production Timeline */}
-                <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 leading-relaxed space-y-1">
+                <motion.div
+                  initial={{ opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.35, delay: 0.26 }}
+                  className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 leading-relaxed space-y-1"
+                >
                   <div className="font-bold text-slate-800 flex items-center gap-1.5">
                     <Clock className="w-3.5 h-3.5 text-[#2E8B7A] shrink-0" />
                     <span className="whitespace-nowrap">Execution &amp; Delivery:</span>
@@ -358,11 +457,16 @@ export default function ServicesBento() {
                   <p>
                     Engineered in recurring 14-day continuous sprints with dedicated Slack channel communication and direct access to senior engineers.
                   </p>
-                </div>
+                </motion.div>
               </div>
 
-              {/* Bottom Actions Bar */}
-              <div className="p-6 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+              {/* Bottom Actions Bar (Fixed shrink-0) */}
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35, delay: 0.28 }}
+                className="shrink-0 p-5 sm:p-6 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4"
+              >
                 <div className="shrink-0">
                   <span className="text-[10px] font-mono uppercase font-bold text-slate-400 block whitespace-nowrap">
                     Monthly Retainer Rate
@@ -377,16 +481,18 @@ export default function ServicesBento() {
                 </div>
 
                 <div className="flex items-center gap-2.5 w-full sm:w-auto shrink-0">
-                  <button
+                  <motion.button
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
                     type="button"
                     onClick={() => handleBookService(selectedService)}
                     className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#C0622A] hover:bg-[#a84f1d] text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md active:translate-y-0.5 cursor-pointer whitespace-nowrap shrink-0"
                   >
                     <span className="whitespace-nowrap">Get Started With This Service</span>
                     <ArrowRight className="w-4 h-4 shrink-0" />
-                  </button>
+                  </motion.button>
                 </div>
-              </div>
+              </motion.div>
             </motion.div>
           </div>
         )}

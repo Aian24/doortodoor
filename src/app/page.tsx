@@ -26,7 +26,7 @@ export default function Home() {
   return (
     <ContactModalProvider>
       <SmoothScrollProvider>
-        <main className="min-h-screen flex flex-col bg-[#090D16]">
+        <main className="min-h-screen flex flex-col bg-[#FAF9F6]">
           {/* 1. Fast Video Preloader */}
           <Preloader />
 

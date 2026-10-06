@@ -38,7 +38,7 @@ export default function NisGraderSection() {
   const gradeInfo = getScoreGrade(totalScore);
 
   return (
-    <section id="nis-grader" className="py-14 sm:py-16 bg-slate-50 border-b border-slate-200 select-none scroll-mt-20">
+    <section id="nis-grader" className="py-14 sm:py-16 bg-slate-50 border-b border-slate-200 select-none scroll-mt-20 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <MotionWrapper direction="up" distance={20} className="text-center max-w-3xl mx-auto mb-6 sm:mb-8">
@@ -54,7 +54,7 @@ export default function NisGraderSection() {
         </MotionWrapper>
 
         {/* Diagnostic Form */}
-        <MotionWrapper direction="up" delay={0.15} className="bg-white rounded-2xl sm:rounded-3xl border border-slate-200 shadow-xl p-5 sm:p-8">
+        <MotionWrapper direction="left" distance={45} delay={0.15} className="bg-white rounded-2xl sm:rounded-3xl border border-slate-200 shadow-xl p-5 sm:p-8">
           {!isSubmitted ? (
             <div>
               {/* Progress */}

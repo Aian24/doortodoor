@@ -117,7 +117,7 @@ export const servicesData: ServiceItem[] = [
     num: "05",
     title: "Video & Content",
     category: "Strategy & Creative",
-    iconName: "Video",
+    iconName: "Film",
     summaryTags: [
       "Short-form reels & shorts",
       "Explainer & brand videos",
@@ -141,7 +141,7 @@ export const servicesData: ServiceItem[] = [
     num: "06",
     title: "Email & SMS Marketing",
     category: "Core Marketing",
-    iconName: "Mail",
+    iconName: "MailCheck",
     summaryTags: [
       "Campaign design & builds",
       "Automation & flows",
@@ -165,7 +165,7 @@ export const servicesData: ServiceItem[] = [
     num: "07",
     title: "Custom Software & Client Portals",
     category: "Advanced Tech",
-    iconName: "Layers",
+    iconName: "Database",
     badge: "Enterprise Grade",
     summaryTags: [
       "Client portals & dashboards",
@@ -190,7 +190,7 @@ export const servicesData: ServiceItem[] = [
     num: "08",
     title: "NIS Sales Audit & Advisory",
     category: "Strategy & Creative",
-    iconName: "BarChart3",
+    iconName: "Compass",
     badge: "Strategic Core",
     summaryTags: [
       "4-Layer diagnostic score",

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useRef, useState } from "react";
+import React, { createContext, useContext, useEffect, useRef, useState, useCallback } from "react";
 import Lenis from "lenis";
 
 interface ScrollContextType {
@@ -8,6 +8,8 @@ interface ScrollContextType {
   scrollProgress: number;
   scrollVelocity: number;
   activeSection: string;
+  stopScroll: () => void;
+  startScroll: () => void;
 }
 
 const ScrollContext = createContext<ScrollContextType>({
@@ -15,6 +17,8 @@ const ScrollContext = createContext<ScrollContextType>({
   scrollProgress: 0,
   scrollVelocity: 0,
   activeSection: "hero",
+  stopScroll: () => {},
+  startScroll: () => {},
 });
 
 export const useScrollContext = () => useContext(ScrollContext);
@@ -29,9 +33,22 @@ export default function SmoothScrollProvider({
   const [scrollVelocity, setScrollVelocity] = useState(0);
   const [activeSection, setActiveSection] = useState("hero");
   const rafHandleRef = useRef<number | null>(null);
+  const lenisRef = useRef<Lenis | null>(null);
+
+  const stopScroll = useCallback(() => {
+    if (lenisRef.current) {
+      lenisRef.current.stop();
+    }
+  }, []);
+
+  const startScroll = useCallback(() => {
+    if (lenisRef.current) {
+      lenisRef.current.start();
+    }
+  }, []);
 
   useEffect(() => {
-    // Initialize buttery smooth Lenis momentum scroll
+    // Initialize Lenis with prevent callback for modals and overlays
     const lenis = new Lenis({
       duration: 1.15,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -41,8 +58,26 @@ export default function SmoothScrollProvider({
       wheelMultiplier: 0.9,
       touchMultiplier: 1.5,
       infinite: false,
+      prevent: (node) => {
+        if (!node) return false;
+        try {
+          const el = node as HTMLElement;
+          return Boolean(
+            el.hasAttribute?.("data-lenis-prevent") ||
+            el.closest?.("[data-lenis-prevent]") ||
+            el.closest?.('[role="dialog"]') ||
+            el.closest?.(".fixed.z-\\[998\\]") ||
+            el.closest?.(".fixed.z-\\[999\\]") ||
+            document.body.style.overflow === "hidden" ||
+            document.documentElement.style.overflow === "hidden"
+          );
+        } catch {
+          return false;
+        }
+      },
     });
 
+    lenisRef.current = lenis;
     setLenisInstance(lenis);
 
     const onScroll = (e: any) => {
@@ -61,15 +96,41 @@ export default function SmoothScrollProvider({
 
     rafHandleRef.current = requestAnimationFrame(raf);
 
+    // Dynamic Mutation Observer to auto-pause Lenis when ANY modal is mounted or body is locked
+    const checkModalState = () => {
+      const isLocked =
+        document.body.style.overflow === "hidden" ||
+        document.documentElement.style.overflow === "hidden" ||
+        document.querySelector("[data-lenis-prevent]") !== null;
+
+      if (isLocked) {
+        lenis.stop();
+      } else {
+        lenis.start();
+      }
+    };
+
+    const observer = new MutationObserver(checkModalState);
+    observer.observe(document.body, {
+      attributes: true,
+      childList: true,
+      subtree: true,
+      attributeFilter: ["style", "class"],
+    });
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["style", "class"],
+    });
+
     // Section Observer for Active Section Tracking
     const sectionIds = [
       "hero",
       "two-doors",
       "services",
-      "ai-section",
+      "ai",
       "method",
       "bundle-builder",
-      "relaunch-social",
+      "social",
       "work",
       "nis-grader",
       "testimonials",
@@ -96,7 +157,9 @@ export default function SmoothScrollProvider({
 
     return () => {
       if (rafHandleRef.current) cancelAnimationFrame(rafHandleRef.current);
+      observer.disconnect();
       lenis.destroy();
+      lenisRef.current = null;
       window.removeEventListener("scroll", handleScrollTracking);
     };
   }, []);
@@ -108,6 +171,8 @@ export default function SmoothScrollProvider({
         scrollProgress,
         scrollVelocity,
         activeSection,
+        stopScroll,
+        startScroll,
       }}
     >
       {children}

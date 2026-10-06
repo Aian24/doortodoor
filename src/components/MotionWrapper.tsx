@@ -7,18 +7,20 @@ interface MotionWrapperProps extends HTMLMotionProps<"div"> {
   children: ReactNode;
   delay?: number;
   duration?: number;
-  direction?: "up" | "down" | "left" | "right" | "none";
+  direction?: "up" | "down" | "left" | "right" | "right-to-left" | "none";
   distance?: number;
   className?: string;
+  withBlur?: boolean;
 }
 
 export default function MotionWrapper({
   children,
   delay = 0,
-  duration = 0.55,
+  duration = 0.65,
   direction = "up",
   distance = 24,
   className = "",
+  withBlur = true,
   ...props
 }: MotionWrapperProps) {
   const getInitialPosition = () => {
@@ -28,6 +30,7 @@ export default function MotionWrapper({
       case "down":
         return { y: -distance, x: 0 };
       case "left":
+      case "right-to-left":
         return { x: distance, y: 0 };
       case "right":
         return { x: -distance, y: 0 };
@@ -40,9 +43,20 @@ export default function MotionWrapper({
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.97, ...initialOffset }}
-      whileInView={{ opacity: 1, scale: 1, x: 0, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
+      initial={{
+        opacity: 0,
+        scale: 0.96,
+        filter: withBlur ? "blur(4px)" : "none",
+        ...initialOffset,
+      }}
+      whileInView={{
+        opacity: 1,
+        scale: 1,
+        filter: "blur(0px)",
+        x: 0,
+        y: 0,
+      }}
+      viewport={{ once: false, margin: "-40px" }}
       transition={{
         duration,
         delay,
@@ -55,3 +69,5 @@ export default function MotionWrapper({
     </motion.div>
   );
 }
+
+

@@ -45,7 +45,7 @@ export default function BundleCalculator() {
   const annualSavings = discountAmount * 12;
 
   return (
-    <section id="bundle-builder" className="py-14 sm:py-16 bg-[#F8F9FA] border-b border-slate-200 select-none scroll-mt-20">
+    <section id="bundle-builder" className="py-14 sm:py-16 bg-[#F8F9FA] border-b border-slate-200 select-none scroll-mt-20 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Top Header */}
         <MotionWrapper direction="up" distance={20} className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-6 sm:mb-8">
@@ -98,9 +98,9 @@ export default function BundleCalculator() {
             return (
               <MotionWrapper
                 key={tier.id}
-                direction="up"
-                delay={idx * 0.05}
-                distance={16}
+                direction="left"
+                delay={idx * 0.1}
+                distance={45}
                 className={`p-4 sm:p-5 rounded-xl sm:rounded-2xl transition-all ${
                   isActive
                     ? "bg-[#090D16] text-white shadow-xl scale-[1.02]"

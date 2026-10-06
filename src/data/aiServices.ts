@@ -43,7 +43,7 @@ export const aiPillarsData: AiServicePillar[] = [
   },
   {
     id: "content-creative",
-    icon: "PenTool",
+    icon: "Sparkles",
     title: "AI Content & Creative",
     description: "Train AI on your brand voice and generate on-brand content at high scale.",
     features: [
@@ -55,7 +55,7 @@ export const aiPillarsData: AiServicePillar[] = [
   },
   {
     id: "customer-experience",
-    icon: "MessageSquare",
+    icon: "Bot",
     title: "AI Customer Experience",
     description: "Chatbots that qualify leads and guide customers 24/7 — no extra staff needed.",
     features: [
@@ -67,7 +67,7 @@ export const aiPillarsData: AiServicePillar[] = [
   },
   {
     id: "marketing-ads",
-    icon: "TrendingUp",
+    icon: "Rocket",
     title: "AI Marketing & Ads",
     description: "Let AI optimize targeting, personalize emails, and A/B test automatically.",
     features: [
@@ -91,7 +91,7 @@ export const aiPillarsData: AiServicePillar[] = [
   },
   {
     id: "custom-apps-tools",
-    icon: "Wrench",
+    icon: "Terminal",
     title: "AI-Powered Apps & Tools",
     description: "Custom web and mobile apps with AI baked in — built for your workflow.",
     features: [
@@ -102,8 +102,8 @@ export const aiPillarsData: AiServicePillar[] = [
     tag: "Custom Dev",
   },
   {
-    id: "industry-solutions",
-    icon: "Building2",
+    id: "enterprise-solutions",
+    icon: "ShieldCheck",
     title: "Industry AI Solutions",
     description: "AI tailored for your specific industry — e-commerce, wellness, hospitality, legal, and trades.",
     features: [

@@ -24,7 +24,7 @@ export default function TwoHeroesSection() {
   const activeHero = twoHeroesData.find((h) => h.id === activeTab)!;
 
   return (
-    <section id="two-doors" className="py-14 sm:py-16 bg-[#F8F9FA] border-b border-slate-200 select-none scroll-mt-20">
+    <section id="two-doors" className="py-14 sm:py-16 bg-[#F8F9FA] border-b border-slate-200 select-none scroll-mt-20 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header with Scroll Reveal */}
         <MotionWrapper direction="up" distance={20} className="text-center max-w-3xl mx-auto mb-6 sm:mb-8">
@@ -102,80 +102,105 @@ export default function TwoHeroesSection() {
 
               <div className="p-5 sm:p-7 grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
                 <div className="space-y-3">
-                  <SpotlightCard
-                    spotlightColor="rgba(192, 98, 42, 0.1)"
-                    className="p-4 bg-slate-50 rounded-2xl border border-slate-200 hover:border-slate-300 transition-colors"
+                  <motion.div
+                    initial={{ opacity: 0, x: 30 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.45, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
                   >
-                    <div className="flex items-center gap-2 text-slate-900 font-heading font-bold text-xs uppercase tracking-wider mb-1">
-                      <AlertCircle className="w-4 h-4 text-[#C0622A]" />
-                      <span>The External Problem</span>
-                    </div>
-                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                      {activeHero.externalProblem}
-                    </p>
-                  </SpotlightCard>
+                    <SpotlightCard
+                      spotlightColor="rgba(192, 98, 42, 0.1)"
+                      className="p-4 bg-slate-50 rounded-2xl border border-slate-200 hover:border-slate-300 transition-colors"
+                    >
+                      <div className="flex items-center gap-2 text-slate-900 font-heading font-bold text-xs uppercase tracking-wider mb-1">
+                        <AlertCircle className="w-4 h-4 text-[#C0622A]" />
+                        <span>The External Problem</span>
+                      </div>
+                      <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                        {activeHero.externalProblem}
+                      </p>
+                    </SpotlightCard>
+                  </motion.div>
 
-                  <SpotlightCard
-                    spotlightColor="rgba(192, 98, 42, 0.1)"
-                    className="p-4 bg-slate-50 rounded-2xl border border-slate-200 hover:border-slate-300 transition-colors"
+                  <motion.div
+                    initial={{ opacity: 0, x: 30 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.45, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
                   >
-                    <div className="flex items-center gap-2 text-slate-900 font-heading font-bold text-xs uppercase tracking-wider mb-1">
-                      <AlertCircle className="w-4 h-4 text-[#C0622A]" />
-                      <span>The Internal Frustration</span>
-                    </div>
-                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                      {activeHero.internalProblem}
-                    </p>
-                  </SpotlightCard>
+                    <SpotlightCard
+                      spotlightColor="rgba(192, 98, 42, 0.1)"
+                      className="p-4 bg-slate-50 rounded-2xl border border-slate-200 hover:border-slate-300 transition-colors"
+                    >
+                      <div className="flex items-center gap-2 text-slate-900 font-heading font-bold text-xs uppercase tracking-wider mb-1">
+                        <AlertCircle className="w-4 h-4 text-[#C0622A]" />
+                        <span>The Internal Frustration</span>
+                      </div>
+                      <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                        {activeHero.internalProblem}
+                      </p>
+                    </SpotlightCard>
+                  </motion.div>
 
-                  <SpotlightCard
-                    spotlightColor="rgba(192, 98, 42, 0.1)"
-                    className="p-4 bg-slate-50 rounded-2xl border border-slate-200 hover:border-slate-300 transition-colors"
+                  <motion.div
+                    initial={{ opacity: 0, x: 30 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.45, delay: 0.19, ease: [0.16, 1, 0.3, 1] }}
                   >
-                    <div className="flex items-center gap-2 text-slate-900 font-heading font-bold text-xs uppercase tracking-wider mb-1">
-                      <TrendingDown className="w-4 h-4 text-[#C0622A]" />
-                      <span>What Is At Stake</span>
-                    </div>
-                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
-                      {activeHero.whatIsAtStake}
-                    </p>
-                  </SpotlightCard>
+                    <SpotlightCard
+                      spotlightColor="rgba(192, 98, 42, 0.1)"
+                      className="p-4 bg-slate-50 rounded-2xl border border-slate-200 hover:border-slate-300 transition-colors"
+                    >
+                      <div className="flex items-center gap-2 text-slate-900 font-heading font-bold text-xs uppercase tracking-wider mb-1">
+                        <TrendingDown className="w-4 h-4 text-[#C0622A]" />
+                        <span>What Is At Stake</span>
+                      </div>
+                      <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-normal">
+                        {activeHero.whatIsAtStake}
+                      </p>
+                    </SpotlightCard>
+                  </motion.div>
                 </div>
 
-                <SpotlightCard
-                  spotlightColor="rgba(46, 139, 122, 0.15)"
-                  className="bg-slate-50 p-6 sm:p-7 rounded-2xl border border-slate-200 flex flex-col justify-between"
+                <motion.div
+                  initial={{ opacity: 0, x: 40 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.5, delay: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                  className="h-full"
                 >
-                  <div>
-                    <div className="flex items-center gap-2 text-[#C0622A] font-heading font-bold text-xs uppercase tracking-wider mb-3">
-                      <CheckCircle2 className="w-5 h-5 text-[#C0622A]" />
-                      <span>What Success Looks Like</span>
-                    </div>
-
-                    <p className="font-heading font-black text-xl sm:text-2xl text-[#090D16] mb-5 leading-snug">
-                      &ldquo;{activeHero.successLooksLike}&rdquo;
-                    </p>
-
-                    <div className="space-y-2.5 mb-6 text-xs text-slate-600">
-                      <div className="flex items-start gap-2">
-                        <Check className="w-4 h-4 text-[#C0622A] mt-0.5 shrink-0" />
-                        <span>Engineered on the 4-layer selling framework (SB7, Hero&apos;s Journey, Draper)</span>
-                      </div>
-                      <div className="flex items-start gap-2">
-                        <Check className="w-4 h-4 text-[#C0622A] mt-0.5 shrink-0" />
-                        <span>Single flexible monthly subscription — pause or cancel anytime</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <Link
-                    href={activeHero.ctaHref}
-                    className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 bg-[#C0622A] hover:bg-[#a84f1d] text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl shadow-sm transition-all text-center active:translate-y-0.5 hover:scale-[1.02]"
+                  <SpotlightCard
+                    spotlightColor="rgba(46, 139, 122, 0.15)"
+                    className="bg-slate-50 p-6 sm:p-7 rounded-2xl border border-slate-200 flex flex-col justify-between h-full"
                   >
-                    <span>{activeHero.ctaText}</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-                </SpotlightCard>
+                    <div>
+                      <div className="flex items-center gap-2 text-[#C0622A] font-heading font-bold text-xs uppercase tracking-wider mb-3">
+                        <CheckCircle2 className="w-5 h-5 text-[#C0622A]" />
+                        <span>What Success Looks Like</span>
+                      </div>
+
+                      <p className="font-heading font-black text-xl sm:text-2xl text-[#090D16] mb-5 leading-snug">
+                        &ldquo;{activeHero.successLooksLike}&rdquo;
+                      </p>
+
+                      <div className="space-y-2.5 mb-6 text-xs text-slate-600">
+                        <div className="flex items-start gap-2">
+                          <Check className="w-4 h-4 text-[#C0622A] mt-0.5 shrink-0" />
+                          <span>Engineered on the 4-layer selling framework (SB7, Hero&apos;s Journey, Draper)</span>
+                        </div>
+                        <div className="flex items-start gap-2">
+                          <Check className="w-4 h-4 text-[#C0622A] mt-0.5 shrink-0" />
+                          <span>Single flexible monthly subscription — pause or cancel anytime</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <Link
+                      href={activeHero.ctaHref}
+                      className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 bg-[#C0622A] hover:bg-[#a84f1d] text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl shadow-sm transition-all text-center active:translate-y-0.5 hover:scale-[1.02]"
+                    >
+                      <span>{activeHero.ctaText}</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </SpotlightCard>
+                </motion.div>
               </div>
             </motion.div>
           </AnimatePresence>

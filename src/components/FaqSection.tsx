@@ -14,7 +14,7 @@ export default function FaqSection() {
   };
 
   return (
-    <section id="faq" className="py-16 sm:py-20 bg-white border-b border-slate-200 select-none scroll-mt-20">
+    <section id="faq" className="py-16 sm:py-20 bg-white border-b border-slate-200 select-none scroll-mt-20 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <MotionWrapper direction="up" distance={20} className="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
@@ -37,9 +37,9 @@ export default function FaqSection() {
             return (
               <MotionWrapper
                 key={item.question}
-                direction="up"
-                delay={idx * 0.04}
-                distance={12}
+                direction="left"
+                delay={idx * 0.05}
+                distance={30}
                 className="bg-slate-50 rounded-2xl border border-slate-200/90 overflow-hidden transition-all duration-200 hover:border-slate-300 shadow-xs"
               >
                 <button

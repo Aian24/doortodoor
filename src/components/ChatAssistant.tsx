@@ -174,26 +174,31 @@ export default function ChatAssistant() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 10 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            style={{ willChange: "transform, opacity", transform: "translateZ(0)" }}
-            className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50"
+            style={{
+              willChange: "transform, opacity",
+              transform: "translateZ(0)",
+              marginBottom: "max(0px, env(safe-area-inset-bottom, 0px))",
+              marginRight: "max(0px, env(safe-area-inset-right, 0px))",
+            }}
+            className="fixed bottom-10 right-6 sm:bottom-12 sm:right-8 z-50"
           >
             <button
               onClick={() => setIsOpen(true)}
               aria-label="Open ReLaunch AI Assistant"
-              className="group relative flex items-center gap-2 sm:gap-2.5 px-3.5 py-2.5 sm:px-4 sm:py-3 bg-[#090D16] hover:bg-[#C0622A] text-white rounded-full shadow-2xl border border-slate-700/80 transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+              className="group relative flex items-center gap-2 sm:gap-2.5 px-4 py-2.5 sm:px-4.5 sm:py-3 bg-[#090D16] hover:bg-[#C0622A] text-white rounded-full shadow-2xl border border-slate-700/80 transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
             >
               {/* Clean Status Dot */}
-              <span className="relative flex h-2 sm:h-2.5 w-2 sm:w-2.5">
+              <span className="relative flex h-2 sm:h-2.5 w-2 sm:w-2.5 ml-0.5">
                 <span className="relative inline-flex rounded-full h-2 sm:h-2.5 w-2 sm:w-2.5 bg-[#C0622A]" />
               </span>
 
-              <Bot className="w-4 h-4 sm:w-5 sm:h-5 text-[#C0622A] group-hover:text-white transition-colors" />
-              <span className="font-heading font-bold text-[11px] sm:text-xs uppercase tracking-wider pr-0.5 sm:pr-1">
+              <Bot className="w-4 h-4 sm:w-5 sm:h-5 text-[#C0622A] group-hover:text-white transition-colors ml-0.5" />
+              <span className="font-heading font-bold text-[11px] sm:text-xs uppercase tracking-wider pr-0.5 sm:pr-1 ml-0.5">
                 ReLaunch AI
               </span>
 
               {hasUnread && (
-                <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#C0622A] text-[9px] font-black text-white">
+                <span className="absolute -top-1 right-0 flex h-4 w-4 items-center justify-center rounded-full bg-[#C0622A] text-[9px] font-black text-white shadow-xs">
                   1
                 </span>
               )}
@@ -211,8 +216,16 @@ export default function ChatAssistant() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 16 }}
             transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-            style={{ willChange: "transform, opacity", transform: "translateZ(0)" }}
-            className="fixed bottom-6 right-4 sm:right-6 z-50 w-[calc(100vw-2rem)] sm:w-[400px] h-[560px] max-h-[85vh] bg-[#090D16] text-white rounded-3xl shadow-2xl border border-slate-800 flex flex-col overflow-hidden"
+            style={{
+              willChange: "transform, opacity",
+              transform: "translateZ(0)",
+              marginBottom: "max(0px, env(safe-area-inset-bottom, 0px))",
+              marginRight: "max(0px, env(safe-area-inset-right, 0px))",
+            }}
+            className="fixed bottom-10 right-4 sm:bottom-12 sm:right-8 z-50 w-[calc(100vw-2rem)] sm:w-[400px] h-[560px] max-h-[82vh] bg-[#090D16] text-white rounded-3xl shadow-2xl border border-slate-800 flex flex-col overflow-hidden mr-1 sm:mr-0"
+            data-lenis-prevent="true"
+            onWheel={(e) => e.stopPropagation()}
+            onTouchMove={(e) => e.stopPropagation()}
           >
             {/* Header */}
             <div className="p-4 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between">
@@ -255,7 +268,12 @@ export default function ChatAssistant() {
           </div>
 
           {/* Messages Feed */}
-          <div className="flex-1 p-4 overflow-y-auto space-y-3.5 text-xs">
+          <div
+            data-lenis-prevent="true"
+            onWheel={(e) => e.stopPropagation()}
+            onTouchMove={(e) => e.stopPropagation()}
+            className="flex-1 p-4 overflow-y-auto space-y-3.5 text-xs overscroll-contain touch-pan-y"
+          >
             {messages.map((msg) => (
               <div
                 key={msg.id}

@@ -16,7 +16,7 @@ export default function ReLaunchSocialSection() {
   );
 
   return (
-    <section id="relaunch-social" className="py-14 sm:py-16 bg-[#090D16] text-white border-b border-slate-800 select-none scroll-mt-20">
+    <section id="social" className="py-14 sm:py-16 bg-[#090D16] text-white border-b border-slate-800 select-none scroll-mt-20 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Top Header */}
         <MotionWrapper direction="up" distance={20} className="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
@@ -37,9 +37,9 @@ export default function ReLaunchSocialSection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8 sm:mb-10">
           {/* Left Card: Brand Overview & Stats */}
           <MotionWrapper
-            direction="up"
-            delay={0.1}
-            distance={16}
+            direction="left"
+            delay={0.08}
+            distance={45}
             className="lg:col-span-6 bg-slate-900/90 border border-slate-800 rounded-2xl sm:rounded-3xl p-6 sm:p-8 flex flex-col justify-between shadow-xl"
           >
             <div>
@@ -132,9 +132,9 @@ export default function ReLaunchSocialSection() {
 
           {/* Right Card: 4-Step Process */}
           <MotionWrapper
-            direction="up"
-            delay={0.15}
-            distance={16}
+            direction="left"
+            delay={0.16}
+            distance={45}
             className="lg:col-span-6 bg-slate-900/90 border border-slate-800 rounded-2xl sm:rounded-3xl p-6 sm:p-8 flex flex-col justify-between shadow-xl"
           >
             <div>
@@ -215,8 +215,9 @@ export default function ReLaunchSocialSection() {
             {filteredTiers.map((tier, idx) => (
               <MotionWrapper
                 key={tier.id}
-                direction="up"
-                delay={idx * 0.08}
+                direction="left"
+                delay={idx * 0.12}
+                distance={50}
                 className={`p-7 rounded-3xl border transition-all ${
                   tier.popular
                     ? "bg-slate-900 border-[#C0622A] shadow-xl"

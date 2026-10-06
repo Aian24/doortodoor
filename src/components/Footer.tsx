@@ -11,7 +11,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-[#090D16] text-white pt-12 pb-8 select-none border-t border-slate-800">
+    <footer className="bg-[#090D16] text-white pt-12 pb-8 select-none border-t border-slate-800 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 pb-10 border-b border-slate-800">
           {/* Col 1: Brand & Logo */}

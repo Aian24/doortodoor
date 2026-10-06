@@ -24,7 +24,7 @@ export default function UnderDevelopmentSection({
       className="py-10 sm:py-14 bg-slate-50 border-b border-slate-200 scroll-mt-20 select-none relative overflow-hidden"
     >
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <MotionWrapper direction="up" distance={16}>
+        <MotionWrapper direction="left" distance={45}>
           {/* Construction Blueprint Card with Dashed Border */}
           <div className="bg-white rounded-2xl sm:rounded-3xl border-2 border-dashed border-[#C0622A]/40 shadow-sm p-6 sm:p-10 text-center relative overflow-hidden">
             {/* Top Amber Accent Bar */}

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useContactModal } from "@/context/ContactModalContext";
+import { useScrollContext } from "./SmoothScrollProvider";
 import { showSuccessSwal } from "@/utils/alerts";
 import CustomSelect from "./CustomSelect";
 import CustomDatePicker from "./CustomDatePicker";
@@ -43,6 +44,7 @@ const availableTimeSlots = [
 
 export default function ContactModal() {
   const { isOpen, options, closeContactModal } = useContactModal();
+  const { stopScroll, startScroll } = useScrollContext();
 
   const [activeTab, setActiveTab] = useState<"form" | "ai-audit" | "calendar">(
     "form"
@@ -98,9 +100,10 @@ export default function ContactModal() {
     }
   }, [isOpen, options]);
 
-  // Handle ESC key and body/html scroll lock
+  // Handle ESC key and body/html scroll lock + Lenis pause
   useEffect(() => {
     if (isOpen) {
+      stopScroll();
       document.body.style.overflow = "hidden";
       document.documentElement.style.overflow = "hidden";
 
@@ -111,15 +114,17 @@ export default function ContactModal() {
       };
       window.addEventListener("keydown", handleKeyDown);
       return () => {
+        startScroll();
         document.body.style.overflow = "";
         document.documentElement.style.overflow = "";
         window.removeEventListener("keydown", handleKeyDown);
       };
     } else {
+      startScroll();
       document.body.style.overflow = "";
       document.documentElement.style.overflow = "";
     }
-  }, [isOpen, closeContactModal]);
+  }, [isOpen, closeContactModal, stopScroll, startScroll]);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -173,25 +178,40 @@ export default function ContactModal() {
     }, 450);
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div
-      key="contact-modal-portal"
-      className="fixed inset-0 z-[999] flex items-center justify-center p-2 sm:p-4 overflow-hidden animate-in fade-in duration-150"
-    >
-      {/* Backdrop */}
-      <div
-        onClick={closeContactModal}
-        className="fixed inset-0 bg-[#090D16]/80 transition-opacity"
-      />
+    <AnimatePresence>
+      {isOpen && (
+        <div
+          key="contact-modal-portal"
+          data-lenis-prevent="true"
+          onWheel={(e) => e.stopPropagation()}
+          onTouchMove={(e) => e.stopPropagation()}
+          className="fixed inset-0 z-[999] flex items-center justify-center p-2 sm:p-4 overflow-y-auto overscroll-contain"
+        >
+          {/* Frosted Glass Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
+            onClick={closeContactModal}
+            className="fixed inset-0 bg-[#090D16]/80 backdrop-blur-md transition-opacity cursor-pointer"
+          />
 
-      {/* Modal Dialog Container */}
-      <div
-        className="relative w-full max-w-3xl bg-white rounded-2xl sm:rounded-3xl shadow-2xl border border-slate-200 overflow-hidden z-10 max-h-[94vh] flex flex-col my-auto animate-in zoom-in-95 fade-in duration-150"
-      >
+          {/* Modal Dialog Container with Apple-Style Spring Physics */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.88, y: 35, filter: "blur(6px)" }}
+            animate={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
+            exit={{ opacity: 0, scale: 0.9, y: 25, filter: "blur(6px)" }}
+            transition={{ type: "spring", stiffness: 360, damping: 28, mass: 0.85 }}
+            onClick={(e) => e.stopPropagation()}
+            data-lenis-prevent="true"
+            onWheel={(e) => e.stopPropagation()}
+            onTouchMove={(e) => e.stopPropagation()}
+            className="relative w-full max-w-3xl bg-white rounded-2xl sm:rounded-3xl shadow-2xl border border-slate-200 overflow-hidden z-10 max-h-[88vh] flex flex-col my-auto"
+          >
         {/* Modal Header */}
-        <div className="bg-[#090D16] text-white p-4 sm:p-5 flex items-start justify-between border-b border-slate-800">
+        <div className="shrink-0 bg-[#090D16] text-white p-4 sm:p-5 flex items-start justify-between border-b border-slate-800">
           <div>
             <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-slate-900 border border-slate-800 text-[#C0622A] text-[9.5px] font-mono font-bold uppercase tracking-widest mb-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-[#C0622A]" />
@@ -225,7 +245,7 @@ export default function ContactModal() {
         </div>
 
         {/* Mode Switcher Tabs */}
-        <div className="bg-white px-4 sm:px-6 border-b border-slate-200 flex items-center gap-4 sm:gap-8 overflow-x-auto">
+        <div className="shrink-0 bg-white px-4 sm:px-6 border-b border-slate-200 flex items-center gap-4 sm:gap-8 overflow-x-auto">
           <button
             type="button"
             onClick={() => setActiveTab("form")}
@@ -276,7 +296,12 @@ export default function ContactModal() {
         </div>
 
         {/* Modal Body / Form */}
-        <div className="p-4 sm:p-5 overflow-y-auto flex-1">
+        <div
+          data-lenis-prevent="true"
+          onWheel={(e) => e.stopPropagation()}
+          onTouchMove={(e) => e.stopPropagation()}
+          className="p-4 sm:p-5 overflow-y-auto overscroll-contain flex-1 min-h-0 touch-pan-y"
+        >
           <form onSubmit={handleSubmit} className="space-y-3">
             {/* 2-Column Row: Name & Email */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -505,7 +530,9 @@ export default function ContactModal() {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
+    )}
+  </AnimatePresence>
   );
 }

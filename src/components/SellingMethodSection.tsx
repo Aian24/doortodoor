@@ -7,7 +7,7 @@ import { CheckCircle2 } from "lucide-react";
 
 export default function SellingMethodSection() {
   return (
-    <section id="method" className="py-14 sm:py-16 bg-white border-b border-slate-200 select-none scroll-mt-20">
+    <section id="method" className="py-14 sm:py-16 bg-white border-b border-slate-200 select-none scroll-mt-20 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <MotionWrapper direction="up" distance={20} className="text-center max-w-3xl mx-auto mb-8 sm:mb-10">
@@ -28,9 +28,9 @@ export default function SellingMethodSection() {
           {sellingFrameworkLayers.map((layer, idx) => (
             <MotionWrapper
               key={layer.layer}
-              direction="up"
-              delay={idx * 0.05}
-              distance={16}
+              direction="left"
+              delay={idx * 0.1}
+              distance={50}
             >
               <SpotlightCard
                 spotlightColor="rgba(192, 98, 42, 0.12)"
@@ -73,7 +73,7 @@ export default function SellingMethodSection() {
         </div>
 
         {/* Ironclad Standard Box */}
-        <MotionWrapper direction="up" delay={0.15} className="w-full mb-8 sm:mb-10">
+        <MotionWrapper direction="left" distance={40} delay={0.15} className="w-full mb-8 sm:mb-10">
           <SpotlightCard
             spotlightColor="rgba(192, 98, 42, 0.2)"
             className="p-6 sm:p-8 bg-[#090D16] text-white rounded-2xl sm:rounded-3xl text-center shadow-xl border border-slate-800 max-w-5xl mx-auto"
@@ -105,8 +105,9 @@ export default function SellingMethodSection() {
             {threeStepPlan.map((step, index) => (
               <MotionWrapper
                 key={step.stepNumber}
-                direction="up"
-                delay={index * 0.08}
+                direction="left"
+                delay={index * 0.12}
+                distance={45}
               >
                 <SpotlightCard
                   spotlightColor="rgba(46, 139, 122, 0.12)"
