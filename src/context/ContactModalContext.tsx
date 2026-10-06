@@ -3,11 +3,13 @@
 import React, { createContext, useContext, useState, useCallback, ReactNode } from "react";
 
 export type ContactIntent =
+  | "pickup-schedule"
+  | "commercial-bid"
+  | "general-message"
   | "strategy-session"
   | "ai-audit"
   | "start-project"
-  | "bundle-inquiry"
-  | "general-message";
+  | "bundle-inquiry";
 
 interface ContactModalOptions {
   intent?: ContactIntent;
@@ -29,8 +31,8 @@ const ContactModalContext = createContext<ContactModalContextType | undefined>(
 export function ContactModalProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
   const [options, setOptions] = useState<ContactModalOptions>({
-    intent: "strategy-session",
-    serviceInterest: "A full bundle",
+    intent: "pickup-schedule",
+    serviceInterest: "Laundry Pickup & Delivery",
   });
 
   const openContactModal = useCallback((newOptions?: ContactModalOptions) => {

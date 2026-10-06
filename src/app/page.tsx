@@ -2,6 +2,8 @@
 
 import Preloader from "@/components/Preloader";
 import Navbar from "@/components/Navbar";
+import TickerBar from "@/components/TickerBar";
+import VideoScrollHero from "@/components/VideoScrollHero";
 import Hero from "@/components/Hero";
 import TwoHeroesSection from "@/components/TwoHeroesSection";
 import ServicesBento from "@/components/ServicesBento";
@@ -19,73 +21,78 @@ import ContactModal from "@/components/ContactModal";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import GlobalScrollHUD from "@/components/GlobalScrollHUD";
 import BundleCalculator from "@/components/BundleCalculator";
-import ReLaunchSocialSection from "@/components/ReLaunchSocialSection";
-import NisGraderSection from "@/components/NisGraderSection";
+import SpecialsSection from "@/components/SpecialsSection";
+import AboutSection from "@/components/AboutSection";
 
 export default function Home() {
   return (
     <ContactModalProvider>
       <SmoothScrollProvider>
         <main className="min-h-screen flex flex-col bg-[#FAF9F6]">
-          {/* 1. Fast Video Preloader */}
+          {/* 1. Fast Modern Preloader */}
           <Preloader />
 
-          {/* 2. Fixed Navigation Header */}
+          {/* 2. Fixed Navigation Header with Utility Bar */}
           <Navbar />
 
-          {/* 3. Global Interactive Scroll Progress & Section Radar */}
+          {/* 3. Global Scroll Progress HUD */}
           <GlobalScrollHUD />
 
-          {/* 4. Hero Section (Headline, Value Prop, Live Counters) */}
+          {/* 4. Scroll-Scrubbed Video Hero (hero-doortodoor.mp4 across 15 scrolls) */}
+          <VideoScrollHero />
+
+          {/* 5. Interactive Zip Code Checker & Storefront Overview Hub */}
           <Hero />
 
-        {/* 4. Strategic Persona Matcher ("Which Door Fits You?") */}
-        <TwoHeroesSection />
+          {/* 6. Live Info Ticker Bar */}
+          <TickerBar />
 
-        {/* 5. Core Services Bento Grid (8 Service Lines) */}
-        <ServicesBento />
+          {/* 6. Strategic Persona Matcher: Residential vs Commercial */}
+          <TwoHeroesSection />
 
-        {/* 6. Dedicated AI Capabilities Section (8 AI Pillars) */}
-        <AiSection />
+          {/* 7. Core Services Bento Grid (8 Service Lines) */}
+          <ServicesBento />
 
-        {/* 7. The ReLaunch Method (4-Layer Selling Framework & Process) */}
-        <SellingMethodSection />
+          {/* 8. Modern 21st Century Smart Laundry Technology Platform */}
+          <AiSection />
 
-        {/* 8. Interactive Bundle Builder & Live Savings Calculator */}
-        <BundleCalculator />
+          {/* 9. The 4-Step Door to Door Process & Quality Fabric Standards */}
+          <SellingMethodSection />
 
-        {/* 9. ReLaunch Social Autopilot Platform */}
-        <ReLaunchSocialSection />
+          {/* 10. Interactive Pricing & Laundry Savings Calculator */}
+          <BundleCalculator />
 
-        {/* 10. Case Studies & Proof Bento */}
-        <CaseStudiesSection />
+          {/* 11. Specials, Deals & Franchise Opportunities */}
+          <SpecialsSection />
 
-        {/* 11. Free NIS Marketing Grader Diagnostic Tool */}
-        <NisGraderSection />
+          {/* 12. Commercial Laundry Industries & Client Solutions */}
+          <CaseStudiesSection />
 
-        {/* 12. Client Testimonials & Ratings */}
-        <TestimonialsSection />
+          {/* 13. Comprehensive About Us & Founders' Origin Story */}
+          <AboutSection />
 
-        {/* 13. Frequently Asked Questions */}
-        <FaqSection />
+          {/* 14. Customer Testimonials & 5-Star Reviews */}
+          <TestimonialsSection />
 
-        {/* 14. High-Converting Bottom CTA Banner */}
-        <CtaBanner />
+          {/* 15. Frequently Asked Questions */}
+          <FaqSection />
 
-        {/* 15. Static Footer with Direct Contact */}
-        <Footer />
+          {/* 16. Bottom High-Converting CTA Banner with Promo Code */}
+          <CtaBanner />
 
-        {/* 16. Smooth Scroll-To-Top Button */}
-        <ScrollToTop />
+          {/* 17. Comprehensive Footer */}
+          <Footer />
 
-        {/* 17. ReLaunch AI Assistant (Beta Preview) */}
-        <ChatAssistant />
+          {/* 18. Smooth Scroll-To-Top Button */}
+          <ScrollToTop />
 
-        {/* 18. Global Contact & Strategy Session Modal */}
-        <ContactModal />
-      </main>
-    </SmoothScrollProvider>
-  </ContactModalProvider>
-);
+          {/* 19. Door to Door Laundry Smart Virtual Assistant */}
+          <ChatAssistant />
+
+          {/* 20. Global Pickup & Commercial Bid Booking Modal */}
+          <ContactModal />
+        </main>
+      </SmoothScrollProvider>
+    </ContactModalProvider>
+  );
 }
-

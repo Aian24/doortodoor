@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { faqData } from "@/data/faq";
 import MotionWrapper from "./MotionWrapper";
-import { Plus, Minus } from "lucide-react";
+import { Plus, Minus, HelpCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function FaqSection() {
@@ -14,18 +14,19 @@ export default function FaqSection() {
   };
 
   return (
-    <section id="faq" className="py-16 sm:py-20 bg-white border-b border-slate-200 select-none scroll-mt-20 overflow-hidden">
+    <section id="faq" className="py-16 sm:py-24 bg-[#FAF9F6] border-b border-pink-200/80 select-none scroll-mt-20 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <MotionWrapper direction="up" distance={20} className="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
-          <span className="text-xs font-mono uppercase tracking-widest text-[#C0622A] font-bold block mb-2">
-            FREQUENTLY ASKED QUESTIONS
-          </span>
-          <h2 className="font-heading font-black text-3xl sm:text-5xl lg:text-6xl text-[#090D16] tracking-tight leading-[1.05] mb-3">
-            Everything You <span className="text-[#C0622A]">Need to Know.</span>
+        <MotionWrapper direction="up" distance={20} className="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#DEF2FB] border border-[#DEF2FB] text-[#0284C7] text-[10px] font-mono font-bold uppercase tracking-widest mb-3">
+            <HelpCircle className="w-3.5 h-3.5 text-[#DC1F62]" />
+            <span>FREQUENTLY ASKED QUESTIONS</span>
+          </div>
+          <h2 className="font-heading font-black text-3xl sm:text-5xl lg:text-6xl text-[#0F172A] tracking-tight leading-[1.05] mb-3">
+            Everything You <span className="text-[#DC1F62]">Need to Know.</span>
           </h2>
           <p className="text-slate-600 text-xs sm:text-sm leading-relaxed font-normal">
-            Clear answers on our subscription model, bundle savings, contracts, and delivery.
+            Clear answers regarding pickup scheduling, turnaround times, wash preferences, and commercial bids.
           </p>
         </MotionWrapper>
 
@@ -37,25 +38,24 @@ export default function FaqSection() {
             return (
               <MotionWrapper
                 key={item.question}
-                direction="left"
-                delay={idx * 0.05}
-                distance={30}
-                className="bg-slate-50 rounded-2xl border border-slate-200/90 overflow-hidden transition-all duration-200 hover:border-slate-300 shadow-xs"
+                direction="up"
+                delay={idx * 0.04}
+                className="bg-white rounded-2xl border border-pink-200/80 overflow-hidden transition-all duration-200 hover:border-[#DC1F62]/50 hover:shadow-md hover:shadow-pink-100/50 shadow-xs"
               >
                 <button
                   onClick={() => toggle(idx)}
                   className="w-full text-left p-4 sm:p-5 flex items-center justify-between gap-4 select-none focus:outline-none cursor-pointer group"
                   aria-expanded={isOpen}
                 >
-                  <span className={`font-heading font-bold text-sm sm:text-base transition-colors ${isOpen ? "text-[#C0622A]" : "text-[#090D16] group-hover:text-[#C0622A]"}`}>
+                  <span className={`font-heading font-bold text-sm sm:text-base transition-colors ${isOpen ? "text-[#DC1F62]" : "text-[#0F172A] group-hover:text-[#DC1F62]"}`}>
                     {item.question}
                   </span>
 
                   <span
                     className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition-all ${
                       isOpen
-                        ? "bg-[#C0622A] text-white shadow-sm rotate-180"
-                        : "bg-white text-slate-600 border border-slate-200 group-hover:border-[#C0622A]/40"
+                        ? "bg-[#DC1F62] text-white shadow-sm rotate-180"
+                        : "bg-pink-50 text-slate-700 border border-pink-200 group-hover:border-[#DC1F62]"
                     }`}
                   >
                     {isOpen ? <Minus className="w-3.5 h-3.5" /> : <Plus className="w-3.5 h-3.5" />}
@@ -72,7 +72,7 @@ export default function FaqSection() {
                       transition={{ duration: 0.25, ease: "easeInOut" }}
                       className="overflow-hidden"
                     >
-                      <div className="px-4 sm:px-5 pb-5 pt-0 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-200/50 font-normal">
+                      <div className="px-4 sm:px-5 pb-5 pt-0 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-pink-100 font-normal">
                         <p className="mt-3">{item.answer}</p>
                       </div>
                     </motion.div>
@@ -86,5 +86,3 @@ export default function FaqSection() {
     </section>
   );
 }
-
-

@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useContactModal } from "@/context/ContactModalContext";
+import { contactInfo } from "@/data/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   MessageSquare,
@@ -12,7 +13,9 @@ import {
   RotateCcw,
   ArrowUpRight,
   User,
-  Zap,
+  Calendar,
+  Phone,
+  Tag,
 } from "lucide-react";
 
 interface Message {
@@ -30,18 +33,18 @@ const initialMessages: Message[] = [
   {
     id: "welcome",
     sender: "ai",
-    text: "Hi! I'm the **ReLaunch AI Assistant**. How can I help you scale your business today?",
+    text: "Hi! I'm the **Door to Door Laundry Virtual Assistant**. How can I help you with pickup, drop-off, or pricing today?",
     time: "Just now",
   },
 ];
 
 const quickPrompts = [
-  "How do bundle discounts work?",
-  "What is the NIS Marketing Grader?",
-  "Explain ReLaunch Social (Track A vs B)",
-  "Can you build custom software?",
-  "How much does it cost?",
-  "Book a strategy call",
+  "How much does pickup cost?",
+  "What is the first order promo code?",
+  "What areas in Long Island do you service?",
+  "How does Wash & Fold drop-off work?",
+  "Tell me about the 10-shirt ironed special",
+  "Where are you located & what are your hours?",
 ];
 
 export default function ChatAssistant() {
@@ -67,58 +70,58 @@ export default function ChatAssistant() {
   const generateAnswer = (query: string): { text: string; action?: { label: string; href: string } } => {
     const q = query.toLowerCase();
 
-    if (q.includes("bundle") || q.includes("discount") || q.includes("save") || q.includes("package")) {
+    if (q.includes("pickup") || q.includes("deliver") || q.includes("schedule") || q.includes("order")) {
       return {
-        text: "With ReLaunch's **Subscription Bundles**, you save more as you add services:\n\n• **Starter (1 service)**: Standard rate\n• **Growth (2–3 services)**: **Save 10%**\n• **Scale (4–5 services)**: **Save 15%**\n• **Mission Control (6+ services)**: **Save 20%**\n\nNo long-term contracts. You can pause, swap, or cancel anytime.",
-        action: { label: "Open Interactive Bundle Builder", href: "#bundle-builder" },
+        text: "Our **Pickup & Delivery service** brings fresh, clean laundry right to your door across Long Island:\n\n• **Recurring Pickup (Weekly/Bi-weekly)**: **$1.75 / lb** ($45 min)\n• **As-Needed Pickup (On-Demand)**: **$1.80 / lb** ($45 min)\n• **Turnaround**: 24 to 48 hours\n• **New Customers**: Use code **FIRST10** for $10 OFF + Free Reusable Bag!\n\nNo need to be home—just leave your bags on your front porch.",
+        action: { label: "Schedule Pickup on Portal", href: contactInfo.portalOrderUrl },
       };
     }
 
-    if (q.includes("nis") || q.includes("grade") || q.includes("audit") || q.includes("diagnos")) {
+    if (q.includes("cost") || q.includes("price") || q.includes("pricing") || q.includes("rate") || q.includes("how much")) {
       return {
-        text: "Our **Free NIS Marketing Grader** is a 60-second diagnostic tool based on our 4-layer selling framework (StoryBrand SB7, Hero's Journey, Draper principles, Archetype consistency). It pinpoints where your marketing leaks revenue and scores your funnel from 0 to 100.",
-        action: { label: "Take Free NIS Grader", href: "#nis-grader" },
+        text: "Here is our complete pricing menu:\n\n• **Drop-Off Wash & Fold (Next-Day)**: **$1.10 / lb** ($20 min)\n• **Drop-Off Wash & Fold (Same-Day)**: **$1.30 / lb** (Drop off by noon)\n• **Recurring Pickup & Delivery**: **$1.75 / lb** ($45 min)\n• **As-Needed Pickup & Delivery**: **$1.80 / lb** ($45 min)\n• **10 Ironed Shirts Special**: **$29.50** (Regular $3.50 ea)\n• **Comforters / Blankets / Quilts (Any size)**: **$19.99** (Down +$10)",
+        action: { label: "Open Price Calculator", href: "#pricing" },
       };
     }
 
-    if (q.includes("social") || q.includes("track a") || q.includes("track b") || q.includes("post") || q.includes("instagram") || q.includes("tiktok")) {
+    if (q.includes("promo") || q.includes("coupon") || q.includes("code") || q.includes("special") || q.includes("discount") || q.includes("deal")) {
       return {
-        text: "Under **ReLaunch Social**, we offer two tracks:\n\n• **Track A (You supply raw photos/videos)**: Launch ($297/mo), Presence ($497/mo), Velocity ($797/mo)\n• **Track B (100% Done-for-you content creation)**: Ignite ($597/mo), Amplify ($997/mo), Command ($1,497/mo)\n\nWe auto-publish across 5 major platforms (Instagram, Facebook, LinkedIn, TikTok, Google Business). You only spend 30 minutes a month approving!",
-        action: { label: "Explore ReLaunch Social Tiers", href: "#social-autopilot" },
+        text: "We currently have 3 fantastic special promotions:\n\n1. **First Order Promo**: Use code **FIRST10** for **$10 OFF + Free Reusable Laundry Bag** on your first pickup order!\n2. **10 Ironed Shirts Special**: Wash 'N Press 10 shirts for **$29.50** (regular $3.50 ea).\n3. **Comforter Promo**: Any size quilt, blanket, or comforter cleaned for **$19.99** (Down +$10).",
+        action: { label: "View All Specials", href: "#specials" },
       };
     }
 
-    if (q.includes("software") || q.includes("custom") || q.includes("portal") || q.includes("ehr") || q.includes("tech") || q.includes("app") || q.includes("ncci") || q.includes("golf")) {
+    if (q.includes("area") || q.includes("zip") || q.includes("location") || q.includes("where") || q.includes("huntington") || q.includes("greenlawn") || q.includes("melville")) {
       return {
-        text: "Yes! We build bespoke web applications, customer portals, internal operational tools, and complex data migrations (using Base44, Next.js/React, and Python).\n\nProven builds include our **25,502-record medical EHR migration** with zero downtime and the **Golf Central Magazine** interactive publishing engine (185,000+ active readers).",
-        action: { label: "View Custom Tech Case Studies", href: "#work" },
+        text: "We service homes and businesses throughout Long Island, including:\n\n• **Huntington (11743)**\n• **Greenlawn (11740)**\n• **Huntington Station & South Huntington (11746)**\n• **Melville (11747)**\n• **West Hills (11743)**\n• **Syosset (11791), Massapequa (11758), Commack (11725)** & surrounding towns.\n\nOur laundromat is located at **215 New York Ave, Huntington, NY 11743**.",
+        action: { label: "Check Your Zip Code", href: "#pricing" },
       };
     }
 
-    if (q.includes("cost") || q.includes("price") || q.includes("pricing") || q.includes("rate") || q.includes("fee")) {
+    if (q.includes("hour") || q.includes("open") || q.includes("time") || q.includes("address") || q.includes("phone")) {
       return {
-        text: "Pricing is transparent and modular:\n\n• **ReLaunch Social**: Starts at $297/mo\n• **Paid Ads & Local SEO**: $790/mo base\n• **Web Platform Care**: $890/mo base\n• **AI Automation Pipelines**: $690/mo base\n• **Custom Software Retainer**: $1,200/mo base\n\nBundling 2+ services automatically triggers 10% to 20% discounts!",
-        action: { label: "Calculate Your Custom Bundle", href: "#bundle-builder" },
+        text: "Our Huntington laundromat hours & contact details:\n\n📍 **Address**: 215 New York Avenue, Huntington, NY 11743\n📞 **Phone**: (631) 769-9922 / (631) 949-6300\n⏰ **MON – SAT**: 8:00 AM – 9:00 PM (Last wash @ 8:00 PM)\n⏰ **SUN**: 8:00 AM – 6:00 PM (Last wash @ 4:30 PM)\n\nPickup & delivery routes run daily with 24-48h turnaround.",
+        action: { label: "Get Driving Directions", href: contactInfo.googleMapsUrl },
       };
     }
 
-    if (q.includes("book") || q.includes("call") || q.includes("contact") || q.includes("phone") || q.includes("email") || q.includes("strategy") || q.includes("robert") || q.includes("talk")) {
+    if (q.includes("commercial") || q.includes("business") || q.includes("hotel") || q.includes("airbnb") || q.includes("gym") || q.includes("medical") || q.includes("spa") || q.includes("bid")) {
       return {
-        text: "We'd love to chat! You can book a free 15-minute diagnostic strategy session or reach us directly:\n\n📞 **Phone**: (480) 779-9875\n✉️ **Email**: care@relaunch.us\n📍 **Location**: Phoenix, Arizona (Operating since 2004)",
-        action: { label: "Book Strategy Session", href: "#contact" },
+        text: "Yes! We provide full-service commercial linen and towel laundering for:\n\n• **Medical & Dental Clinics** (OSHA-compliant sanitized scrubs)\n• **Gyms & Spas** (Daily fresh towel routes)\n• **Airbnbs & Short-Term Rentals** (Crisp sheets and pillowcases)\n• **Pet Grooming & Veterinary Clinics**\n• **Restaurants & Corporate Uniforms**\n\nWe provide dedicated bins and custom volume billing.",
+        action: { label: "Request a Commercial Bid", href: "https://www.doortodoorlaundry.com/commercial-laundry/request-a-bid/" },
       };
     }
 
-    if (q.includes("method") || q.includes("storybrand") || q.includes("framework") || q.includes("draper")) {
+    if (q.includes("shirt") || q.includes("iron") || q.includes("press")) {
       return {
-        text: "The **ReLaunch Method** is our 4-layer selling framework:\n\n1. **StoryBrand SB7 (35%)**: Customer is the hero, clear problem & direct CTA.\n2. **Hero's Journey (30%)**: Proves customer transformation.\n3. **Draper Principles (25%)**: Sells the emotional outcome.\n4. **Archetype Consistency (10%)**: Unified brand voice.\n\nOur rule: *Anything that doesn't sell doesn't ship.*",
-        action: { label: "See The ReLaunch Method", href: "#method" },
+        text: "Our **Ironed Shirts Service** keeps your wardrobe crisp and sharp:\n\n• **Special Deal**: **10 Shirts Wash & Press for $29.50** (Regular $3.50 ea)\n• Washed, professionally hand-pressed, and returned on hangers in protective poly garment covers.",
+        action: { label: "Order Ironed Shirts", href: contactInfo.portalOrderUrl },
       };
     }
 
     return {
-      text: "Thanks for asking! ReLaunch is a Phoenix marketing & technology agency (Est. 2004) specializing in high-converting websites, AI lead pipelines, multi-channel paid ads, and custom software. Would you like to build a custom bundle, take our free NIS marketing grader, or book a quick strategy call?",
-      action: { label: "Explore Available Services", href: "#services" },
+      text: "Thanks for reaching out! Whether you want to schedule a residential pickup, drop off at our 215 New York Ave laundromat, or request a commercial bid—our Huntington team is here to help.\n\nYou can call us directly at **(631) 769-9922** or schedule online anytime.",
+      action: { label: "Schedule Pickup Online", href: contactInfo.portalOrderUrl },
     };
   };
 
@@ -127,10 +130,10 @@ export default function ChatAssistant() {
     if (!text) return;
 
     const userMessage: Message = {
-      id: Date.now().toString(),
+      id: `user-${Date.now()}`,
       sender: "user",
       text,
-      time: "Just now",
+      time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
     };
 
     setMessages((prev) => [...prev, userMessage]);
@@ -140,10 +143,10 @@ export default function ChatAssistant() {
     setTimeout(() => {
       const response = generateAnswer(text);
       const aiMessage: Message = {
-        id: (Date.now() + 1).toString(),
+        id: `ai-${Date.now()}`,
         sender: "ai",
         text: response.text,
-        time: "Just now",
+        time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
         action: response.action,
       };
 
@@ -152,242 +155,189 @@ export default function ChatAssistant() {
     }, 600);
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      handleSend();
-    }
-  };
-
-  const resetChat = () => {
-    setMessages(initialMessages);
-  };
-
   return (
     <>
-      {/* Floating Toggle Launcher Button */}
-      <AnimatePresence>
-        {!isOpen && (
-          <motion.div
-            key="chat-launcher-btn"
-            initial={{ opacity: 0, scale: 0.8, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.8, y: 10 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-            style={{
-              willChange: "transform, opacity",
-              transform: "translateZ(0)",
-              marginBottom: "max(0px, env(safe-area-inset-bottom, 0px))",
-              marginRight: "max(0px, env(safe-area-inset-right, 0px))",
-            }}
-            className="fixed bottom-10 right-6 sm:bottom-12 sm:right-8 z-50"
-          >
-            <button
-              onClick={() => setIsOpen(true)}
-              aria-label="Open ReLaunch AI Assistant"
-              className="group relative flex items-center gap-2 sm:gap-2.5 px-4 py-2.5 sm:px-4.5 sm:py-3 bg-[#090D16] hover:bg-[#C0622A] text-white rounded-full shadow-2xl border border-slate-700/80 transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
-            >
-              {/* Clean Status Dot */}
-              <span className="relative flex h-2 sm:h-2.5 w-2 sm:w-2.5 ml-0.5">
-                <span className="relative inline-flex rounded-full h-2 sm:h-2.5 w-2 sm:w-2.5 bg-[#C0622A]" />
+      {/* Floating Launcher Button */}
+      <div className="fixed bottom-5 right-5 z-40">
+        <button
+          type="button"
+          onClick={() => setIsOpen(!isOpen)}
+          className="relative group p-3.5 sm:p-4 rounded-2xl bg-[#DC1F62] hover:bg-[#BE185D] text-white shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center justify-center cursor-pointer active:scale-95"
+          aria-label="Open Door to Door Laundry Assistant"
+        >
+          {hasUnread && !isOpen && (
+            <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-sky-400"></span>
+            </span>
+          )}
+
+          {isOpen ? (
+            <X className="w-6 h-6 transition-transform group-hover:rotate-90" />
+          ) : (
+            <div className="flex items-center gap-2">
+              <MessageSquare className="w-5 h-5 sm:w-6 sm:h-6" />
+              <span className="hidden sm:inline font-heading font-bold text-xs uppercase tracking-wider pr-1">
+                Ask Laundry AI
               </span>
+            </div>
+          )}
+        </button>
+      </div>
 
-              <Bot className="w-4 h-4 sm:w-5 sm:h-5 text-[#C0622A] group-hover:text-white transition-colors ml-0.5" />
-              <span className="font-heading font-bold text-[11px] sm:text-xs uppercase tracking-wider pr-0.5 sm:pr-1 ml-0.5">
-                ReLaunch AI
-              </span>
-
-              {hasUnread && (
-                <span className="absolute -top-1 right-0 flex h-4 w-4 items-center justify-center rounded-full bg-[#C0622A] text-[9px] font-black text-white shadow-xs">
-                  1
-                </span>
-              )}
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Expanded Chat Assistant Window */}
+      {/* Chat Drawer Window */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            key="chat-assistant-window"
-            initial={{ opacity: 0, scale: 0.95, y: 16 }}
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 16 }}
-            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-            style={{
-              willChange: "transform, opacity",
-              transform: "translateZ(0)",
-              marginBottom: "max(0px, env(safe-area-inset-bottom, 0px))",
-              marginRight: "max(0px, env(safe-area-inset-right, 0px))",
-            }}
-            className="fixed bottom-10 right-4 sm:bottom-12 sm:right-8 z-50 w-[calc(100vw-2rem)] sm:w-[400px] h-[560px] max-h-[82vh] bg-[#090D16] text-white rounded-3xl shadow-2xl border border-slate-800 flex flex-col overflow-hidden mr-1 sm:mr-0"
-            data-lenis-prevent="true"
-            onWheel={(e) => e.stopPropagation()}
-            onTouchMove={(e) => e.stopPropagation()}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            transition={{ duration: 0.2 }}
+            className="fixed bottom-20 right-4 sm:right-6 z-50 w-[92vw] sm:w-[420px] max-h-[580px] bg-white rounded-3xl shadow-2xl border border-pink-200/80 flex flex-col overflow-hidden select-text"
           >
             {/* Header */}
-            <div className="p-4 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-[#C0622A] flex items-center justify-center shadow-xs">
-                  <Bot className="w-5 h-5 text-white" />
+            <div className="bg-gradient-to-r from-pink-50 via-white to-pink-50 text-[#0F172A] p-4 flex items-center justify-between border-b border-pink-200/80">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-xl bg-[#DC1F62] flex items-center justify-center text-white">
+                  <Sparkles className="w-4 h-4" />
                 </div>
                 <div>
-                  <div className="flex items-center gap-2">
-                    <h3 className="font-heading font-black text-sm text-white">
-                    ReLaunch Assistant
-                  </h3>
-                  <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-[#C0622A]/20 text-[#C0622A] border border-[#C0622A]/30">
-                    AI Active
+                  <h4 className="font-heading font-bold text-sm text-[#0F172A] leading-tight">
+                    Door to Door Assistant
+                  </h4>
+                  <span className="text-[10px] text-emerald-600 font-semibold flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    Online · (631) 769-9922
                   </span>
                 </div>
-                <p className="text-[11px] text-slate-400">
-                  Phoenix, AZ · Instant Answers
-                </p>
               </div>
-            </div>
 
-            <div className="flex items-center gap-1">
-              <button
-                onClick={resetChat}
-                title="Reset conversation"
-                className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
-              >
-                <RotateCcw className="w-4 h-4" />
-              </button>
-
-              <button
-                onClick={() => setIsOpen(false)}
-                title="Close chat"
-                className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-
-          {/* Messages Feed */}
-          <div
-            data-lenis-prevent="true"
-            onWheel={(e) => e.stopPropagation()}
-            onTouchMove={(e) => e.stopPropagation()}
-            className="flex-1 p-4 overflow-y-auto space-y-3.5 text-xs overscroll-contain touch-pan-y"
-          >
-            {messages.map((msg) => (
-              <div
-                key={msg.id}
-                className={`flex gap-2.5 ${
-                  msg.sender === "user" ? "justify-end" : "justify-start"
-                }`}
-              >
-                {msg.sender === "ai" && (
-                  <div className="w-7 h-7 rounded-lg bg-[#C0622A] text-white flex items-center justify-center shrink-0 mt-0.5">
-                    <Sparkles className="w-3.5 h-3.5" />
-                  </div>
-                )}
-
-                <div
-                  className={`max-w-[82%] p-3.5 rounded-2xl ${
-                    msg.sender === "user"
-                      ? "bg-[#C0622A] text-white font-medium rounded-tr-none"
-                      : "bg-slate-900 border border-slate-800 text-slate-200 rounded-tl-none shadow-xs"
-                  }`}
+              <div className="flex items-center gap-1">
+                <button
+                  type="button"
+                  onClick={() => setMessages(initialMessages)}
+                  className="p-1.5 rounded-lg hover:bg-pink-100 text-slate-500 hover:text-slate-800 transition-colors cursor-pointer"
+                  title="Reset Chat"
                 >
-                  <div className="whitespace-pre-line leading-relaxed">
-                    {msg.text}
-                  </div>
+                  <RotateCcw className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsOpen(false)}
+                  className="p-1.5 rounded-lg hover:bg-pink-100 text-slate-500 hover:text-slate-800 transition-colors cursor-pointer"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
 
-                  {msg.action && (
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setIsOpen(false);
-                        if (msg.action?.href === "#contact") {
-                          openContactModal({ intent: "strategy-session" });
-                        } else if (msg.action?.href === "#ai-audit") {
-                          openContactModal({ intent: "ai-audit" });
-                        } else if (msg.action?.href === "#start-project") {
-                          openContactModal({ intent: "start-project" });
-                        } else if (msg.action?.href.startsWith("#")) {
-                          const id = msg.action.href.replace("#", "");
-                          const el = document.getElementById(id);
-                          if (el) {
-                            el.scrollIntoView({ behavior: "smooth" });
-                          }
-                        }
-                      }}
-                      className="mt-3 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-[#C0622A] text-white font-heading font-bold text-[11px] uppercase tracking-wider transition-colors border border-slate-700 text-center"
-                    >
-                      <span>{msg.action.label}</span>
-                      <ArrowUpRight className="w-3 h-3" />
-                    </button>
+            {/* Messages Scroll Area */}
+            <div className="flex-1 p-4 overflow-y-auto space-y-3.5 bg-[#FAF9F6] text-xs">
+              {messages.map((msg) => (
+                <div
+                  key={msg.id}
+                  className={`flex gap-2.5 ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
+                >
+                  {msg.sender === "ai" && (
+                    <div className="w-6 h-6 rounded-lg bg-pink-100 text-[#DC1F62] flex items-center justify-center shrink-0 mt-0.5 border border-pink-200/60">
+                      <Bot className="w-3.5 h-3.5 text-[#DC1F62]" />
+                    </div>
                   )}
-                </div>
 
-                {msg.sender === "user" && (
-                  <div className="w-7 h-7 rounded-lg bg-slate-800 text-slate-300 flex items-center justify-center shrink-0 mt-0.5">
-                    <User className="w-3.5 h-3.5" />
+                  <div
+                    className={`max-w-[82%] p-3.5 rounded-2xl ${
+                      msg.sender === "user"
+                        ? "bg-[#DC1F62] text-white rounded-tr-xs shadow-xs"
+                        : "bg-white text-slate-800 border border-pink-200/80 rounded-tl-xs shadow-xs"
+                    }`}
+                  >
+                    <div className="whitespace-pre-line leading-relaxed font-normal">
+                      {msg.text}
+                    </div>
+
+                    {msg.action && (
+                      <div className="mt-2.5 pt-2 border-t border-slate-100">
+                        <a
+                          href={msg.action.href}
+                          target={msg.action.href.startsWith("http") ? "_blank" : "_self"}
+                          rel="noopener noreferrer"
+                          onClick={() => {
+                            if (!msg.action?.href.startsWith("http")) {
+                              setIsOpen(false);
+                            }
+                          }}
+                          className="inline-flex items-center gap-1.5 text-[11px] font-bold text-[#DC1F62] hover:underline"
+                        >
+                          <span>{msg.action.label}</span>
+                          <ArrowUpRight className="w-3 h-3" />
+                        </a>
+                      </div>
+                    )}
+
+                    <span
+                      className={`text-[9px] block mt-1 ${
+                        msg.sender === "user" ? "text-pink-100 text-right" : "text-slate-400"
+                      }`}
+                    >
+                      {msg.time}
+                    </span>
                   </div>
-                )}
-              </div>
-            ))}
-
-            {isTyping && (
-              <div className="flex gap-2.5 justify-start">
-                <div className="w-7 h-7 rounded-lg bg-[#C0622A] text-white flex items-center justify-center shrink-0 mt-0.5">
-                  <Sparkles className="w-3.5 h-3.5" />
                 </div>
-                <div className="p-3 rounded-2xl bg-slate-900 border border-slate-800 text-slate-400 rounded-tl-none flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#C0622A] animate-bounce" />
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#C0622A] animate-bounce [animation-delay:0.2s]" />
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#C0622A] animate-bounce [animation-delay:0.4s]" />
+              ))}
+
+              {isTyping && (
+                <div className="flex gap-2.5 justify-start">
+                  <div className="w-6 h-6 rounded-lg bg-[#0F172A] text-white flex items-center justify-center shrink-0">
+                    <Bot className="w-3.5 h-3.5 text-[#38BDF8]" />
+                  </div>
+                  <div className="bg-white border border-slate-200 p-3 rounded-2xl rounded-tl-xs flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#DC1F62] animate-bounce" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#DC1F62] animate-bounce delay-100" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#DC1F62] animate-bounce delay-200" />
+                  </div>
                 </div>
-              </div>
-            )}
-            <div ref={messagesEndRef} />
-          </div>
+              )}
 
-          {/* Quick Prompts Carousel */}
-          <div className="px-3 py-2 bg-slate-950/80 border-t border-slate-800/80 overflow-x-auto flex gap-1.5 scrollbar-none">
-            {quickPrompts.map((prompt) => (
-              <button
-                key={prompt}
-                onClick={() => handleSend(prompt)}
-                className="px-2.5 py-1 rounded-lg bg-slate-900 hover:bg-[#C0622A] text-slate-300 hover:text-white border border-slate-800 text-[10px] font-semibold whitespace-nowrap transition-colors cursor-pointer shrink-0"
-              >
-                {prompt}
-              </button>
-            ))}
-          </div>
+              <div ref={messagesEndRef} />
+            </div>
 
-          {/* Input Bar */}
-          <div className="p-3 bg-slate-900 border-t border-slate-800">
-            <div className="relative flex items-center">
+            {/* Quick Prompts Carousel */}
+            <div className="px-3 py-2 bg-white border-t border-slate-200 flex gap-1.5 overflow-x-auto scrollbar-none">
+              {quickPrompts.map((prompt) => (
+                <button
+                  key={prompt}
+                  type="button"
+                  onClick={() => handleSend(prompt)}
+                  className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-pink-50 hover:text-[#DC1F62] text-slate-700 text-[10px] font-semibold whitespace-nowrap transition-colors border border-slate-200/80 shrink-0"
+                >
+                  {prompt}
+                </button>
+              ))}
+            </div>
+
+            {/* Input Box */}
+            <div className="p-3 bg-white border-t border-slate-200 flex items-center gap-2">
               <input
                 type="text"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="Ask about bundles, pricing, services..."
-                className="w-full py-2.5 pl-3.5 pr-11 bg-slate-950 text-white placeholder-slate-500 rounded-xl text-xs border border-slate-800 focus:outline-none focus:border-[#C0622A] transition-colors"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") handleSend();
+                }}
+                placeholder="Ask about pricing, pickup, specials..."
+                className="flex-1 px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs font-medium text-slate-900 focus:bg-white transition-all outline-none"
               />
               <button
+                type="button"
                 onClick={() => handleSend()}
-                disabled={!inputValue.trim()}
-                className={`absolute right-1.5 p-1.5 rounded-lg transition-all ${
-                  inputValue.trim()
-                    ? "bg-[#C0622A] text-white hover:bg-[#a84f1d] cursor-pointer"
-                    : "text-slate-600 cursor-not-allowed"
-                }`}
+                className="p-2.5 rounded-xl bg-[#DC1F62] hover:bg-[#BE185D] text-white shadow-xs transition-transform active:scale-95"
               >
-                <Send className="w-3.5 h-3.5" />
+                <Send className="w-4 h-4" />
               </button>
             </div>
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
-  </>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }

@@ -2,136 +2,120 @@ export interface BundleTier {
   id: string;
   name: string;
   countLabel: string;
-  minServices: number;
-  maxServices: number;
-  discountPercent: number;
+  pricePerLb: number;
+  minOrder: number;
+  turnaround: string;
   discountBadge: string;
   description: string;
   highlighted?: boolean;
 }
 
-export interface SelectableService {
+export interface SelectableAddon {
   id: string;
   name: string;
   category: string;
   basePrice: number;
+  unitLabel: string;
   description: string;
   popular?: boolean;
 }
 
 export const bundleTiers: BundleTier[] = [
   {
-    id: "starter",
-    name: "Starter",
-    countLabel: "1 Service",
-    minServices: 1,
-    maxServices: 1,
-    discountPercent: 0,
-    discountBadge: "Standard Rate",
-    description: "Get started with one dedicated high-impact recurring marketing or tech service.",
+    id: "dropoff-nextday",
+    name: "Drop-Off Next-Day",
+    countLabel: "At Huntington Laundromat",
+    pricePerLb: 1.10,
+    minOrder: 20,
+    turnaround: "Next Day (24 hrs)",
+    discountBadge: "Best Value ($1.10/lb)",
+    description: "Drop off your laundry at 215 New York Ave. Washed, dried, and neatly folded for next-day pickup.",
     highlighted: false,
   },
   {
-    id: "growth",
-    name: "Growth",
-    countLabel: "2–3 Services",
-    minServices: 2,
-    maxServices: 3,
-    discountPercent: 10,
-    discountBadge: "Save 10%",
-    description: "Build serious momentum with complementary services working in synergy.",
+    id: "dropoff-sameday",
+    name: "Drop-Off Same-Day",
+    countLabel: "Rush Service",
+    pricePerLb: 1.30,
+    minOrder: 20,
+    turnaround: "Same Day (Drop off by noon)",
+    discountBadge: "Fastest Turnaround",
+    description: "Drop off before 12:00 PM and pick up your clean, crisp, folded clothes the very same evening.",
     highlighted: false,
   },
   {
-    id: "scale",
-    name: "Scale",
-    countLabel: "4–5 Services",
-    minServices: 4,
-    maxServices: 5,
-    discountPercent: 15,
-    discountBadge: "Save 15%",
-    description: "A complete growth engine — ads, web, social, and automations perfectly aligned.",
-    highlighted: false,
-  },
-  {
-    id: "mission-control",
-    name: "Mission Control",
-    countLabel: "6+ Services",
-    minServices: 6,
-    maxServices: 99,
-    discountPercent: 20,
-    discountBadge: "Save 20%",
-    description: "Your full turnkey marketing & tech department at a fraction of in-house headcount cost.",
+    id: "pickup-recurring",
+    name: "Recurring Pickup & Delivery",
+    countLabel: "Weekly / Bi-Weekly Doorstep",
+    pricePerLb: 1.75,
+    minOrder: 45,
+    turnaround: "24–48 Hours",
+    discountBadge: "Most Convenient ($1.75/lb)",
+    description: "Automatic scheduled pickup and delivery right to your door. Set it once and never do laundry again.",
     highlighted: true,
+  },
+  {
+    id: "pickup-asneeded",
+    name: "As-Needed Pickup & Delivery",
+    countLabel: "On-Demand Doorstep",
+    pricePerLb: 1.80,
+    minOrder: 45,
+    turnaround: "24–48 Hours",
+    discountBadge: "Flexible ($1.80/lb)",
+    description: "Schedule pickups whenever you need them with zero recurring commitment. Perfect for busy weeks.",
+    highlighted: false,
   },
 ];
 
-export const selectableServices: SelectableService[] = [
+export const selectableServices: SelectableAddon[] = [
   {
-    id: "marketing-ads",
-    name: "Paid Ads (Meta & Google) + Local SEO",
-    category: "Traffic & Leads",
-    basePrice: 790,
-    description: "Full ad campaign setup, Google Business Profile ranking & conversion optimization.",
+    id: "ironed-shirts-bundle",
+    name: "10 Shirts Wash & Press Special",
+    category: "Pressing",
+    basePrice: 29.50,
+    unitLabel: "per 10 shirts",
+    description: "10 dress shirts washed, crisply ironed, and hung on hangers (regular $3.50 each).",
     popular: true,
   },
   {
-    id: "relaunch-social",
-    name: "ReLaunch Social Autopilot",
-    category: "Social Presence",
-    basePrice: 497,
-    description: "Multi-platform automated scheduling, content creation & monthly publishing.",
+    id: "comforter-standard",
+    name: "Comforter / Quilt / Heavy Blanket (Any Size)",
+    category: "Bedding",
+    basePrice: 19.99,
+    unitLabel: "per piece",
+    description: "Deep sanitized wash and fluff for twin, full, queen, or king comforters and heavy quilts.",
     popular: true,
   },
   {
-    id: "web-dev",
-    name: "Web Platform & Continuous Care Plan",
-    category: "Digital Assets",
-    basePrice: 890,
-    description: "High-performance Next.js website hosting, SB7 landing pages & security updates.",
-    popular: true,
+    id: "comforter-down",
+    name: "Down / Extra-Heavy Comforter",
+    category: "Bedding",
+    basePrice: 29.99,
+    unitLabel: "per piece",
+    description: "Gentle low-heat drying and thorough agitation for premium down and oversized duvets.",
   },
   {
-    id: "ai-automation",
-    name: "AI Lead Capture & Automated CRM Workflows",
-    category: "Automation",
-    basePrice: 690,
-    description: "24/7 AI qualification chatbots, instant SMS/Email follow-up & Zapier/Base44 pipelines.",
-    popular: true,
+    id: "individual-shirt",
+    name: "Individual Pressed Shirt / Blouse",
+    category: "Pressing",
+    basePrice: 3.50,
+    unitLabel: "per shirt",
+    description: "Wash, hand-press, and return on hanger with collar stays.",
   },
   {
-    id: "video-creative",
-    name: "Video Ad Creative & Content Batches",
-    category: "Creative",
-    basePrice: 590,
-    description: "Short-form video ads, Reels, programmatic renders & conversion scripts.",
+    id: "hypoallergenic-soap",
+    name: "Hypoallergenic / Free & Clear Detergent",
+    category: "Custom Care",
+    basePrice: 0.00,
+    unitLabel: "Included Free",
+    description: "Dye-free, fragrance-free, sensitive-skin approved detergent option upon request.",
   },
   {
-    id: "email-marketing",
-    name: "Email Retention & Automated Flow Sequences",
-    category: "Retention",
-    basePrice: 450,
-    description: "Welcome flows, broadcast campaigns, list segmentation & deliverability care.",
-  },
-  {
-    id: "brand-design",
-    name: "Brand Design & Marketing Collateral Kit",
-    category: "Creative",
-    basePrice: 490,
-    description: "Archetype identity, sales decks, print collateral & ad visual assets.",
-  },
-  {
-    id: "custom-software",
-    name: "Custom Client Portal & Internal Tools Retainer",
-    category: "Software",
-    basePrice: 1200,
-    description: "Dedicated React/Base44 portal development, API integrations & SLA uptime.",
-  },
-  {
-    id: "nis-advisory",
-    name: "NIS Sales Audit & Monthly CMO Strategy",
-    category: "Strategy",
-    basePrice: 350,
-    description: "Monthly 4-layer diagnostic scoring, competitive intelligence & executive strategy call.",
+    id: "hang-dry-delicates",
+    name: "Delicate Garment Air-Dry / Hang Dry",
+    category: "Custom Care",
+    basePrice: 5.00,
+    unitLabel: "per bundle",
+    description: "Special items hung to dry to protect wool, silk, spandex, and activewear fabrics.",
   },
 ];

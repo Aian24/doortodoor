@@ -5,7 +5,6 @@ import { useContactModal } from "@/context/ContactModalContext";
 import { useScrollContext } from "./SmoothScrollProvider";
 import { showSuccessSwal } from "@/utils/alerts";
 import CustomSelect from "./CustomSelect";
-import CustomDatePicker from "./CustomDatePicker";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X,
@@ -18,89 +17,70 @@ import {
   CheckCircle2,
   ArrowRight,
   ShieldCheck,
-  Bot,
-  Video,
+  Building2,
+  Sparkles,
+  Tag,
 } from "lucide-react";
+import { contactInfo } from "@/data/navigation";
 
 const serviceOptions = [
-  "Marketing & Advertising",
-  "Brand & Design",
-  "AI Services (AEO/GEO)",
-  "Web & App Development",
-  "Video & Content",
-  "Email & SMS",
-  "A full bundle",
-  "Not sure yet",
-];
-
-const availableTimeSlots = [
-  "09:00 AM MST",
-  "10:00 AM MST",
-  "11:30 AM MST",
-  "01:00 PM MST",
-  "02:30 PM MST",
-  "04:00 PM MST",
+  "Laundry Pickup & Delivery (Residential)",
+  "Wash, Dry & Fold (Drop-Off)",
+  "10 Ironed Shirts Special ($29.50)",
+  "Comforters & Bedding Cleaning ($19.99)",
+  "Commercial Laundry (Medical / Dental)",
+  "Commercial Laundry (Gyms & Spas)",
+  "Commercial Laundry (Airbnbs / Vacation Rentals)",
+  "Commercial Laundry (Pet Grooming / Veterinarians)",
+  "Commercial Laundry (Restaurants / Uniforms)",
+  "Franchise Opportunity Inquiry",
+  "Other / General Question",
 ];
 
 export default function ContactModal() {
   const { isOpen, options, closeContactModal } = useContactModal();
   const { stopScroll, startScroll } = useScrollContext();
 
-  const [activeTab, setActiveTab] = useState<"form" | "ai-audit" | "calendar">(
-    "form"
-  );
+  const [activeTab, setActiveTab] = useState<"pickup" | "commercial-bid" | "general">("pickup");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
-    business: "",
-    interest: "A full bundle",
-    message: "",
-    preferredDate: "",
-    preferredTime: "10:00 AM MST",
+    address: "",
+    zipCode: "",
+    businessName: "",
+    serviceInterest: "Laundry Pickup & Delivery (Residential)",
+    specialInstructions: "",
+    couponCode: "FIRST10",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Sync options when modal opens
   useEffect(() => {
     if (isOpen) {
-      if (options.intent === "ai-audit") {
-        setActiveTab("ai-audit");
+      if (options.intent === "commercial-bid") {
+        setActiveTab("commercial-bid");
         setFormData((prev) => ({
           ...prev,
-          interest: "AI Services (AEO/GEO)",
-          message: options.notes || "I'd like to book an AI readiness audit for our business workflows.",
-        }));
-      } else if (options.intent === "strategy-session") {
-        setActiveTab("calendar");
-        setFormData((prev) => ({
-          ...prev,
-          interest: options.serviceInterest || "A full bundle",
-          message: options.notes || "Booking a free strategy session to discuss marketing growth.",
-        }));
-      } else if (options.intent === "start-project") {
-        setActiveTab("form");
-        setFormData((prev) => ({
-          ...prev,
-          interest: options.serviceInterest || "Web & App Development",
-          message: options.notes || "Ready to start a new project with ReLaunch.",
+          serviceInterest: "Commercial Laundry (Gyms & Spas)",
+          specialInstructions: options.notes || "I'd like to request a commercial laundry bid for our business.",
         }));
       } else {
-        setActiveTab("form");
+        setActiveTab("pickup");
         if (options.serviceInterest) {
           setFormData((prev) => ({
             ...prev,
-            interest: options.serviceInterest || "A full bundle",
+            serviceInterest: options.serviceInterest || "Laundry Pickup & Delivery (Residential)",
           }));
         }
         if (options.notes) {
-          setFormData((prev) => ({ ...prev, message: options.notes || "" }));
+          setFormData((prev) => ({ ...prev, specialInstructions: options.notes || "" }));
         }
       }
     }
   }, [isOpen, options]);
 
-  // Handle ESC key and body/html scroll lock + Lenis pause
+  // Handle ESC key and body/html scroll lock
   useEffect(() => {
     if (isOpen) {
       stopScroll();
@@ -126,413 +106,300 @@ export default function ContactModal() {
     }
   }, [isOpen, closeContactModal, stopScroll, startScroll]);
 
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+  if (!isOpen) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate instant Google Calendar session confirmation
-    setTimeout(async () => {
-      setIsSubmitting(false);
-      closeContactModal();
+    // Simulate fast dispatch
+    await new Promise((resolve) => setTimeout(resolve, 800));
+    setIsSubmitting(false);
 
-      if (activeTab === "calendar") {
-        await showSuccessSwal(
-          "Google Calendar Session Confirmed!",
-          `Thanks, ${formData.name || "friend"}! Your strategy session is locked in for <strong>${formData.preferredDate || "your chosen date"} at ${formData.preferredTime}</strong>.<br><br>We sent an instant Google Calendar invite and Google Meet link to <strong>${formData.email}</strong>.`,
-          `<strong>Focus:</strong> ${formData.interest} · <strong>Phone:</strong> ${formData.phone || "On file"}`
-        );
-      } else if (activeTab === "ai-audit") {
-        await showSuccessSwal(
-          "AI Audit Request Received!",
-          `Thanks, ${formData.name || "friend"}! Our AI architecture team is reviewing ${formData.business || "your company"}'s profile. We will email your diagnostic roadmap to ${formData.email} within 1 business day.`,
-          `<strong>Priority Track:</strong> AI & Automation Readiness · Phoenix, AZ`
-        );
-      } else {
-        await showSuccessSwal(
-          "Message Received!",
-          `Thanks, ${formData.name || "friend"}! Your message is on its way. Our Phoenix team will reply to ${formData.email} within one business day.`,
-          `<strong>Target Interest:</strong> ${formData.interest}`
-        );
-      }
+    showSuccessSwal(
+      activeTab === "commercial-bid"
+        ? "Commercial Bid Request Received!"
+        : "Order Inquiry Received!",
+      activeTab === "commercial-bid"
+        ? "Thank you! Our commercial accounts manager will review your details and contact you within 24 hours with volume pricing."
+        : "Thank you! Our team has received your details and will confirm your pickup schedule shortly. You can also complete your order instantly on our portal."
+    );
 
-      // Reset form
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        business: "",
-        interest: "A full bundle",
-        message: "",
-        preferredDate: "",
-        preferredTime: "10:00 AM MST",
-      });
-    }, 450);
+    closeContactModal();
   };
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <div
-          key="contact-modal-portal"
-          data-lenis-prevent="true"
-          onWheel={(e) => e.stopPropagation()}
-          onTouchMove={(e) => e.stopPropagation()}
-          className="fixed inset-0 z-[999] flex items-center justify-center p-2 sm:p-4 overflow-y-auto overscroll-contain"
-        >
-          {/* Frosted Glass Backdrop */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25, ease: "easeOut" }}
-            onClick={closeContactModal}
-            className="fixed inset-0 bg-[#090D16]/80 backdrop-blur-md transition-opacity cursor-pointer"
-          />
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-4 md:p-6 overflow-y-auto">
+      {/* Backdrop */}
+      <div
+        onClick={closeContactModal}
+        className="fixed inset-0 bg-black/75 backdrop-blur-md transition-opacity"
+      />
 
-          {/* Modal Dialog Container with Apple-Style Spring Physics */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.88, y: 35, filter: "blur(6px)" }}
-            animate={{ opacity: 1, scale: 1, y: 0, filter: "blur(0px)" }}
-            exit={{ opacity: 0, scale: 0.9, y: 25, filter: "blur(6px)" }}
-            transition={{ type: "spring", stiffness: 360, damping: 28, mass: 0.85 }}
-            onClick={(e) => e.stopPropagation()}
-            data-lenis-prevent="true"
-            onWheel={(e) => e.stopPropagation()}
-            onTouchMove={(e) => e.stopPropagation()}
-            className="relative w-full max-w-3xl bg-white rounded-2xl sm:rounded-3xl shadow-2xl border border-slate-200 overflow-hidden z-10 max-h-[88vh] flex flex-col my-auto"
-          >
-        {/* Modal Header */}
-        <div className="shrink-0 bg-[#090D16] text-white p-4 sm:p-5 flex items-start justify-between border-b border-slate-800">
-          <div>
-            <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-slate-900 border border-slate-800 text-[#C0622A] text-[9.5px] font-mono font-bold uppercase tracking-widest mb-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#C0622A]" />
-              <span>
-                {activeTab === "calendar"
-                  ? "GOOGLE CALENDAR STRATEGY SESSION"
-                  : "LET'S BUILD YOUR MISSION"}
+      {/* Modal Container */}
+      <div className="relative bg-white rounded-3xl shadow-2xl border border-pink-200/80 w-full max-w-4xl overflow-hidden z-10 max-h-[92vh] flex flex-col my-auto">
+        
+        {/* Header Bar */}
+        <div className="bg-gradient-to-r from-pink-50 via-white to-pink-50 text-[#0F172A] p-5 sm:p-6 flex items-center justify-between gap-4 border-b border-pink-200/80">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-[#DC1F62] flex items-center justify-center text-white shadow-md">
+              <Sparkles className="w-5 h-5" />
+            </div>
+            <div>
+              <span className="text-[10px] uppercase font-mono font-bold tracking-widest text-[#0284C7]">
+                DOOR TO DOOR LAUNDRY · HUNTINGTON, NY
               </span>
+              <h3 className="font-heading font-black text-xl sm:text-2xl text-[#0F172A]">
+                {activeTab === "commercial-bid"
+                  ? "Request a Commercial Bid"
+                  : "Schedule Pickup & Inquiry"}
+              </h3>
             </div>
-            <h3 className="font-heading font-black text-lg sm:text-2xl text-white tracking-tight leading-tight">
-              {activeTab === "calendar"
-                ? "Grab a time that works."
-                : activeTab === "ai-audit"
-                ? "Request Your AI Readiness Audit"
-                : "Tell Us About Your Business"}
-            </h3>
-            <p className="text-slate-300 text-[11px] sm:text-xs mt-0.5 max-w-lg font-normal">
-              {activeTab === "calendar"
-                ? "Pick a slot below — you'll get an instant Google Calendar confirmation."
-                : "No pressure, no fluff. Just a clear roadmap tailored to your growth goals."}
-            </p>
           </div>
 
           <button
+            type="button"
             onClick={closeContactModal}
-            className="p-1.5 sm:p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors shrink-0 cursor-pointer"
-            aria-label="Close modal"
+            className="p-2 rounded-full bg-pink-100 hover:bg-pink-200 text-slate-700 hover:text-black transition-colors cursor-pointer"
           >
-            <X className="w-4 h-4 sm:w-5 sm:h-5" />
+            <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Mode Switcher Tabs */}
-        <div className="shrink-0 bg-white px-4 sm:px-6 border-b border-slate-200 flex items-center gap-4 sm:gap-8 overflow-x-auto">
+        {/* Tab Switcher */}
+        <div className="flex border-b border-slate-200 bg-slate-50 px-4 sm:px-6 pt-3 gap-2 overflow-x-auto">
           <button
             type="button"
-            onClick={() => setActiveTab("form")}
-            className={`relative py-2.5 sm:py-3 text-xs sm:text-sm font-bold flex items-center gap-2 transition-colors cursor-pointer whitespace-nowrap ${
-              activeTab === "form"
-                ? "text-[#C0622A]"
-                : "text-slate-500 hover:text-[#090D16]"
+            onClick={() => setActiveTab("pickup")}
+            className={`px-4 py-2.5 text-xs font-heading font-bold uppercase tracking-wider rounded-t-xl transition-all border-b-2 flex items-center gap-2 ${
+              activeTab === "pickup"
+                ? "bg-white border-[#DC1F62] text-[#DC1F62] shadow-xs"
+                : "border-transparent text-slate-600 hover:text-slate-900"
             }`}
           >
-            <Send className={`w-3.5 h-3.5 ${activeTab === "form" ? "text-[#C0622A]" : "text-slate-400"}`} />
-            <span>Send a Message / Start Project</span>
-            {activeTab === "form" && (
-              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#C0622A]" />
-            )}
+            <Calendar className="w-4 h-4" />
+            <span>Pickup &amp; Delivery</span>
           </button>
 
           <button
             type="button"
-            onClick={() => setActiveTab("ai-audit")}
-            className={`relative py-2.5 sm:py-3 text-xs sm:text-sm font-bold flex items-center gap-2 transition-colors cursor-pointer whitespace-nowrap ${
-              activeTab === "ai-audit"
-                ? "text-[#C0622A]"
-                : "text-slate-500 hover:text-[#090D16]"
+            onClick={() => setActiveTab("commercial-bid")}
+            className={`px-4 py-2.5 text-xs font-heading font-bold uppercase tracking-wider rounded-t-xl transition-all border-b-2 flex items-center gap-2 ${
+              activeTab === "commercial-bid"
+                ? "bg-white border-[#0284C7] text-[#0284C7] shadow-xs"
+                : "border-transparent text-slate-600 hover:text-slate-900"
             }`}
           >
-            <Bot className={`w-3.5 h-3.5 ${activeTab === "ai-audit" ? "text-[#C0622A]" : "text-slate-400"}`} />
-            <span>Book an AI Audit</span>
-            {activeTab === "ai-audit" && (
-              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#C0622A]" />
-            )}
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setActiveTab("calendar")}
-            className={`relative py-2.5 sm:py-3 text-xs sm:text-sm font-bold flex items-center gap-2 transition-colors cursor-pointer whitespace-nowrap ${
-              activeTab === "calendar"
-                ? "text-[#C0622A]"
-                : "text-slate-500 hover:text-[#090D16]"
-            }`}
-          >
-            <Calendar className={`w-3.5 h-3.5 ${activeTab === "calendar" ? "text-[#C0622A]" : "text-slate-400"}`} />
-            <span>Live Calendar Slot</span>
-            {activeTab === "calendar" && (
-              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#C0622A]" />
-            )}
+            <Building2 className="w-4 h-4" />
+            <span>Commercial Bid</span>
           </button>
         </div>
 
-        {/* Modal Body / Form */}
-        <div
-          data-lenis-prevent="true"
-          onWheel={(e) => e.stopPropagation()}
-          onTouchMove={(e) => e.stopPropagation()}
-          className="p-4 sm:p-5 overflow-y-auto overscroll-contain flex-1 min-h-0 touch-pan-y"
-        >
-          <form onSubmit={handleSubmit} className="space-y-3">
-            {/* 2-Column Row: Name & Email */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div>
-                <label className="block text-[10.5px] font-bold uppercase tracking-wider text-slate-700 mb-1">
-                  Full Name <span className="text-[#C0622A]">*</span>
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  required
-                  placeholder="Jane Smith"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:bg-white focus:border-[#C0622A] focus:ring-2 focus:ring-[#C0622A]/15 focus:outline-none transition-all"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[10.5px] font-bold uppercase tracking-wider text-slate-700 mb-1">
-                  Work Email <span className="text-[#C0622A]">*</span>
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  required
-                  placeholder="jane@business.com"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:bg-white focus:border-[#C0622A] focus:ring-2 focus:ring-[#C0622A]/15 focus:outline-none transition-all"
-                />
-              </div>
-            </div>
-
-            {/* 2-Column Row: Phone & Business Name */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div>
-                <label className="block text-[10.5px] font-bold uppercase tracking-wider text-slate-700 mb-1">
-                  Phone Number
-                </label>
-                <input
-                  type="tel"
-                  name="phone"
-                  placeholder="480-779-9875"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:bg-white focus:border-[#C0622A] focus:ring-2 focus:ring-[#C0622A]/15 focus:outline-none transition-all"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[10.5px] font-bold uppercase tracking-wider text-slate-700 mb-1">
-                  Business / Company Name
-                </label>
-                <input
-                  type="text"
-                  name="business"
-                  placeholder="Your Company LLC"
-                  value={formData.business}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:bg-white focus:border-[#C0622A] focus:ring-2 focus:ring-[#C0622A]/15 focus:outline-none transition-all"
-                />
-              </div>
-            </div>
-
-            {/* Service Interest Selector */}
-            <div>
-              <label className="block text-[10.5px] font-bold uppercase tracking-wider text-slate-700 mb-1">
-                What do you need help with?
-              </label>
-              <CustomSelect
-                name="interest"
-                value={formData.interest}
-                onChange={(val) =>
-                  setFormData((prev) => ({ ...prev, interest: val }))
-                }
-                options={serviceOptions}
-              />
-            </div>
-
-            {/* Calendar-Specific Google Calendar Schedule Section */}
-            {activeTab === "calendar" && (
-              <div className="p-3 sm:p-4 bg-orange-50/70 rounded-2xl border border-[#C0622A]/30 space-y-2.5">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-slate-900">
-                    Instant Google Calendar Confirmation (30 Min)
-                  </span>
-                  <span className="text-[9.5px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#C0622A] text-white">
-                    Free Session
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {/* Custom Brand Orange Date Picker */}
-                  <div>
-                    <label className="block text-[10.5px] font-bold uppercase tracking-wider text-slate-700 mb-1">
-                      Choose Date
-                    </label>
-                    <CustomDatePicker
-                      value={formData.preferredDate}
-                      onChange={(val) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          preferredDate: val,
-                        }))
-                      }
-                      placeholder="Select Session Date"
-                    />
-                  </div>
-
-                  {/* Time Dropdown */}
-                  <div>
-                    <label className="block text-[10.5px] font-bold uppercase tracking-wider text-slate-700 mb-1">
-                      Select Time (MST)
-                    </label>
-                    <CustomSelect
-                      name="preferredTime"
-                      value={formData.preferredTime}
-                      onChange={(val) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          preferredTime: val,
-                        }))
-                      }
-                      options={availableTimeSlots}
-                    />
-                  </div>
-                </div>
-
-                {/* Quick-Click Orange Time Slot Chips */}
+        {/* Modal Main Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 overflow-y-auto">
+          
+          {/* Left: Form Area (7 cols) */}
+          <div className="lg:col-span-7 p-5 sm:p-6 space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <div className="text-[9.5px] font-bold uppercase text-slate-600 mb-1">
-                    Or Pick A Quick Available Time:
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">
+                    Your Name *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    placeholder="Jane Doe"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs font-medium text-[#0F172A] focus:bg-white transition-all"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">
+                    Phone Number *
+                  </label>
+                  <input
+                    type="tel"
+                    required
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                    placeholder="(631) 555-0199"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs font-medium text-[#0F172A] focus:bg-white transition-all"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">
+                    Email Address *
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    placeholder="jane@example.com"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs font-medium text-[#0F172A] focus:bg-white transition-all"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">
+                    {activeTab === "commercial-bid" ? "Business Name *" : "Zip Code (Long Island) *"}
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={activeTab === "commercial-bid" ? formData.businessName : formData.zipCode}
+                    onChange={(e) =>
+                      activeTab === "commercial-bid"
+                        ? setFormData({ ...formData, businessName: e.target.value })
+                        : setFormData({ ...formData, zipCode: e.target.value })
+                    }
+                    placeholder={activeTab === "commercial-bid" ? "Clinic / Spa / Airbnb" : "11743"}
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs font-medium text-[#0F172A] focus:bg-white transition-all"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">
+                  Service of Interest
+                </label>
+                <CustomSelect
+                  options={serviceOptions}
+                  value={formData.serviceInterest}
+                  onChange={(val) => setFormData({ ...formData, serviceInterest: val })}
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-600 mb-1">
+                  Special Instructions / Details
+                </label>
+                <textarea
+                  rows={3}
+                  value={formData.specialInstructions}
+                  onChange={(e) => setFormData({ ...formData, specialInstructions: e.target.value })}
+                  placeholder="e.g. Porch pickup on Tuesday, hypoallergenic detergent preferred, estimated weekly lbs..."
+                  className="w-full px-3.5 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-medium text-[#0F172A] focus:bg-white transition-all"
+                />
+              </div>
+
+              {/* Promo Code Note */}
+              <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-200 flex items-center justify-between text-xs text-emerald-900 font-semibold">
+                <div className="flex items-center gap-1.5">
+                  <Tag className="w-3.5 h-3.5 text-emerald-700" />
+                  <span>Promo Code applied: <strong>FIRST10</strong></span>
+                </div>
+                <span className="font-bold text-emerald-700">$10 OFF First Order</span>
+              </div>
+
+              {/* Submit Buttons */}
+              <div className="flex flex-col sm:flex-row gap-2 pt-2">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="flex-1 py-3 px-6 bg-[#DC1F62] hover:bg-[#BE185D] text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl shadow-md transition-all inline-flex items-center justify-center gap-2"
+                >
+                  <Send className="w-3.5 h-3.5" />
+                  <span>{isSubmitting ? "Sending..." : "Submit Inquiry"}</span>
+                </button>
+
+                <a
+                  href={contactInfo.portalOrderUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="py-3 px-5 bg-[#0284C7] hover:bg-[#0369A1] text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl shadow-sm inline-flex items-center justify-center gap-1.5 whitespace-nowrap text-center"
+                >
+                  <span>Open Online Portal ↗</span>
+                </a>
+              </div>
+            </form>
+          </div>
+
+          {/* Right: Direct Business & Operating Details (5 cols) */}
+          <div className="lg:col-span-5 bg-slate-50 p-5 sm:p-6 border-t lg:border-t-0 lg:border-l border-slate-200 space-y-5 text-xs text-slate-700">
+            <div>
+              <h4 className="font-heading font-bold text-xs uppercase tracking-wider text-slate-500 mb-2">
+                Direct Contact
+              </h4>
+              <div className="space-y-2 font-medium">
+                <a
+                  href={contactInfo.phoneTel}
+                  className="flex items-center gap-2 text-sm font-black text-[#DC1F62] hover:underline"
+                >
+                  <Phone className="w-4 h-4" />
+                  <span>{contactInfo.phoneFormatted}</span>
+                </a>
+                <a
+                  href={contactInfo.emailMailto}
+                  className="flex items-center gap-2 text-slate-600 hover:text-[#0F172A]"
+                >
+                  <Mail className="w-4 h-4 text-[#0284C7]" />
+                  <span>{contactInfo.email}</span>
+                </a>
+              </div>
+            </div>
+
+            <div>
+              <h4 className="font-heading font-bold text-xs uppercase tracking-wider text-slate-500 mb-2">
+                Physical Laundromat
+              </h4>
+              <a
+                href={contactInfo.googleMapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-start gap-2 text-[#0F172A] font-semibold hover:underline"
+              >
+                <MapPin className="w-4 h-4 text-[#DC1F62] shrink-0 mt-0.5" />
+                <span>
+                  215 New York Avenue<br />
+                  Huntington, NY 11743
+                </span>
+              </a>
+            </div>
+
+            <div>
+              <h4 className="font-heading font-bold text-xs uppercase tracking-wider text-slate-500 mb-2">
+                Hours of Operation
+              </h4>
+              <div className="space-y-1 text-slate-600">
+                <div className="flex items-start gap-2">
+                  <Clock className="w-3.5 h-3.5 text-[#0284C7] shrink-0 mt-0.5" />
+                  <div>
+                    <strong>MON – SAT:</strong> 8:00 AM – 9:00 PM<br />
+                    <span className="text-[11px] text-slate-400">Last wash @ 8:00 PM</span>
                   </div>
-                  <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5">
-                    {availableTimeSlots.map((slot) => {
-                      const isSelected = formData.preferredTime === slot;
-                      return (
-                        <button
-                          key={slot}
-                          type="button"
-                          onClick={() =>
-                            setFormData((prev) => ({
-                              ...prev,
-                              preferredTime: slot,
-                            }))
-                          }
-                          className={`py-1 px-1 rounded-lg text-[10px] font-bold text-center transition-all cursor-pointer truncate ${
-                            isSelected
-                              ? "bg-[#C0622A] text-white shadow-xs font-black"
-                              : "bg-white text-slate-700 border border-orange-200/80 hover:border-[#C0622A] hover:bg-orange-50"
-                          }`}
-                        >
-                          {slot.replace(" MST", "")}
-                        </button>
-                      );
-                    })}
+                </div>
+                <div className="flex items-start gap-2 pt-1">
+                  <Clock className="w-3.5 h-3.5 text-[#0284C7] shrink-0 mt-0.5" />
+                  <div>
+                    <strong>SUN:</strong> 8:00 AM – 6:00 PM<br />
+                    <span className="text-[11px] text-slate-400">Last wash @ 4:30 PM</span>
                   </div>
                 </div>
               </div>
-            )}
-
-            {/* Message / Goals */}
-            <div>
-              <label className="block text-[10.5px] font-bold uppercase tracking-wider text-slate-700 mb-1">
-                {activeTab === "ai-audit"
-                  ? "Tell us about your current tools or bottlenecks"
-                  : "Message / Goals"}
-              </label>
-              <textarea
-                rows={2}
-                name="message"
-                placeholder="A few sentences about your business goals, timeline, or current challenges..."
-                value={formData.message}
-                onChange={handleChange}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm text-slate-900 focus:bg-white focus:border-[#C0622A] focus:ring-2 focus:ring-[#C0622A]/15 focus:outline-none transition-all resize-none"
-              />
             </div>
 
-            {/* Bottom Submit Action */}
-            <div className="pt-1">
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full flex items-center justify-center gap-2 px-5 py-3 bg-[#C0622A] hover:bg-[#a84f1d] disabled:opacity-60 text-white font-heading font-bold text-xs uppercase tracking-wider rounded-xl transition-all shadow-md active:translate-y-0.5 cursor-pointer"
-              >
-                {isSubmitting ? (
-                  <span>Reserving Your Slot...</span>
-                ) : (
-                  <>
-                    <span>
-                      {activeTab === "calendar"
-                        ? "Confirm Google Calendar Session Booking"
-                        : activeTab === "ai-audit"
-                        ? "Submit AI Audit Request"
-                        : "Send Message / Start Project"}
-                    </span>
-                    <ArrowRight className="w-4 h-4" />
-                  </>
-                )}
-              </button>
-            </div>
-          </form>
-
-          {/* Direct Quick Contact Bar */}
-          <div className="mt-3.5 pt-3 border-t border-slate-200 grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-center sm:text-left">
-            <a
-              href="tel:4807799875"
-              className="flex items-center justify-center sm:justify-start gap-1.5 text-xs font-semibold text-slate-700 hover:text-[#C0622A] transition-colors"
-            >
-              <Phone className="w-3.5 h-3.5 text-[#C0622A] shrink-0" />
-              <span>(480) 779-9875</span>
-            </a>
-
-            <a
-              href="mailto:care@relaunch.us"
-              className="flex items-center justify-center sm:justify-start gap-1.5 text-xs font-semibold text-slate-700 hover:text-[#C0622A] transition-colors"
-            >
-              <Mail className="w-3.5 h-3.5 text-[#2E8B7A] shrink-0" />
-              <span>care@relaunch.us</span>
-            </a>
-
-            <div className="flex items-center justify-center sm:justify-start gap-1.5 text-xs text-slate-500">
-              <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-              <span>Phoenix, AZ · Est. 2004</span>
+            <div className="p-3.5 bg-white rounded-2xl border border-slate-200 text-[11px] space-y-1">
+              <div className="flex items-center gap-1.5 font-bold text-[#0F172A]">
+                <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                <span>Over 30 Years Serving Huntington</span>
+              </div>
+              <p className="text-slate-500 font-normal">
+                Family-owned, fully insured, with 100% satisfaction guarantee on every single load.
+              </p>
             </div>
           </div>
+
         </div>
-      </motion.div>
+
+      </div>
     </div>
-    )}
-  </AnimatePresence>
   );
 }

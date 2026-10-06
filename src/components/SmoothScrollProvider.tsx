@@ -125,16 +125,18 @@ export default function SmoothScrollProvider({
     // Section Observer for Active Section Tracking
     const sectionIds = [
       "hero",
+      "zip-checker",
       "two-doors",
-      "services",
-      "ai",
-      "method",
-      "bundle-builder",
-      "social",
-      "work",
-      "nis-grader",
+      "pickup-delivery",
+      "smart-laundry",
+      "how-it-works",
+      "pricing",
+      "specials",
+      "commercial-laundry",
+      "about",
       "testimonials",
       "faq",
+      "contact",
     ];
 
     const handleScrollTracking = () => {

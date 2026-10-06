@@ -4,7 +4,7 @@
 
 :root {
   --font-inter: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-outfit: 'Outfit', system-ui, -apple-system, sans-serif;
+  --font-catamaran: 'Catamaran', 'Roboto', system-ui, -apple-system, sans-serif;
 }
 
 html {
@@ -14,8 +14,8 @@ html {
 
 body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  background-color: #FFFFFF;
-  color: #090D16;
+  background-color: #FAF9F6;
+  color: #0F172A;
   overflow-x: clip;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -23,8 +23,8 @@ body {
 
 /* Typography Headings */
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Outfit', system-ui, -apple-system, sans-serif;
-  letter-spacing: -0.02em;
+  font-family: 'Catamaran', 'Roboto', system-ui, -apple-system, sans-serif;
+  letter-spacing: -0.01em;
 }
 
 /* Custom Scrollbar with Solid Palette */
@@ -35,38 +35,38 @@ h1, h2, h3, h4, h5, h6 {
   background: #F1F5F9;
 }
 ::-webkit-scrollbar-thumb {
-  background: #090D16;
+  background: #0F172A;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #C0622A;
+  background: #DC1F62;
 }
 
 /* Text Selection & Accent Theme */
 ::selection {
-  background-color: #C0622A;
+  background-color: #DC1F62;
   color: #FFFFFF;
 }
 
 :root {
-  accent-color: #C0622A;
+  accent-color: #DC1F62;
 }
 
 /* Focus styles */
 :focus-visible {
-  outline: 2px solid #C0622A;
+  outline: 2px solid #DC1F62;
   outline-offset: 2px;
 }
 
 input:focus, select:focus, textarea:focus {
   outline: none;
-  border-color: #C0622A !important;
-  box-shadow: 0 0 0 2px rgba(192, 98, 42, 0.15) !important;
+  border-color: #DC1F62 !important;
+  box-shadow: 0 0 0 2px rgba(220, 31, 98, 0.15) !important;
 }
 
 select option:checked,
 select option:hover {
-  background-color: #C0622A !important;
+  background-color: #DC1F62 !important;
   color: #FFFFFF !important;
 }
 
@@ -84,3 +84,15 @@ select option:hover {
   animation: ticker 35s linear infinite;
 }
 
+@keyframes floatBubble {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-8px) scale(1.04);
+  }
+}
+
+.animate-float-bubble {
+  animation: floatBubble 4s ease-in-out infinite;
+}

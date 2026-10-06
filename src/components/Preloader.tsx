@@ -1,66 +1,57 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
+import { Sparkles } from "lucide-react";
 
 export default function Preloader() {
   const [isMounted, setIsMounted] = useState(true);
   const [isDismissing, setIsDismissing] = useState(false);
   const [progress, setProgress] = useState(0);
-  const videoRef = useRef<HTMLVideoElement>(null);
   const dismissedRef = useRef(false);
 
   const dismissLoader = () => {
     if (dismissedRef.current) return;
     dismissedRef.current = true;
 
-    // Freeze video on final completed frame to prevent clearing or glitching
-    if (videoRef.current) {
-      videoRef.current.pause();
-    }
-
     setProgress(100);
     setIsDismissing(true);
 
-    // Cleanly unmount from DOM only after the smooth CSS fade completes
     setTimeout(() => {
       setIsMounted(false);
-    }, 600);
+    }, 500);
   };
 
   useEffect(() => {
-    // Play video at faster 2.5x speed for a brisk, seamless intro
-    if (videoRef.current) {
-      videoRef.current.playbackRate = 2.5;
-      videoRef.current.play().catch(() => {
-        // Fallback if browser autoplay policy requires interaction
+    // Fast, responsive progress ramp-up to give a quick, polished experience
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) {
+          clearInterval(interval);
+          setTimeout(dismissLoader, 150);
+          return 100;
+        }
+        // Swift smooth acceleration
+        const increment = Math.floor(Math.random() * 18) + 12;
+        const next = Math.min(100, prev + increment);
+        if (next === 100) {
+          clearInterval(interval);
+          setTimeout(dismissLoader, 150);
+        }
+        return next;
       });
-    }
+    }, 80);
 
-    // Safety fallback: only if video is completely blocked/hung
+    // Safety fallback
     const safetyTimer = setTimeout(() => {
       dismissLoader();
-    }, 5000);
+    }, 2500);
 
-    return () => clearTimeout(safetyTimer);
+    return () => {
+      clearInterval(interval);
+      clearTimeout(safetyTimer);
+    };
   }, []);
-
-  const handleTimeUpdate = () => {
-    if (videoRef.current && videoRef.current.duration) {
-      const current = videoRef.current.currentTime;
-      const total = videoRef.current.duration;
-      const pct = Math.min(100, Math.round((current / total) * 100));
-      setProgress(pct);
-
-      // Once the full video reaches the end (within 0.05s of duration), complete
-      if (total > 0 && current >= total - 0.05) {
-        dismissLoader();
-      }
-    }
-  };
-
-  const handleEnded = () => {
-    dismissLoader();
-  };
 
   if (!isMounted) return null;
 
@@ -69,7 +60,7 @@ export default function Preloader() {
       aria-hidden={isDismissing}
       style={{
         transition:
-          "opacity 550ms cubic-bezier(0.16, 1, 0.3, 1), visibility 550ms cubic-bezier(0.16, 1, 0.3, 1)",
+          "opacity 500ms cubic-bezier(0.16, 1, 0.3, 1), visibility 500ms cubic-bezier(0.16, 1, 0.3, 1)",
         willChange: "opacity",
         transform: "translateZ(0)",
       }}
@@ -80,57 +71,52 @@ export default function Preloader() {
       }`}
     >
       {/* Top subtle brand accent bar */}
-      <div className="absolute top-0 left-0 right-0 h-1 bg-[#C0622A]" />
+      <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#DC1F62] via-[#0284C7] to-[#DC1F62]" />
 
-      <div className="flex flex-col items-center max-w-lg px-4 sm:px-6 text-center w-full">
-        {/* Logo Video Frame with Explicit Dimensions & Aspect Ratio */}
-        <div className="w-[320px] sm:w-[480px] md:w-[540px] aspect-[16/9] max-w-full rounded-2xl bg-white flex items-center justify-center p-2 overflow-hidden shadow-xs">
-          <video
-            ref={videoRef}
-            src="/relaunch-intro.mp4"
-            width={540}
-            height={304}
-            playsInline
-            muted
-            autoPlay
-            preload="auto"
-            onTimeUpdate={handleTimeUpdate}
-            onEnded={handleEnded}
-            onPlay={() => {
-              if (videoRef.current) {
-                videoRef.current.playbackRate = 2.5;
-              }
-            }}
-            onLoadedMetadata={() => {
-              if (videoRef.current) {
-                videoRef.current.playbackRate = 2.5;
-              }
-            }}
-            className="w-full h-full object-contain bg-white"
+      <div className="flex flex-col items-center max-w-md px-6 text-center w-full">
+        {/* Door To Door Brand Logo */}
+        <div className="relative w-64 sm:w-72 h-24 mb-3 flex items-center justify-center animate-float-bubble">
+          <Image
+            src="/logos/door-to-door-horizontal.png"
+            alt="Door To Door Laundry"
+            width={320}
+            height={96}
+            priority
+            className="object-contain max-h-20 w-auto"
           />
         </div>
 
+        {/* Tagline Badge */}
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#DEF2FB] text-[#0284C7] text-xs font-bold tracking-wide uppercase mb-4">
+          <Sparkles className="w-3.5 h-3.5 text-[#DC1F62]" />
+          <span>You Leave It, We Clean It</span>
+        </div>
+
         {/* Loading Text & Percentage Indicator */}
-        <div className="flex items-center gap-2 mt-5">
-          <span className="w-2.5 h-2.5 rounded-full bg-[#C0622A]" />
-          <span className="font-heading font-bold text-xs uppercase tracking-widest text-[#090D16]">
-            Loading, please wait...
+        <div className="flex items-center gap-2 mt-2">
+          <span className="w-2.5 h-2.5 rounded-full bg-[#DC1F62] animate-ping" />
+          <span className="font-heading font-bold text-xs uppercase tracking-widest text-[#0F172A]">
+            Loading Fresh Experience...
           </span>
-          <span className="font-mono text-xs font-bold text-[#C0622A] ml-1">
+          <span className="font-mono text-xs font-bold text-[#DC1F62] ml-1">
             {progress}%
           </span>
         </div>
 
-        {/* Smooth Progressive Bar synchronized with Video */}
+        {/* Progressive Bar */}
         <div className="w-56 max-w-full h-1.5 bg-slate-100 rounded-full mt-3 overflow-hidden border border-slate-200">
           <div
             style={{
               width: `${progress}%`,
               transition: "width 120ms linear",
             }}
-            className="h-full bg-[#C0622A] rounded-full"
+            className="h-full bg-gradient-to-r from-[#DC1F62] to-[#0284C7] rounded-full"
           />
         </div>
+
+        <p className="text-[11px] text-slate-400 mt-4 font-medium">
+          Huntington, NY · Free Pickup & Delivery Across Long Island
+        </p>
       </div>
     </div>
   );

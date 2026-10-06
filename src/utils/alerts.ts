@@ -7,7 +7,7 @@ export const triggerConfetti = () => {
       particleCount: 80,
       spread: 70,
       origin: { y: 0.6 },
-      colors: ["#C0622A", "#2E8B7A", "#090D16", "#3AAB97", "#D4703A"],
+      colors: ["#DC1F62", "#0284C7", "#0F172A", "#38BDF8", "#F472B6"],
     });
   } catch (e) {
     // Ignore if canvas not supported
@@ -22,21 +22,21 @@ export const showSuccessSwal = async (
   triggerConfetti();
 
   return Swal.fire({
-    title: `<span style="font-family: var(--font-outfit), sans-serif; font-weight: 800; font-size: 24px; color: #090D16;">${title}</span>`,
+    title: `<span style="font-family: var(--font-catamaran), sans-serif; font-weight: 800; font-size: 24px; color: #0F172A;">${title}</span>`,
     html: `
       <div style="font-family: var(--font-inter), sans-serif; color: #475569; font-size: 14px; line-height: 1.6; margin-top: 8px;">
         <p>${message}</p>
         ${
           extraHtml
-            ? `<div style="margin-top: 12px; padding: 10px 14px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; font-size: 13px; color: #090D16;">${extraHtml}</div>`
+            ? `<div style="margin-top: 12px; padding: 10px 14px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; font-size: 13px; color: #0F172A;">${extraHtml}</div>`
             : ""
         }
       </div>
     `,
     icon: "success",
-    iconColor: "#2E8B7A",
+    iconColor: "#0284C7",
     confirmButtonText: "Awesome, Got It!",
-    confirmButtonColor: "#C0622A",
+    confirmButtonColor: "#DC1F62",
     background: "#FFFFFF",
     padding: "24px",
     customClass: {
@@ -50,7 +50,7 @@ export const showSuccessSwal = async (
 
 export const showErrorSwal = async (title: string, message: string) => {
   return Swal.fire({
-    title: `<span style="font-family: var(--font-outfit), sans-serif; font-weight: 800; font-size: 22px; color: #090D16;">${title}</span>`,
+    title: `<span style="font-family: var(--font-catamaran), sans-serif; font-weight: 800; font-size: 22px; color: #0F172A;">${title}</span>`,
     html: `
       <div style="font-family: var(--font-inter), sans-serif; color: #475569; font-size: 14px; line-height: 1.6;">
         <p>${message}</p>
@@ -59,7 +59,7 @@ export const showErrorSwal = async (title: string, message: string) => {
     icon: "error",
     iconColor: "#EF4444",
     confirmButtonText: "Dismiss",
-    confirmButtonColor: "#090D16",
+    confirmButtonColor: "#0F172A",
     background: "#FFFFFF",
     padding: "24px",
     customClass: {

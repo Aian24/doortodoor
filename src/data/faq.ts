@@ -1,50 +1,62 @@
 export interface FaqItem {
   question: string;
   answer: string;
-  category: "Pricing & Billing" | "Services & Delivery" | "ReLaunch Method";
+  category: "Pickup & Delivery" | "Pricing & Billing" | "Laundry Care & Process" | "Commercial Accounts";
 }
 
 export const faqData: FaqItem[] = [
   {
-    question: "How does the ReLaunch bundle subscription work?",
+    question: "How does Door to Door Laundry pickup and delivery work?",
     answer:
-      "Unlike traditional agencies that charge massive non-refundable retainers or fragmented project fees, ReLaunch lets you select exactly the services your business needs into one consolidated monthly subscription. When you bundle 2–3 services, you save 10%. With 4–5 services, you save 15%. With 6 or more services (Mission Control), you save 20% across your entire stack.",
+      "It’s as easy as 1-2-3! Simply click 'Schedule a Pickup' on our website, select your preferred pickup and delivery dates, choose any custom washing preferences (like detergent type or water temperature), and place your laundry bags outside your front door or with your building lobby. Our friendly driver collects your bags, our Huntington facility washes, dries, and neatly folds everything, and delivers it back to you within 24 to 48 hours.",
+    category: "Pickup & Delivery",
+  },
+  {
+    question: "Do I need to be home when you pick up or deliver my laundry?",
+    answer:
+      "No, you do not need to be home! Most customers leave their laundry bags on their front porch, by the front door, with a building concierge, or in an agreed-upon safe location. You’ll receive real-time SMS notifications when our driver is on the way, when bags are picked up, and photo confirmation when clean clothes are delivered.",
+    category: "Pickup & Delivery",
+  },
+  {
+    question: "What are your prices for Wash & Fold and Pickup & Delivery?",
+    answer:
+      "Our drop-off Wash & Fold at our Huntington location (215 New York Ave) starts at just $1.10 per pound for next-day service ($20 minimum order) and +$0.20/lb for same-day service (drop off by noon). For pickup and delivery, recurring service is $1.75 per pound and as-needed service is $1.80 per pound ($45 minimum order). Plus, new customers get $10 OFF and a free reusable laundry bag on their first pickup order with promo code FIRST10!",
     category: "Pricing & Billing",
   },
   {
-    question: "Are there long-term contracts or cancellation penalties?",
+    question: "What areas of Long Island do you service?",
     answer:
-      "No contracts whatsoever. All services operate on a month-to-month subscription basis. You can add services, scale down, pause, or cancel at any time directly through your client portal with 30 days notice.",
+      "We proudly service Huntington (11743), Greenlawn (11740), Huntington Station (11746), South Huntington (11746), Melville (11747), West Hills (11743/11746), Syosset (11791), Massapequa (11758), Commack (11725), Northport (11768), and surrounding Long Island communities. You can enter your zip code in our coverage tool to confirm instant pickup availability.",
+    category: "Pickup & Delivery",
+  },
+  {
+    question: "How do you wash my clothes? Are whites and colors separated?",
+    answer:
+      "Yes, absolutely! We always sort your laundry into lights and darks, and wash them in separate commercial machines. We use premium commercial-grade detergents, offer hypoallergenic free & clear options, and dry at gentle temperatures to protect your fabrics and prevent shrinkage. Everything is crisply folded, socks paired, and sealed in weather-protective packaging.",
+    category: "Laundry Care & Process",
+  },
+  {
+    question: "Can I request hypoallergenic detergent or hang-dry for delicates?",
+    answer:
+      "Yes! When scheduling your order online, you can select 'Free & Clear' hypoallergenic detergent (at no extra charge) and specify items that require air-drying or delicate handling. Your preferences are saved to your account profile for every future order.",
+    category: "Laundry Care & Process",
+  },
+  {
+    question: "What specials and discounts do you offer?",
+    answer:
+      "We offer three popular specials: (1) First Order Special: $10 off + free laundry bag with code FIRST10; (2) Ironed Shirts: 10 shirts wash 'n press for $29.50 (regular $3.50 ea); and (3) Comforter & Quilt Special: Any size comforter or heavy blanket cleaned for just $19.99 (down/extra-heavy +$10).",
     category: "Pricing & Billing",
   },
   {
-    question: "What is the 'ReLaunch Method' and the 4-layer selling framework?",
+    question: "Do you offer commercial laundry service for businesses?",
     answer:
-      "The ReLaunch Method is our internal framework ensuring that every deliverable—whether an ad, a website, or an automation flow—is engineered specifically to generate calls and sales. It combines StoryBrand SB7 (35%), Hero's Journey narrative (30%), Draper emotional positioning (25%), and Archetype consistency (10%). Anything that doesn't sell doesn't ship.",
-    category: "ReLaunch Method",
+      "Yes! We provide tailored commercial linen and towel laundering for medical & dental clinics, luxury spas, gyms, Airbnbs/vacation rentals, pet groomers, restaurants, assisted living facilities, and colleges across Long Island. We offer dedicated commercial bins, flexible pickup frequencies, and volume-discounted monthly invoicing. You can request a free bid directly through our website.",
+    category: "Commercial Accounts",
   },
   {
-    question: "What is the difference between Track A and Track B for ReLaunch Social?",
+    question: "Where is your physical laundromat located and what are the hours?",
     answer:
-      "In Track A (starting at $297/mo), you supply raw photos or smartphone videos of your day-to-day work, and our team handles professional editing, caption writing, hashtag research, and automated multi-channel scheduling. In Track B (starting at $597/mo), we create all graphics, educational posts, motion visuals, and short video ads 100% done-for-you from scratch.",
-    category: "Services & Delivery",
-  },
-  {
-    question: "How quickly does a new website or marketing engine launch?",
-    answer:
-      "ReLaunch Social portals and AI automation pipelines go live within 24–48 hours of onboarding. Complete custom Next.js website redesigns typically deploy within 2 to 3 weeks depending on asset approvals.",
-    category: "Services & Delivery",
-  },
-  {
-    question: "Can you build custom platforms, portals, or databases?",
-    answer:
-      "Yes. In addition to core local marketing, we architect custom enterprise software, client portals, automated CRM pipelines, and complex data migrations (such as our 25,502-record medical EHR migration build and the Golf Central Magazine digital platform).",
-    category: "Services & Delivery",
-  },
-  {
-    question: "How do I get started?",
-    answer:
-      "You can build your custom bundle on this page in 60 seconds, take our Free NIS Marketing Grader to diagnose your current marketing, or book a 15-minute introductory strategy session with our team.",
-    category: "Pricing & Billing",
+      "Our laundromat (formerly Village Laundromat, serving Huntington for over 30 years) is located at 215 New York Avenue, Huntington, NY 11743. We are open Monday through Saturday from 8:00 AM to 9:00 PM (last wash at 8:00 PM) and Sunday from 8:00 AM to 6:00 PM (last wash at 4:30 PM).",
+    category: "Pickup & Delivery",
   },
 ];
